@@ -10,6 +10,32 @@
   --background-end-rgb: 255, 255, 255;
 }
 
+/* width */
+*::-webkit-scrollbar {
+  width: 8px;
+  border-radius: 6px;
+}
+
+/* Track */
+*::-webkit-scrollbar-track {
+  background: #FFFED01A;
+}
+
+/* Handle */
+*::-webkit-scrollbar-thumb {
+  background: #FFFED0;
+  background-repeat: no-repeat;
+  background-position: 0% 0%;
+  background-size: 100% 120%;
+  border-radius: 6px;
+  transition: all 0.3s ease;
+}
+
+/* Handle on hover */
+*::-webkit-scrollbar-thumb:hover {
+  background-position: 0% 20%;
+}
+
 @media (prefers-color-scheme: dark) {
   :root {
     --foreground-rgb: 255, 255, 255;
