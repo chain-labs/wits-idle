@@ -5,7 +5,7 @@ import { IMAGEKIT_BG } from "../images";
 import Button from "@/components/Button";
 import { cn } from "@/utils";
 import { useState } from "react";
-import Model from "@/components/Model";
+import Model from "@/components/Modal";
 
 export default function Notice() {
   const [openModel, setOpenModel] = useState(false);
