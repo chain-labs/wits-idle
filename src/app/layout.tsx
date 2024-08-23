@@ -15,7 +15,10 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={beaufortPro.className}>{children}</body>
+      <body className={beaufortPro.className}>
+        <div id="modal" className="fixed z-50"></div>
+        {children}
+      </body>
     </html>
   );
 }
