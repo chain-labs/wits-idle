@@ -9,6 +9,7 @@ import Input from "@/components/Input";
 import Image from "next/image";
 import Link from "next/link";
 import { cn } from "@/utils";
+import GradientSideBorder from "@/components/GradientSideBorder";
 
 const LoginSchema = z.object({
   name: z.string().min(3),
@@ -51,12 +52,15 @@ export default function Auth() {
       <div className="h-full w-[70vw] bg-[linear-gradient(to_right,#0000,#000_60%)] flex justify-start items-center">
         <div
           className={
-            "bg-[linear-gradient(to_right,#FFFED0,#FFF7BD00_10%_90%,#FFFED0)] h-fit w-fit translate-x-full rounded-[8px] p-[1px] bg-blend-darken"
+            "bg-[#020708BF] h-fit w-fit translate-x-full rounded-[8px] p-[1px] bg-blend-darken"
           }
         >
+          <GradientSideBorder className="" />
+          <GradientSideBorder className="rotate-180" />
+
           <form
             onSubmit={handleSubmit(onSubmit)}
-            className="relative w-[30vw] px-[50px] py-[20%] rounded-[8px] bg-[#020708BF] flex flex-col justify-start items-start gap-[24px] bg-blend-multiply"
+            className="relative w-[30vw] px-[50px] py-[20%] rounded-[8px]  flex flex-col justify-start items-start gap-[24px] bg-blend-multiply"
           >
             <div className="absolute left-1/2 top-0 -translate-x-1/2 -translate-y-1/2">
               <div className="rotate-45 border-[2px] border-lightGold p-[4px] shadow-[0_0_10px_#EFC779AA]">

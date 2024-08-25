@@ -2,7 +2,7 @@ import GlowingH1 from "./GlowingH1";
 
 export default function GameModeBanner() {
   return (
-    <div className="relative z-50">
+    <div className="relative z-10">
       <svg
         width="100%"
         height="auto"

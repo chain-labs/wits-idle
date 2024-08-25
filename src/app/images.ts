@@ -19,3 +19,7 @@ export const IMAGEKIT_BG = {
   THANKYOU: `${IMAGEKIT_BG_URL}/thankyou.png`,
   SHARE: `${IMAGEKIT_BG_URL}/share.png`,
 };
+
+export const IMAGEKIT_IMAGES = {
+  NFT_ICON: `${IMAGEKIT}/nft-icon.png`,
+};

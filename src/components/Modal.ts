@@ -3,7 +3,7 @@
 import { useEffect, useRef } from "react";
 import { createPortal } from "react-dom";
 
-export default function Model({
+export default function Modal({
   children,
 }: Readonly<{ children: React.ReactNode }>) {
   const elRef = useRef<HTMLDivElement | null>(null);
@@ -17,22 +17,19 @@ export default function Model({
     elRef.current = div;
   }
 
-  console.log("elRef", elRef);
-
   useEffect(() => {
     const modalRoot = document.getElementById("modal") as HTMLDivElement;
     modalRoot.style.width = "100vw";
     modalRoot.style.height = "100vh";
     document.body.style.overflow = "hidden";
-    console.log("modalRoot", modalRoot);
     if (!modalRoot) {
-        return;
+      return;
     }
     modalRoot.appendChild(elRef.current as HTMLDivElement);
     return () => {
-        modalRoot.style.width = "auto";
-        modalRoot.style.height = "auto";
-        document.body.style.overflow = "auto";
+      modalRoot.style.width = "auto";
+      modalRoot.style.height = "auto";
+      document.body.style.overflow = "auto";
       modalRoot.removeChild(elRef.current as HTMLDivElement);
     };
   }, []);

@@ -42,7 +42,7 @@ export default function Auth() {
       <div className="h-full w-[70vw] bg-[linear-gradient(to_right,#0000,#000_60%)] flex justify-start items-center">
         <div
           className={
-            "bbg-[#020708BF] h-fit w-fit translate-x-full rounded-[8px] p-[1px] bg-blend-darken"
+            "bg-[#020708BF] h-fit w-fit translate-x-full rounded-[8px] p-[1px] bg-blend-darken"
           }
         >
           <GradientSideBorder />
