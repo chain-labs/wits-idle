@@ -50,7 +50,7 @@ export default function GameFooter(
       )}
 
       {props.primaryButton.visible ? (
-        <Button onClick={props.primaryButton.function}>
+        <Button disabled={props.primaryButton.disabled} onClick={props.primaryButton.function}>
           {props.primaryButton.text}
         </Button>
       ) : (

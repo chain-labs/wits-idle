@@ -15,7 +15,7 @@ export default function Button({
 }: ButtonProps & JSX.IntrinsicElements["button"]) {
   return (
     <button
-      className={cn("relative w-fit h-fit font-bold uppercase text-black text-[22px]", className)}
+      className={cn("relative w-fit h-fit font-bold uppercase text-black text-[22px] disabled:text-[#00000040] disabled:opacity-25", className)}
       {...buttonProps}
     >
       <svg
