@@ -22,4 +22,5 @@ export const IMAGEKIT_BG = {
 
 export const IMAGEKIT_IMAGES = {
   NFT_ICON: `${IMAGEKIT}/nft-icon.png`,
+  CRAFT_ICON: `${IMAGEKIT}/craft-icon.png`,
 };
