@@ -15,7 +15,7 @@ export const IMAGEKIT_BG = {
   AUTHENTICATION: `${IMAGEKIT_BG_URL}/authentication.png`,
   CRAFT: `${IMAGEKIT_BG_URL}/craft.png`,
   PROGRESS: `${IMAGEKIT_BG_URL}/progress.png`,
-  PRIZE: `${IMAGEKIT_BG_URL}/prize.png`,
+  PRIZE: `${IMAGEKIT_BG_URL}/prize.png?updatedAt=1724687905096`,
   THANKYOU: `${IMAGEKIT_BG_URL}/thankyou.png`,
   SHARE: `${IMAGEKIT_BG_URL}/share.png`,
 };

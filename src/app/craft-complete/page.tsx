@@ -11,51 +11,7 @@ import Link from "next/link";
 import GradientSideBorder from "@/components/GradientSideBorder";
 import GlowingH1 from "@/components/GlowingH1";
 import Image from "next/image";
-import { FaChevronDown } from "react-icons/fa";
-import { TiMinus, TiPlus } from "react-icons/ti";
-
-function CraftItem(craft: {
-  icon: string;
-  rarity: string;
-  collection: number;
-}) {
-  const [count, setCount] = useState(craft.collection);
-
-  return (
-    <div className="relative p-[8px] pl-[70px] rounded-[4px] bg-black text-lightGold">
-      <div className="absolute top-1/2 left-0 -translate-x-1/2 -translate-y-1/2">
-        <Image
-          src={craft.icon}
-          width={100}
-          height={100}
-          alt="Common"
-          className="w-[100px] h-[100px]"
-        />
-      </div>
-      <div className="border-t-[1px] border-r-[1px] border-b-[1px] border-[#FFFED01A] rounded-[4px] p-[8px]">
-        <div className="flex justify-center items-center gap-[16px]">
-          <button
-            onClick={() => {
-              if (count > 0) setCount(count - 1);
-            }}
-            className="border-[1px] border-lightGold bg-[#FFFED026] w-[24px] h-[24px] flex justify-center items-center rounded-[4px]"
-          >
-            <TiMinus />
-          </button>
-          {String(count).padStart(2, "0")} {craft.rarity}
-          <button
-            onClick={() => {
-              setCount(count + 1);
-            }}
-            className="border-[1px] border-lightGold bg-[#FFFED026] w-[24px] h-[24px] flex justify-center items-center rounded-[4px]"
-          >
-            <TiPlus />
-          </button>
-        </div>
-      </div>
-    </div>
-  );
-}
+import { IoStar } from "react-icons/io5";
 
 export default function Home() {
   const [openModal, setOpenModal] = useState(false);
@@ -88,13 +44,19 @@ export default function Home() {
           <GradientSideBorder />
           <GradientSideBorder className="rotate-180" />
 
-          <div className="flex flex-col justify-center items-center gap-[50px] py-[100px]">
-            <GlowingH1>CRAFTING</GlowingH1>
+          <div className="flex flex-col justify-center items-center gap-[50px] py-[50px]">
+            <div className="flex flex-col justify-center items-center gap-[16px]">
+              <GlowingH1>Congratulations</GlowingH1>
+              <h3 className="uppercase text-lightGold">collect Your prize</h3>
+            </div>
 
-            <div className="flex flex-col justify-center items-center gap-[40px] z-10">
-              {materials.map((material, index) => (
-                <CraftItem {...material} key={index} />
-              ))}
+            <div className="flex flex-col gap-[16px]">
+              <div className="relative rounded-[4px] border-[1px] border-mediumGold bg-black w-[350px] h-[350px]">
+                <IoStar className="absolute left-1/2 top-0 -translate-x-1/2 -translate-y-1/2 text-[48px]" />
+              </div>
+              <button className="bg-black border-[1px] border-[#797979] text-[#797979] uppercase w-fit px-[32px] py-[8px] mx-auto rounded-[4px]">
+                IPHONE 12 PRO
+              </button>
             </div>
           </div>
         </div>
