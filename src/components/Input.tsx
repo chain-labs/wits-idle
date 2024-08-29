@@ -37,6 +37,7 @@ const Input: React.FC<InputProps> = forwardRef(
             transform: isFocused ? "translateY(-125%)" : "translateY(-50%)",
             fontSize: isFocused ? "10px" : "14px",
             opacity: isFocused ? 0.5 : 1,
+            color: isFocused ? "#797979" : "#FFFED0",
           }}
           onClick={() => {
             const inputElement = parentRef.current
@@ -58,7 +59,7 @@ const Input: React.FC<InputProps> = forwardRef(
           onFocus={handleFocus}
           onBlur={handleBlur}
           className={cn(
-            "input w-full bg-transparent border-b-[1px] border-lightGold pt-[12px] outline-none text-lightGold",
+            "input w-full bg-transparent border-b-[1px] border-[#292929] pt-[12px] outline-none text-lightGold",
             className,
           )}
           {...inputProps}
