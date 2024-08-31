@@ -20,7 +20,7 @@ export default function Home() {
     >
       <div className="absolute inset-0 w-full h-full bg-gradient-to-b from-black via-[#0000] to-black z-0"></div>
 
-      <Header />
+      <Header active="account" />
 
       <Button className="absolute bottom-0 left-1/2 -translate-x-1/2 -translate-y-full z-0">
         START GAME
