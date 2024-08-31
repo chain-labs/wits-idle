@@ -37,12 +37,12 @@ export default function Auth() {
       style={{
         backgroundImage: `url(${IMAGEKIT_BG.AUTHENTICATION})`,
       }}
-      className="flex justify-end items-end h-screen w-screen bg-cover bg-center overflow-hidden"
+      className="flex justify-end items-end h-screen w-full bg-cover bg-center overflow-hidden"
     >
       <div className="h-full w-[70vw] bg-[linear-gradient(to_right,#0000,#000_60%)] flex justify-start items-center">
         <div
           className={
-            "bg-[#020708BF] h-fit w-fit translate-x-full rounded-[8px] p-[1px] bg-blend-darken"
+            "bg-[#020708BF] h-fit w-fit translate-x-[28vw] rounded-[8px] p-[1px] bg-blend-darken"
           }
         >
           <GradientSideBorder />
@@ -50,7 +50,7 @@ export default function Auth() {
 
           <form
             onSubmit={handleSubmit(onSubmit)}
-            className="relative w-[30vw] px-[50px] py-[20%] rounded-[8px]  flex flex-col justify-start items-start gap-[24px] bg-blend-multiply"
+            className="relative w-[30vw] max-w-[600px] px-[50px] py-[20%] rounded-[8px]  flex flex-col justify-start items-start gap-[24px] bg-blend-multiply"
           >
             <div className="absolute left-1/2 top-0 -translate-x-1/2 -translate-y-1/2">
               <div className="rotate-45 border-[2px] border-lightGold p-[4px] shadow-[0_0_10px_#EFC779AA]">
