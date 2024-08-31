@@ -19,7 +19,7 @@ export default function Home() {
       style={{
         backgroundImage: `url(${IMAGEKIT_BG.HOMEPAGE})`,
       }}
-      className="h-screen w-screen bg-cover bg-center overflow-hidden"
+      className="relative h-screen w-full bg-cover bg-center overflow-hidden"
     >
       <div className="absolute inset-0 w-full h-full bg-gradient-to-b from-black via-[#0000] to-black"></div>
 

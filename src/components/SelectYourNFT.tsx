@@ -18,7 +18,7 @@ function SingleNFTIcon({
   return (
     <div
       className={cn(
-        "relative p-[9px] rounded-[8px] bg-black border-[1px] border-black",
+        "relative p-[9px] rounded-[8px] bg-black border-[1px] border-black w-[100px] h-[100px] aspect-square",
         active && "border-lightGold",
       )}
     >
@@ -33,7 +33,7 @@ function SingleNFTIcon({
         alt="nft-icon"
         width={100}
         height={100}
-        className="rounded-full w-[100px] h-[100px]"
+        className="rounded-full w-full h-full aspect-square"
       />
     </div>
   );

@@ -9,7 +9,7 @@ export default function GameModeBanner() {
         viewBox="0 0 1440 106"
         fill="none"
         xmlns="http://www.w3.org/2000/svg"
-        className="w-full"
+        className="w-full max-h-[300px]"
       >
         <g filter="url(#filter0_b_9_2)">
           <path

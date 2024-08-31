@@ -41,9 +41,9 @@ export default function GameFooter(
         <button
           disabled={props.backButton.disabled}
           onClick={props.backButton.function}
-          className="bg-gradient-to-b from-[#FFFED0] to-[#EFC779] text-black aspect-square flex justify-center items-center w-[48px] h-[48px] rounded-[4px]"
+          className="bg-gradient-to-b from-[#FFFED0] to-[#EFC779] text-black aspect-square flex justify-center items-center w-[48px] h-[48px] rounded-[4px] group"
         >
-          <FaChevronLeft />
+          <FaChevronLeft className="group-hover:translate-x-[-1em] transition-all duration-300" />
         </button>
       ) : (
         <div></div>
@@ -61,9 +61,9 @@ export default function GameFooter(
         <button
           disabled={props.exitButton.disabled}
           onClick={props.exitButton.function}
-          className="bg-gradient-to-b from-[#FFFED0] to-[#EFC779] text-black aspect-square flex justify-center items-center w-[48px] h-[48px] rounded-[4px] text-[24px]"
+          className="bg-gradient-to-b from-[#FFFED0] to-[#EFC779] text-black aspect-square flex justify-center items-center w-[48px] h-[48px] rounded-[4px] text-[24px] group"
         >
-          <IoClose />
+          <IoClose className="group-hover:rotate-180 transition-all duration-300" />
         </button>
       ) : (
         <div></div>
