@@ -43,7 +43,7 @@ export default function GameFooter(
           onClick={props.backButton.function}
           className="bg-gradient-to-b from-[#FFFED0] to-[#EFC779] text-black aspect-square flex justify-center items-center w-[48px] h-[48px] rounded-[4px] group"
         >
-          <FaChevronLeft className="group-hover:translate-x-[-1em] transition-all duration-300" />
+          <FaChevronLeft className="group-hover:scale-[1.5] transition-all duration-300" />
         </button>
       ) : (
         <div></div>
