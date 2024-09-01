@@ -1,31 +1,25 @@
-"use client";
-
 import Image from "next/image";
-import { IMAGEKIT_BG } from "../images";
-import Button from "@/components/Button";
+import Button from "../Button";
+import { IMAGEKIT_BG } from "@/app/images";
 import { cn } from "@/utils";
-import { useState } from "react";
-import Model from "@/components/Modal";
 
-export default function Notice() {
-  const [openModel, setOpenModel] = useState(false);
-
-  function handleClick() {
-    setOpenModel(true);
-  }
-
+export default function InstructionsOfGame({
+  closeModal,
+}: {
+  closeModal: () => void;
+}) {
   return (
-    <div className="relative min-h-screen h-fit bg-cover bg-center bg-no-repeat overflow-hidden">
+    <div className="relative min-h-screen h-fit bg-fill bg-center bg-no-repeat">
       <Image
         src={IMAGEKIT_BG.INSTRUCTIONS}
         alt="Instructions"
         height={1440}
         width={2560}
-        className="w-full"
+        className="w-full h-screen object-none object-[50%_20%] 2xl:object-cover 2xl:object-top"  
       />
       <div
         className={cn(
-          "absolute top-[65%] left-1/2 -translate-x-1/2 -translate-y-1/2",
+          "absolute top-[65%] left-1/2 -translate-x-1/2 -translate-y-1/3 2xl:-translate-y-1/2",
           "flex flex-col justify-center items-center gap-[18px]",
           "max-w-[45%]",
           "text-lightGold text-center uppercase",
@@ -45,7 +39,7 @@ export default function Notice() {
         <p>4. Confirm the details.</p>
         <p>5. Sit back and wait.</p>
         <p>6. Collect your loot!</p>
-        <Button className="mt-[10px]" onClick={handleClick}>
+        <Button className="mt-[10px]" onClick={closeModal}>
           START GAME
         </Button>
       </div>

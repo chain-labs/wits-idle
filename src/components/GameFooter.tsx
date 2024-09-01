@@ -2,7 +2,7 @@ import Button from "./Button";
 import { FaChevronLeft } from "react-icons/fa6";
 import { IoClose } from "react-icons/io5";
 
-interface GameFooterProps {
+export interface GameFooterProps {
   backButton: {
     function?: () => void;
     visible: boolean;

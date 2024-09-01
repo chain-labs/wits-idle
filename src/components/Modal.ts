@@ -13,14 +13,14 @@ export default function Modal({
     div.style.top = "0";
     div.style.left = "0";
     div.style.width = "100%";
-    div.style.height = "100%";
+    div.style.minHeight = "100%";
     elRef.current = div;
   }
 
   useEffect(() => {
     const modalRoot = document.getElementById("modal") as HTMLDivElement;
     modalRoot.style.width = "100vw";
-    modalRoot.style.height = "100vh";
+    modalRoot.style.minHeight = "100vh";
     document.body.style.overflow = "hidden";
     if (!modalRoot) {
       return;
