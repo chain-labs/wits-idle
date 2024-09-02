@@ -9,9 +9,17 @@ import Modal from "@/components/Modal";
 import ExitGame from "@/components/modals/ExitGame";
 import ShareAdventure from "@/components/modals/ShareAdventure";
 import InstructionsOfGame from "@/components/modals/InstructionsOfGame";
+import AdventureProgress from "@/components/AdventureProgress";
+import LockingNFTs from "@/components/LockingNFTs";
+
+type stateOfGame =
+  | "selectNFT"
+  | "sendingNFTsToAdventure"
+  | "adventureInProgress";
 
 export default function Home() {
   const [openModal, setOpenModal] = useState<null | React.ReactNode>(null);
+  const [state, setState] = useState<stateOfGame>("selectNFT");
 
   useEffect(() => {
     if (openModal === null) {
@@ -21,7 +29,7 @@ export default function Home() {
     }
   }, []);
 
-  const footerProps: { [key: string]: GameFooterProps } = {
+  const footerProps: Record<stateOfGame, GameFooterProps> = {
     selectNFT: {
       backButton: {
         visible: false,
@@ -30,7 +38,7 @@ export default function Home() {
         text: "CONTINUE",
         visible: true,
         function: () => {
-          location.href = "/game1";
+          setState("sendingNFTsToAdventure");
         },
       },
       exitButton: {
@@ -45,7 +53,7 @@ export default function Home() {
       backButton: {
         visible: true,
         function: () => {
-          location.href = "/game";
+          setState("selectNFT");
         },
       },
       primaryButton: {
@@ -56,6 +64,23 @@ export default function Home() {
             <ShareAdventure closeModal={() => setOpenModal(null)} />,
           );
         },
+      },
+      exitButton: {
+        visible: true,
+        function: () => {
+          setOpenModal(<ExitGame closeModal={() => setOpenModal(null)} />);
+        },
+      },
+    },
+
+    adventureInProgress: {
+      backButton: {
+        visible: false,
+      },
+      primaryButton: {
+        text: "REEDEM",
+        visible: true,
+        disabled: true,
       },
       exitButton: {
         visible: true,
@@ -77,9 +102,14 @@ export default function Home() {
 
       <GameModeBanner />
 
-      <SelectYourNFT />
+      {state &&
+        {
+          selectNFT: <SelectYourNFT />,
+          sendingNFTsToAdventure: <LockingNFTs />,
+          adventureInProgress: <AdventureProgress />,
+        }[state]}
 
-      <GameFooter {...footerProps.sendingNFTsToAdventure} />
+      <GameFooter {...footerProps[state]} />
 
       {openModal !== null && <Modal>{openModal}</Modal>}
     </div>

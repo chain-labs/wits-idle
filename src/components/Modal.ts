@@ -13,7 +13,8 @@ export default function Modal({
     div.style.top = "0";
     div.style.left = "0";
     div.style.width = "100%";
-    div.style.minHeight = "100%";
+    div.style.height = "100%";
+    div.style.minHeight = "100vh";
     elRef.current = div;
   }
 

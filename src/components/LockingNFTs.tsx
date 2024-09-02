@@ -124,18 +124,20 @@ export default function SelectYourNFT() {
         </p>
       </div>
 
-      <div className="flex flex-col justify-start items-center gap-[50px] h-fit w-full overflow-auto pr-[10px]">
-        <div className="grid grid-cols-3 gap-[10px] p-[14px] border-[1px] border-[#8C8C7380] bg-[#090909]">
-          {nfts.map((nft, idx) => (
-            <SingleNFTIcon
-              key={`select-nft-${idx}`}
-              id={`select-nft-${idx}`}
-              icon={nft.icon}
-            />
-          ))}
+      <div className="flex flex-col justify-start items-center gap-[50px] h-fit w-full overflow-auto pr-[10px] z-10">
+        <div className="flex justify-center items-center w-full z-10">
+          <div className="grid grid-cols-3 gap-[10px] p-[14px] border-[1px] border-[#8C8C7380] bg-[#090909]">
+            {nfts.map((nft, idx) => (
+              <SingleNFTIcon
+                key={`select-nft-${idx}`}
+                id={`select-nft-${idx}`}
+                icon={nft.icon}
+              />
+            ))}
+          </div>
         </div>
 
-        <form onChange={handleTimelineSelect} className="z-10 w-full">
+        <form onChange={handleTimelineSelect} className="z-10 w-full max-w-[1000px] mb-[50px]">
           <table className="w-full flex flex-col gap-[10px]">
             <thead className="flex flex-col gap-[10px]">
               <tr className="bg-black uppercase text-[#8C8C73] text-center text-[12px] rounded-[4px] grid grid-cols-7 place-items-center gap-[10px] py-[10px]">
