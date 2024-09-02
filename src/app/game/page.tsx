@@ -19,14 +19,15 @@ type stateOfGame =
 
 export default function Home() {
   const [openModal, setOpenModal] = useState<null | React.ReactNode>(null);
-  const [state, setState] = useState<stateOfGame>("selectNFT");
+  const [state, setState] = useState<stateOfGame>("adventureInProgress");
 
   useEffect(() => {
-    if (openModal === null) {
+    if (openModal === null && state !== "adventureInProgress") {
       setOpenModal(
         <InstructionsOfGame closeModal={() => setOpenModal(null)} />,
       );
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const footerProps: Record<stateOfGame, GameFooterProps> = {
@@ -94,7 +95,10 @@ export default function Home() {
   return (
     <div
       style={{
-        backgroundImage: `url(${IMAGEKIT_BG.HOMEPAGE})`,
+        backgroundImage:
+          state === "adventureInProgress"
+            ? `url(${IMAGEKIT_BG.PROGRESS})`
+            : `url(${IMAGEKIT_BG.HOMEPAGE})`,
       }}
       className="relative h-screen w-full bg-cover bg-center overflow-hidden"
     >
