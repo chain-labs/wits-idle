@@ -1,8 +1,10 @@
+"use client";
+
 import { IMAGEKIT_LOGO } from "@/app/images";
 import { useMotionValueEvent, useScroll, motion } from "framer-motion";
 import Image from "next/image";
 import Link from "next/link";
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 
 export default function Header({
   active,
@@ -11,7 +13,7 @@ export default function Header({
 }) {
   2;
   const { scrollYProgress } = useScroll();
-  const [left, setLeft] = useState("calc(0%)");
+  const [left, setLeft] = useState<`${number}%`>("0%");
   const adventuresRef = useRef<HTMLAnchorElement>(null);
   const materialsRef = useRef<HTMLAnchorElement>(null);
   const prizesRef = useRef<HTMLAnchorElement>(null);
@@ -25,8 +27,9 @@ export default function Header({
     const headerPosition = headerRef.current.getBoundingClientRect();
 
     return (
-      (((activeElementPosition.left +
-        (activeElement.offsetWidth / 2) - 20) -
+      ((activeElementPosition.left +
+        activeElement.offsetWidth / 2 -
+        20 -
         headerPosition.left) /
         headerPosition.width) *
       100
@@ -49,23 +52,25 @@ export default function Header({
         return 0;
     }
   }
+  useEffect(() => {
+    setLeft(`${activeRefLeftValue()}%`);
+  }, [active, adventuresRef, materialsRef, prizesRef, accountRef]);
 
-  useMotionValueEvent(scrollYProgress, "change", (latest) => {
-    setLeft(`calc(${(latest * 100).toFixed(2)}% )`);
-  });
   return (
     <header
       ref={headerRef}
       className="relative bg-[linear-gradient(to_right,#FFFED000,#FFFED00D_90%)] flex flex-col justify-between items-center mt-[48px] rounded-[6px] z-50 backdrop-blur-sm max-w-[1200px] mx-auto"
     >
       <div className="flex justify-between items-center w-full py-[8px] px-[48px]">
-        <Image
-          src={IMAGEKIT_LOGO.WITS_LOGO}
-          alt="WITS Logo"
-          width={168}
-          height={97}
-          className="w-[100px] h-auto object-cover scale-[1.2]"
-        />
+        <Link href={"/"}>
+          <Image
+            src={IMAGEKIT_LOGO.WITS_LOGO}
+            alt="WITS Logo"
+            width={168}
+            height={97}
+            className="w-[100px] h-auto object-cover scale-[1.2]"
+          />
+        </Link>
 
         <div className="flex justify-center items-center gap-[32px] uppercase text-lightGold z-50">
           <Link ref={adventuresRef} href={"/adventures"}>
@@ -87,9 +92,9 @@ export default function Header({
         <div className="relative w-full mr-auto h-full">
           <motion.div
             style={{
-              // left: 0,
-              left: `${activeRefLeftValue()}%`,
+              left,
             }}
+            transition={{ duration: 1, type: "spring" }}
             className="absolute top-0 left-0 -translate-y-1/2 w-[40px] h-[fitpx]"
           >
             <div className="absolute left-1/2 top-0 -translate-x-1/2 -translate-y-1/2">
