@@ -14,6 +14,7 @@ const Input: React.FC<InputProps> = forwardRef(
     const { className, errorMessage, ...inputProps } = props;
 
     const [isFocused, setIsFocused] = useState(false);
+
     function handleFocus() {
       setIsFocused(true);
     }
@@ -50,9 +51,9 @@ const Input: React.FC<InputProps> = forwardRef(
           className="uppercase text-lightGold text-[14px] absolute top-1/2 -translate-y-1/2 user-select-none cursor-text w-full"
         >
           {props.placeholder}{" "}
-        <span className="text-red-500 absolute right-0 top-0">
-          {errorMessage}
-        </span>
+          <span className="text-red-500 absolute right-0 top-0">
+            {errorMessage}
+          </span>
         </motion.label>
         <input
           ref={ref}
@@ -64,6 +65,10 @@ const Input: React.FC<InputProps> = forwardRef(
           )}
           {...inputProps}
           placeholder=""
+          onChange={(e) => {
+            if (e.target.value !== "") handleFocus()
+              else handleBlur()
+          }}
         />
       </div>
     );

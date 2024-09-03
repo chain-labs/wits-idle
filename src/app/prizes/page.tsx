@@ -13,6 +13,8 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import Input from "@/components/Input";
 import Modal from "@/components/Modal";
 import PrizeCollectConfirmation from "@/components/modals/PrizeCollectConfirmation";
+import ModalRevealAnimation from "@/components/modals/ModalRevealAnimation";
+import { AnimatePresence } from "framer-motion";
 
 const ContactInformationSchema = z.object({
   emailOrTwitter: z.string().email().optional(),
@@ -68,9 +70,7 @@ export default function Home() {
         }}
         className="absolute inset-0 w-full h-full bg-cover opacity-10"
       ></div>
-
       <Header active="prizes" />
-
       <div className="flex justify-center items-center gap-[10px] mb-[16px] mt-[48px]">
         <svg
           width="261"
@@ -139,11 +139,8 @@ export default function Home() {
           </defs>
         </svg>
       </div>
-
       <div className="flex justify-start items-start gap-[50px] my-[50px] z-10 max-w-[1200px] mx-auto">
-        <form
-          className="flex flex-col justify-start items-start gap-[24px] rounded-[8px] border-[1px] border-[#292929] bg-[#14141480] px-[54px] py-[64px] uppercase text-lightGold z-10 w-full"
-        >
+        <form className="flex flex-col justify-start items-start gap-[24px] rounded-[8px] border-[1px] border-[#292929] bg-[#14141480] px-[54px] py-[64px] uppercase text-lightGold z-10 w-full">
           <h2 className="bg-[#141414] px-[16px] py-[8px] rounded-[4px] w-[calc(100%+16px)] -translate-x-[16px]">
             Contact Information
           </h2>
@@ -195,7 +192,11 @@ export default function Home() {
           </button>
         </div>
       </div>
-      {openModal !== null && <Modal>{openModal}</Modal>}
+      {openModal !== null && (
+        <Modal>
+          <ModalRevealAnimation>{openModal}</ModalRevealAnimation>
+        </Modal>
+      )}
     </div>
   );
 }

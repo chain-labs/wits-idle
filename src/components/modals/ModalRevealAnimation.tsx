@@ -29,7 +29,7 @@ export default function ModalRevealAnimation({
           ],
           filter: "blur(10px)",
         }}
-        transition={{ duration: 0.75 }}
+        transition={{ duration: 0.75, ease: "easeOut" }}
       >
         {children}
       </motion.div>

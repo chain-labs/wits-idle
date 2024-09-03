@@ -12,6 +12,8 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import Input from "@/components/Input";
 import { TiMinus, TiPlus } from "react-icons/ti";
+import AnimateNumber from "@/components/AnimateNumber";
+import Link from "next/link";
 
 function DesignedCell({ children }: { children: React.ReactNode }) {
   return (
@@ -62,7 +64,10 @@ function CraftItem(craft: { icon: string; rarity: string }) {
           <TiMinus />
         </button>
         <div className="bg-black rounded-[4px] border-lightGold border-[1px] text-center px-[32px] py-[8px]">
-          {String(count).padStart(2, "0")}
+          <div className="flex justify-center items-center overflow-hidden">
+            <AnimateNumber num={Number(String(count).padStart(2, "0")[0])} />
+            <AnimateNumber num={Number(String(count).padStart(2, "0")[1])} />
+          </div>
         </div>
         <button
           onClick={() => {
@@ -248,14 +253,14 @@ export default function Home() {
         </div>
       </div>
 
-      <div className="flex justify-center items-center gap-[50px] z-10">
+      <Link href="/craft" className="flex justify-center items-center gap-[50px] z-10">
         <button
           type="button"
           className="bg-black mb-[50px] py-[16px] px-[32px] w-[min(40vw,500px)] h-fit border border-lightGold text-lightGold rounded-[4px] uppercase z-10"
         >
           Craft
         </button>
-      </div>
+      </Link>
     </div>
   );
 }
