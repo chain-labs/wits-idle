@@ -10,6 +10,7 @@ import ExitGame from "@/components/modals/ExitGame";
 import MaterialsWon from "@/components/MaterialsWon";
 import Crafting from "@/components/Crafting";
 import Reward from "@/components/Reward";
+import ModalRevealAnimation from "@/components/modals/ModalRevealAnimation";
 
 type stateOfCraft = "materialsWon" | "crafting" | "reward";
 
@@ -109,7 +110,11 @@ export default function Home() {
 
       <GameFooter {...footerProps[state]} />
 
-      {openModal !== null && <Modal>{openModal}</Modal>}
+      {openModal !== null && (
+        <Modal>
+          <ModalRevealAnimation>{openModal}</ModalRevealAnimation>
+        </Modal>
+      )}
     </div>
   );
 }

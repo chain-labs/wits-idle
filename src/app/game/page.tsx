@@ -12,6 +12,7 @@ import InstructionsOfGame from "@/components/modals/InstructionsOfGame";
 import AdventureProgress from "@/components/AdventureProgress";
 import LockingNFTs from "@/components/LockingNFTs";
 import useTimer from "@/hooks/useTimer";
+import ModalRevealAnimation from "@/components/modals/ModalRevealAnimation";
 
 type stateOfGame =
   | "selectNFT"
@@ -120,7 +121,11 @@ export default function Home() {
 
       <GameFooter {...footerProps[state]} />
 
-      {openModal !== null && <Modal>{openModal}</Modal>}
+      {openModal !== null && (
+        <Modal>
+          <ModalRevealAnimation>{openModal}</ModalRevealAnimation>
+        </Modal>
+      )}
     </div>
   );
 }
