@@ -1,9 +1,12 @@
+"use client";
+
 import Image from "next/image";
 import GlowingH1 from "./GlowingH1";
 import { FaChevronDown } from "react-icons/fa";
 import { useState } from "react";
 import { IMAGEKIT_IMAGES } from "@/app/images";
 import { cn } from "@/utils";
+import { AnimatePresence, motion } from "framer-motion";
 
 function Details() {
   const [openDetails, setOpenDetails] = useState(false);
@@ -51,70 +54,76 @@ function Details() {
         View Details
         <FaChevronDown className={openDetails ? "transform rotate-180" : ""} />
       </button>
-      {openDetails && (
-        <div
-          className={cn(
-            "border-[1px] border-[#797979] rounded-[4px]",
-            "px-[32px] py-[48px]",
-            "bg-[#14141480] backdrop-blur-[25px]",
-            "flex flex-col justify-center items-center gap-[50px]",
-            "w-full",
-            "z-10",
-          )}
-        >
-          <div className="flex justify-between items-center text-[#6A6A6A] uppercase w-full">
-            <h2>NFT</h2>
-            <h2>Materials Obtained</h2>
-          </div>
-          <div className="flex flex-col  gap-[16px] w-full">
-            {details.map((detail, index) => (
-              <div
-                key={detail.nftIcon}
-                className="flex justify-between items-center bg-[#171717] rounded-[4px] p-[10px]"
-              >
-                <div className="bg-black rounded-[4px]">
-                  <Image
-                    src={detail.nftIcon}
-                    width={50}
-                    height={50}
-                    alt="NFT Icon"
-                    className="w-[50px] h-[50px] rounded-full p-[4px]"
-                  />
-                </div>
-                <div className="flex justify-between items-center gap-[16px]">
-                  {detail.materials.map((material, index) => (
-                    <div
-                      key={detail.nftIcon + material + index}
-                      className="relative rounded-[4px] border-[#292929] border-[1px]"
-                    >
-                      <Image
-                        src={material.icon}
-                        width={50}
-                        height={50}
-                        alt={material.icon}
-                        className="w-[50px] h-[50px]"
-                      />
-
+      <AnimatePresence>
+        {openDetails && (
+          <motion.div
+            initial={{ height: 0, opacity: 0, filter: "blur(10px)" }}
+            animate={{ height: "auto", opacity: 1, filter: "blur(0px)" }}
+            exit={{ height: 0, opacity: 0, filter: "blur(10px)" }}
+            transition={{ duration: 0.5 }}
+            className={cn(
+              "border-[1px] border-[#797979] rounded-[4px]",
+              "px-[32px] py-[48px]",
+              "bg-[#14141480] backdrop-blur-[25px]",
+              "flex flex-col justify-center items-center gap-[50px]",
+              "w-full",
+              "z-10 overflow-hidden",
+            )}
+          >
+            <div className="flex justify-between items-center text-[#6A6A6A] uppercase w-full">
+              <h2>NFT</h2>
+              <h2>Materials Obtained</h2>
+            </div>
+            <div className="flex flex-col  gap-[16px] w-full">
+              {details.map((detail, index) => (
+                <div
+                  key={detail.nftIcon}
+                  className="flex justify-between items-center bg-[#171717] rounded-[4px] p-[10px]"
+                >
+                  <div className="bg-black rounded-[4px]">
+                    <Image
+                      src={detail.nftIcon}
+                      width={50}
+                      height={50}
+                      alt="NFT Icon"
+                      className="w-[50px] h-[50px] rounded-full p-[4px]"
+                    />
+                  </div>
+                  <div className="flex justify-between items-center gap-[16px]">
+                    {detail.materials.map((material, index) => (
                       <div
-                        className={cn(
-                          "absolute top-0 right-0 translate-x-1/2 -translate-y-1/2",
-                          "border-[#474747] border-[1px] rounded-full",
-                          "bg-[#292929]",
-                          "text-lightGold font-lato text-center",
-                          "w-[1.5em] h-[1.5em] aspect-square",
-                          "flex justify-center items-center",
-                        )}
+                        key={detail.nftIcon + material + index}
+                        className="relative rounded-[4px] border-[#292929] border-[1px]"
                       >
-                        {material.collection}
+                        <Image
+                          src={material.icon}
+                          width={50}
+                          height={50}
+                          alt={material.icon}
+                          className="w-[50px] h-[50px]"
+                        />
+
+                        <div
+                          className={cn(
+                            "absolute top-0 right-0 translate-x-1/2 -translate-y-1/2",
+                            "border-[#474747] border-[1px] rounded-full",
+                            "bg-[#292929]",
+                            "text-lightGold font-lato text-center",
+                            "w-[1.5em] h-[1.5em] aspect-square",
+                            "flex justify-center items-center",
+                          )}
+                        >
+                          {material.collection}
+                        </div>
                       </div>
-                    </div>
-                  ))}
+                    ))}
+                  </div>
                 </div>
-              </div>
-            ))}
-          </div>
-        </div>
-      )}
+              ))}
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </>
   );
 }

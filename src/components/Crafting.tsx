@@ -1,6 +1,5 @@
 import Image from "next/image";
 import GlowingH1 from "./GlowingH1";
-import { FaChevronDown } from "react-icons/fa";
 import { TiMinus, TiPlus } from "react-icons/ti";
 import { useState } from "react";
 import { IMAGEKIT_IMAGES } from "@/app/images";

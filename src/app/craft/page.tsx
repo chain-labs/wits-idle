@@ -76,9 +76,7 @@ export default function Home() {
       },
     },
   };
-  function HandleExitButton() {
-    setOpenModal(true);
-  }
+
   return (
     <div
       style={{
