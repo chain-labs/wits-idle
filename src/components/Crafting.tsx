@@ -3,6 +3,8 @@ import GlowingH1 from "./GlowingH1";
 import { TiMinus, TiPlus } from "react-icons/ti";
 import { useState } from "react";
 import { IMAGEKIT_IMAGES } from "@/app/images";
+import { AnimatePresence } from "framer-motion";
+import AnimateNumber from "./AnimateNumber";
 
 function CraftItem(craft: {
   icon: string;
@@ -32,7 +34,12 @@ function CraftItem(craft: {
           >
             <TiMinus />
           </button>
-          {String(count).padStart(2, "0")} {craft.rarity}
+
+          <div className="flex justify-center items-center overflow-hidden">
+            <AnimateNumber num={Number(String(count).padStart(2, "0")[0])} />
+            <AnimateNumber num={Number(String(count).padStart(2, "0")[1])} />
+          </div>
+          {craft.rarity}
           <button
             onClick={() => {
               setCount(count + 1);
