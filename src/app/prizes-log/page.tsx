@@ -38,7 +38,7 @@ export default function Home() {
         className="absolute inset-0 w-full h-full bg-cover opacity-10"
       ></div>
 
-      <Header />
+      <Header active="prizes" />
 
       <div className="flex justify-center items-center gap-[10px] mb-[16px] mt-[48px]">
         <svg

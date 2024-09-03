@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from "react";
 
-const newTimer = new Date().getTime() + 1000 * 60 * 60;
+const newTimer = new Date().getTime() + 1000 * 10;
 
 export default function useTimer() {
   const [time, setTime] = useState(Math.floor((newTimer - new Date().getTime()) / 1000));
@@ -28,5 +28,6 @@ export default function useTimer() {
     hours: Math.floor((time % 86400) / 3600),
     minutes: Math.floor((time % 3600) / 60),
     seconds: time % 60,
+    end: time <= 0,
   };
 }

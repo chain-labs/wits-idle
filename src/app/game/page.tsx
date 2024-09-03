@@ -11,6 +11,7 @@ import ShareAdventure from "@/components/modals/ShareAdventure";
 import InstructionsOfGame from "@/components/modals/InstructionsOfGame";
 import AdventureProgress from "@/components/AdventureProgress";
 import LockingNFTs from "@/components/LockingNFTs";
+import useTimer from "@/hooks/useTimer";
 
 type stateOfGame =
   | "selectNFT"
@@ -20,6 +21,7 @@ type stateOfGame =
 export default function Home() {
   const [openModal, setOpenModal] = useState<null | React.ReactNode>(null);
   const [state, setState] = useState<stateOfGame>("adventureInProgress");
+  const progressTimer = useTimer();
 
   useEffect(() => {
     if (openModal === null && state !== "adventureInProgress") {
@@ -81,7 +83,10 @@ export default function Home() {
       primaryButton: {
         text: "REEDEM",
         visible: true,
-        disabled: true,
+        disabled: progressTimer.end === false,
+        function: () => {
+          location.href = "/craft";
+        },
       },
       exitButton: {
         visible: true,

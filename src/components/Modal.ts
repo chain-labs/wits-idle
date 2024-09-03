@@ -30,6 +30,7 @@ export default function Modal({
     return () => {
       modalRoot.style.width = "auto";
       modalRoot.style.height = "auto";
+      modalRoot.style.minHeight = "0";
       document.body.style.overflow = "auto";
       modalRoot.removeChild(elRef.current as HTMLDivElement);
     };

@@ -22,7 +22,7 @@ function DesignedCell({ children }: { children: React.ReactNode }) {
         "text-black text-center",
         "w-full",
         "flex justify-center items-center",
-        "px-[32px] py-[4px]",
+        "px-[32px] py-[8px]",
       )}
     >
       {children}
@@ -140,7 +140,7 @@ export default function Home() {
         className="absolute inset-0 w-full h-full bg-cover opacity-10"
       ></div>
 
-      <Header />
+      <Header active="materials" />
 
       <div className="flex justify-center items-center gap-[10px] mb-[16px] mt-[48px]">
         <svg
@@ -213,7 +213,7 @@ export default function Home() {
 
       <div className="flex justify-start items-start gap-[50px] mx-[32px] my-[50px] z-10">
         <div className="flex flex-col justify-start items-start gap-[24px] rounded-[8px] border-[1px] border-[#292929] bg-[#14141480] px-[48px] py-[64px] uppercase text-lightGold z-10 w-full">
-          <table>
+          <table className="mx-auto">
             <thead>
               <tr className="uppercase text-[#6A6A6A] text-[12px] grid grid-cols-[3fr_1fr_1fr] gap-[8px]">
                 <th>Rarity</th>
@@ -221,11 +221,11 @@ export default function Home() {
                 <th>Used</th>
               </tr>
             </thead>
-            <tbody>
+            <tbody className="flex flex-col gap-[16px]">
               {rarityList.map((rarity, index) => (
                 <tr
                   key={rarity.rarity}
-                  className="grid grid-cols-[3fr_1fr_1fr] gap-[8px]"
+                  className="grid grid-cols-[3fr_1fr_1fr] gap-[16px]"
                 >
                   <td>
                     <DesignedCell>{rarity.rarity}</DesignedCell>
@@ -240,7 +240,7 @@ export default function Home() {
               ))}
             </tbody>
           </table>
-          <div className="grid grid-flow-col place-items-center w-full">
+          <div className="flex flex-wrap justify-between items-center w-full max-w-[1500px] mx-auto">
             {rarityList.map((rarity, index) => (
               <CraftItem {...rarity} key={index} />
             ))}
@@ -251,7 +251,7 @@ export default function Home() {
       <div className="flex justify-center items-center gap-[50px] z-10">
         <button
           type="button"
-          className="bg-black mb-[50px] py-[8px] px-[32px] w-[40vw] h-fit border border-lightGold text-lightGold rounded-[4px] uppercase z-10"
+          className="bg-black mb-[50px] py-[16px] px-[32px] w-[min(40vw,500px)] h-fit border border-lightGold text-lightGold rounded-[4px] uppercase z-10"
         >
           Craft
         </button>

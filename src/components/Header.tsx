@@ -56,7 +56,7 @@ export default function Header({
   return (
     <header
       ref={headerRef}
-      className="relative bg-[linear-gradient(to_right,#FFFED000,#FFFED00D_90%)] flex flex-col justify-between items-center mx-[48px] mt-[48px] rounded-[6px] z-50 backdrop-blur-sm"
+      className="relative bg-[linear-gradient(to_right,#FFFED000,#FFFED00D_90%)] flex flex-col justify-between items-center mt-[48px] rounded-[6px] z-50 backdrop-blur-sm max-w-[1200px] mx-auto"
     >
       <div className="flex justify-between items-center w-full py-[8px] px-[48px]">
         <Image

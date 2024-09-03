@@ -46,7 +46,7 @@ export default function Home() {
   const details = [detail, detail, detail, detail];
 
   return (
-    <div className="relative min-h-screen w-screen bg-cover bg-center overflow-x-hidden bg-blend-multiply bg-opacity-10 z-0">
+    <div className="relative min-h-screen w-full bg-cover bg-center overflow-x-hidden bg-blend-multiply bg-opacity-10 z-0">
       <div className="absolute inset-0 w-full h-full bg-gradient-to-b from-black via-[#0000] to-black z-[-1]"></div>
       <div
         style={{
@@ -55,7 +55,7 @@ export default function Home() {
         className="absolute inset-0 w-full h-full bg-cover opacity-10"
       ></div>
 
-      <Header />
+      <Header active="adventures" />
 
       <div className="flex justify-center items-center gap-[10px] mb-[16px] mt-[48px]">
         <svg
@@ -89,7 +89,9 @@ export default function Home() {
           </defs>
         </svg>
 
-        <h1 className="uppercase text-lightGold text-[24px]">Adventure log</h1>
+        <h1 className="uppercase text-lightGold text-[24px] mx-[50px]">
+          Adventure Log
+        </h1>
 
         <svg
           width="261"
@@ -125,7 +127,7 @@ export default function Home() {
       </div>
 
       <div className="bg-[#14141480] backdrop-blur-lg rounded-[8px] border-[1px] border-[#292929] flex flex-col justify-center items-center p-[32px] mx-[32px] mb-[50px]">
-        <table className="w-full flex flex-col gap-[24px]">
+        <table className="w-full flex flex-col gap-[24px] max-w-[1200px] mx-auto">
           <thead className="flex flex-col gap-[10px]">
             <tr className=" uppercase text-[#6A6A6A] text-center text-[12px] rounded-[4px] grid grid-cols-[1fr_1fr_1fr_1fr_3fr_1fr] place-items-center gap-[10px] py-[10px]">
               <th>NFT</th>
