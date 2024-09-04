@@ -9,17 +9,17 @@ export default function InstructionsOfGame({
   closeModal: () => void;
 }) {
   return (
-    <div
-      style={{
-        backgroundImage: `url(${IMAGEKIT_BG.INSTRUCTIONS})`,
-        backgroundSize: "cover",
-      }}
-      className="relative min-h-screen h-fit bg-center bg-no-repeat"
-    >
-      <div className="absolute inset-0 h-full w-full bg-[linear-gradient(to_right,#000,#0000,#000)] z-10"></div>
+    <div className="relative min-h-screen h-fit w-full bg-center bg-no-repeat z-50">
+      <Image
+        src={IMAGEKIT_BG.INSTRUCTIONS}
+        alt="instructions"
+        height={1440}
+        width={1024}
+        className="w-full h-full"
+      />
       <div
         className={cn(
-          "absolute top-[65%] left-1/2 -translate-x-1/2 -translate-y-1/3 2xl:-translate-y-1/2",
+          "absolute top-[43.5vw] left-1/2 -translate-x-1/2 -translate-y-1/3 2xl:-translate-y-1/2",
           "flex flex-col justify-center items-center gap-[18px]",
           "max-w-[45%]",
           "text-lightGold text-center uppercase",
@@ -39,7 +39,7 @@ export default function InstructionsOfGame({
         <p>4. Confirm the details.</p>
         <p>5. Sit back and wait.</p>
         <p>6. Collect your loot!</p>
-        <Button className="mt-[10px]" onClick={closeModal}>
+        <Button className="mt-[10px] z-10" onClick={closeModal}>
           START GAME
         </Button>
       </div>

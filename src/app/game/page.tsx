@@ -21,14 +21,14 @@ type stateOfGame =
 
 export default function Home() {
   const [openModal, setOpenModal] = useState<null | React.ReactNode>(null);
+  const [openInstructionModal, setOpenInstructionModal] =
+    useState<boolean>(false);
   const [state, setState] = useState<stateOfGame>("selectNFT");
   const progressTimer = useTimer();
 
   useEffect(() => {
     if (openModal === null && state !== "adventureInProgress") {
-      setOpenModal(
-        <InstructionsOfGame closeModal={() => setOpenModal(null)} />,
-      );
+      setOpenInstructionModal(true);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
@@ -102,6 +102,12 @@ export default function Home() {
       },
     },
   };
+
+  if (openInstructionModal) {
+    return (
+      <InstructionsOfGame closeModal={() => setOpenInstructionModal(false)} />
+    );
+  }
 
   return (
     <div
