@@ -65,7 +65,7 @@ export default function Home() {
         text: "COLLECT",
         visible: true,
         function: () => {
-          location.href = "/game";
+          location.href = "/prizes";
         },
       },
       exitButton: {
