@@ -9,11 +9,12 @@ import { useEffect, useRef, useState } from "react";
 export default function Header({
   active,
 }: {
-  active: "adventures" | "materials" | "prizes" | "account";
+  active: "home" | "adventures" | "materials" | "prizes" | "account";
 }) {
   2;
   const { scrollYProgress } = useScroll();
   const [left, setLeft] = useState<`${number}%`>("0%");
+  const homeRef = useRef<HTMLAnchorElement>(null);
   const adventuresRef = useRef<HTMLAnchorElement>(null);
   const materialsRef = useRef<HTMLAnchorElement>(null);
   const prizesRef = useRef<HTMLAnchorElement>(null);
@@ -38,6 +39,8 @@ export default function Header({
 
   function activeRefLeftValue() {
     switch (active) {
+      case "home":
+        return homeRef.current ? centerPosition(homeRef.current) : 0;
       case "adventures":
         return adventuresRef.current
           ? centerPosition(adventuresRef.current)
@@ -54,7 +57,7 @@ export default function Header({
   }
   useEffect(() => {
     setLeft(`${activeRefLeftValue()}%`);
-  }, [active, adventuresRef, materialsRef, prizesRef, accountRef]);
+  }, [active, homeRef, adventuresRef, materialsRef, prizesRef, accountRef]);
 
   return (
     <header
@@ -62,7 +65,7 @@ export default function Header({
       className="relative bg-[linear-gradient(to_right,#FFFED000,#FFFED00D_90%)] flex flex-col justify-between items-center mt-[48px] rounded-[6px] z-50 backdrop-blur-sm max-w-[1200px] mx-auto"
     >
       <div className="flex justify-between items-center w-full py-[8px] px-[48px]">
-        <Link href={"/"}>
+        <Link href={"/"} ref={homeRef}>
           <Image
             src={IMAGEKIT_LOGO.WITS_LOGO}
             alt="WITS Logo"

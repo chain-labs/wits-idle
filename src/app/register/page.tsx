@@ -40,6 +40,8 @@ export default function Auth() {
 
   function onSubmit(data: any) {
     console.log(data);
+    localStorage.setItem("isAuthenticated", "true");
+    location.href = "/";
   }
 
   return (

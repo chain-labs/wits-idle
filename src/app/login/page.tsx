@@ -13,7 +13,7 @@ import GradientSideBorder from "@/components/GradientSideBorder";
 
 const LoginSchema = z.object({
   email: z.string().email(),
-  password: z.string().min(8),
+  password: z.string().min(8, "minimum 8 characters"),
 });
 
 export default function Auth() {
@@ -30,6 +30,8 @@ export default function Auth() {
 
   function onSubmit(data: any) {
     console.log(data);
+    localStorage.setItem("isAuthenticated", "true");
+    location.href = "/";
   }
 
   return (
@@ -84,15 +86,15 @@ export default function Auth() {
               placeholder="Email"
               {...register("email")}
               className="input"
+              errorMessage={errors.email?.message}
             />
-            {errors.email && <p>{errors.email.message}</p>}
             <Input
               type="password"
               placeholder="Password"
               {...register("password")}
               className="input"
+              errorMessage={errors.password?.message}
             />
-            {errors.password && <p>{errors.password.message}</p>}
             <button
               type="button"
               className="bg-black py-[16px] w-full h-fit border border-lightGold text-lightGold rounded-[4px] uppercase"

@@ -14,7 +14,7 @@ export default function ShareAdventure({
   openModal?: () => void;
 }) {
   return (
-    <div className="relative w-full h-full bg-black/75 backdrop-blur-[25px] flex flex-col justify-center items-center z-0 p-[14px]">
+    <div className="relative w-full h-full bg-black backdrop-blur-[25px] flex flex-col justify-center items-center z-0 p-[14px]">
       <div
         style={{
           backgroundImage: `url(${IMAGEKIT_BG.SHARE})`,

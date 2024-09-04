@@ -9,14 +9,14 @@ export default function InstructionsOfGame({
   closeModal: () => void;
 }) {
   return (
-    <div className="relative min-h-screen h-fit bg-fill bg-center bg-no-repeat">
-      <Image
-        src={IMAGEKIT_BG.INSTRUCTIONS}
-        alt="Instructions"
-        height={1440}
-        width={2560}
-        className="w-full h-screen object-none object-[50%_20%] 2xl:object-cover 2xl:object-top"  
-      />
+    <div
+      style={{
+        backgroundImage: `url(${IMAGEKIT_BG.INSTRUCTIONS})`,
+        backgroundSize: "cover",
+      }}
+      className="relative min-h-screen h-fit bg-center bg-no-repeat"
+    >
+      <div className="absolute inset-0 h-full w-full bg-[linear-gradient(to_right,#000,#0000,#000)] z-10"></div>
       <div
         className={cn(
           "absolute top-[65%] left-1/2 -translate-x-1/2 -translate-y-1/3 2xl:-translate-y-1/2",

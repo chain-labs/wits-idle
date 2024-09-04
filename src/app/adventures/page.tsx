@@ -126,7 +126,7 @@ export default function Home() {
         </svg>
       </div>
 
-      <div className="bg-[#14141480] backdrop-blur-lg rounded-[8px] border-[1px] border-[#292929] flex flex-col justify-center items-center p-[32px] mx-[32px] mb-[50px]">
+      <div className="bg-[#14141480] backdrop-blur-lg rounded-[8px] border-[1px] border-[#292929] flex flex-col justify-center items-center p-[32px] mx-[32px] my-[50px]">
         <table className="w-full flex flex-col gap-[24px] max-w-[1200px] mx-auto">
           <thead className="flex flex-col gap-[10px]">
             <tr className=" uppercase text-[#6A6A6A] text-center text-[12px] rounded-[4px] grid grid-cols-[1fr_1fr_1fr_1fr_3fr_1fr] place-items-center gap-[10px] py-[10px]">

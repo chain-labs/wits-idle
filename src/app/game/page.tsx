@@ -21,7 +21,7 @@ type stateOfGame =
 
 export default function Home() {
   const [openModal, setOpenModal] = useState<null | React.ReactNode>(null);
-  const [state, setState] = useState<stateOfGame>("adventureInProgress");
+  const [state, setState] = useState<stateOfGame>("selectNFT");
   const progressTimer = useTimer();
 
   useEffect(() => {
@@ -65,7 +65,12 @@ export default function Home() {
         visible: true,
         function: () => {
           setOpenModal(
-            <ShareAdventure closeModal={() => setOpenModal(null)} />,
+            <ShareAdventure
+              closeModal={() => {
+                setOpenModal(null);
+                setState("adventureInProgress");
+              }}
+            />,
           );
         },
       },

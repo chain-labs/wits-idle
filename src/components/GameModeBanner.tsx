@@ -1,3 +1,4 @@
+import Link from "next/link";
 import GlowingH1 from "./GlowingH1";
 
 export default function GameModeBanner() {
@@ -50,9 +51,12 @@ export default function GameModeBanner() {
         </defs>
       </svg>
 
-      <div className="absolute top-0 left-1/2 -translate-x-1/2 h-full flex justify-center items-center">
+      <Link
+        href="/"
+        className="absolute top-0 left-1/2 -translate-x-1/2 h-full flex justify-center items-center"
+      >
         <GlowingH1>Game Mode</GlowingH1>
-      </div>
+      </Link>
 
       <div className="absolute bottom-0 left-1/2 -translate-y-1/2 w-[40px] h-[fitpx]">
         <div className="absolute left-1/2 top-0 -translate-x-1/2 -translate-y-1/2">
