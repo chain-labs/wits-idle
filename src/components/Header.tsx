@@ -11,8 +11,6 @@ export default function Header({
 }: {
   active: "home" | "adventures" | "materials" | "prizes" | "account";
 }) {
-  2;
-  const { scrollYProgress } = useScroll();
   const [left, setLeft] = useState<`${number}%`>("0%");
   const homeRef = useRef<HTMLAnchorElement>(null);
   const adventuresRef = useRef<HTMLAnchorElement>(null);
@@ -65,7 +63,10 @@ export default function Header({
       className="relative bg-[linear-gradient(to_right,#FFFED000,#FFFED00D_90%)] flex flex-col justify-between items-center mt-[48px] rounded-[6px] z-50 backdrop-blur-sm max-w-[1200px] mx-auto"
     >
       <div className="flex justify-between items-center w-full py-[8px] px-[48px]">
-        <Link href={"/"} ref={homeRef}>
+        <Link
+          href={"/"}
+          className="flex justify-center items-center gap-[8px] uppercase text-lightGold"
+        >
           <Image
             src={IMAGEKIT_LOGO.WITS_LOGO}
             alt="WITS Logo"
@@ -73,6 +74,7 @@ export default function Header({
             height={97}
             className="w-[100px] h-auto object-cover scale-[1.2]"
           />
+          <span ref={homeRef}>Crafting</span>
         </Link>
 
         <div className="flex justify-center items-center gap-[32px] uppercase text-lightGold z-50">

@@ -2,6 +2,7 @@ import { IMAGEKIT } from "@/constants";
 
 const IMAGEKIT_LOGO_URL = `${IMAGEKIT}/logo`;
 const IMAGEKIT_BG_URL = `${IMAGEKIT}/background`;
+const IMAGEKIT_ICON_URL = `${IMAGEKIT}/icon`;
 
 export const IMAGEKIT_LOGO = {
   WITS_W_LOGO: `${IMAGEKIT_LOGO_URL}/WITS-w-logo.png`,
@@ -23,4 +24,12 @@ export const IMAGEKIT_BG = {
 export const IMAGEKIT_IMAGES = {
   NFT_ICON: `${IMAGEKIT}/nft-icon.png`,
   CRAFT_ICON: `${IMAGEKIT}/craft-icon.png`,
+};
+
+export const IMAGEKIT_ICONS = {
+  COMMON: `${IMAGEKIT_ICON_URL}/common.png`,
+  UNCOMMON: `${IMAGEKIT_ICON_URL}/uncommon.png`,
+  RARE: `${IMAGEKIT_ICON_URL}/rare.png`,
+  MYTHICAL: `${IMAGEKIT_ICON_URL}/mythical.png`,
+  LEGENDARY: `${IMAGEKIT_ICON_URL}/legendary.png`,
 };

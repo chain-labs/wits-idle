@@ -4,7 +4,7 @@ import Button from "@/components/Button";
 import Unauthenticated from "@/components/Unauthenticated";
 import React, { useState } from "react";
 import Header from "@/components/Header";
-import { IMAGEKIT_BG, IMAGEKIT_IMAGES } from "../images";
+import { IMAGEKIT_BG, IMAGEKIT_ICONS, IMAGEKIT_IMAGES } from "../images";
 import { cn } from "@/utils";
 import Image from "next/image";
 import { optional, z } from "zod";
@@ -98,37 +98,31 @@ export default function Home() {
 
   const rarityList = [
     {
-      icon: IMAGEKIT_IMAGES.CRAFT_ICON,
+      icon: IMAGEKIT_ICONS.COMMON,
       rarity: "COMMON",
       unused: 0,
       used: 0,
     },
     {
-      icon: IMAGEKIT_IMAGES.CRAFT_ICON,
+      icon: IMAGEKIT_ICONS.UNCOMMON,
       rarity: "UNCOMMON",
       unused: 0,
       used: 0,
     },
     {
-      icon: IMAGEKIT_IMAGES.CRAFT_ICON,
+      icon: IMAGEKIT_ICONS.RARE,
       rarity: "RARE",
       unused: 0,
       used: 0,
     },
     {
-      icon: IMAGEKIT_IMAGES.CRAFT_ICON,
-      rarity: "EPIC",
-      unused: 0,
-      used: 0,
-    },
-    {
-      icon: IMAGEKIT_IMAGES.CRAFT_ICON,
+      icon: IMAGEKIT_ICONS.MYTHICAL,
       rarity: "MYTHICAL",
       unused: 0,
       used: 0,
     },
     {
-      icon: IMAGEKIT_IMAGES.CRAFT_ICON,
+      icon: IMAGEKIT_ICONS.LEGENDARY,
       rarity: "LEGENDARY",
       unused: 0,
       used: 0,
@@ -245,6 +239,11 @@ export default function Home() {
               ))}
             </tbody>
           </table>
+          <p className="text-center my-[16px] max-w-[700px] mx-auto">
+            This is where you can mix and match your collected items for
+            different chances at Loot! This could be Free Packs of cards in
+            game, real packs, booster boxes, merch and more!
+          </p>
           <div className="flex flex-wrap justify-between items-center w-full max-w-[1500px] mx-auto">
             {rarityList.map((rarity, index) => (
               <CraftItem {...rarity} key={index} />
@@ -253,7 +252,10 @@ export default function Home() {
         </div>
       </div>
 
-      <Link href="/craft" className="flex justify-center items-center gap-[50px] z-10">
+      <Link
+        href="/craft"
+        className="flex justify-center items-center gap-[50px] z-10"
+      >
         <button
           type="button"
           className="bg-black mb-[50px] py-[16px] px-[32px] w-[min(40vw,500px)] h-fit border border-lightGold text-lightGold rounded-[4px] uppercase z-10"
