@@ -102,30 +102,35 @@ export default function Home() {
       rarity: "COMMON",
       unused: 0,
       used: 0,
+      chances: 0,
     },
     {
       icon: IMAGEKIT_ICONS.UNCOMMON,
       rarity: "UNCOMMON",
       unused: 0,
       used: 0,
+      chances: 0,
     },
     {
       icon: IMAGEKIT_ICONS.RARE,
       rarity: "RARE",
       unused: 0,
       used: 0,
+      chances: 0,
     },
     {
       icon: IMAGEKIT_ICONS.MYTHICAL,
       rarity: "MYTHICAL",
       unused: 0,
       used: 0,
+      chances: 0,
     },
     {
       icon: IMAGEKIT_ICONS.LEGENDARY,
       rarity: "LEGENDARY",
       unused: 0,
       used: 0,
+      chances: 0,
     },
   ];
 
@@ -214,17 +219,18 @@ export default function Home() {
         <div className="flex flex-col justify-start items-start gap-[24px] rounded-[8px] border-[1px] border-[#292929] bg-[#14141480] px-[48px] py-[64px] uppercase text-lightGold z-10 w-full">
           <table className="mx-auto">
             <thead>
-              <tr className="uppercase text-[#6A6A6A] text-[12px] grid grid-cols-[3fr_1fr_1fr] gap-[8px]">
+              <tr className="uppercase text-[#6A6A6A] text-[12px] grid grid-cols-[3fr_1fr_1fr_1fr] gap-[8px]">
                 <th>Rarity</th>
                 <th>Unused</th>
                 <th>Used</th>
+                <th>Chances</th>
               </tr>
             </thead>
             <tbody className="flex flex-col gap-[16px]">
               {rarityList.map((rarity, index) => (
                 <tr
                   key={rarity.rarity}
-                  className="grid grid-cols-[3fr_1fr_1fr] gap-[16px]"
+                  className="grid grid-cols-[3fr_1fr_1fr_1fr] gap-[16px]"
                 >
                   <td>
                     <DesignedCell>{rarity.rarity}</DesignedCell>
@@ -234,6 +240,9 @@ export default function Home() {
                   </td>
                   <td>
                     <DesignedCell>{rarity.used}</DesignedCell>
+                  </td>
+                  <td>
+                    <DesignedCell>{rarity.chances}%</DesignedCell>
                   </td>
                 </tr>
               ))}
