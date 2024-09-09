@@ -13,6 +13,7 @@ export const IMAGEKIT_LOGO = {
 export const IMAGEKIT_BG = {
   HOMEPAGE: `${IMAGEKIT_BG_URL}/homepage.png`,
   INSTRUCTIONS: `${IMAGEKIT_BG_URL}/instructions.png`,
+  INSTRUCTION_BOARD_TRANSPARENT: `${IMAGEKIT_BG_URL}/instruction-board-transparent.png?updatedAt=1725882775666`,
   AUTHENTICATION: `${IMAGEKIT_BG_URL}/authentication.png`,
   CRAFT: `${IMAGEKIT_BG_URL}/craft.png`,
   PROGRESS: `${IMAGEKIT_BG_URL}/progress.png`,

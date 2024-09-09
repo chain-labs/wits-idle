@@ -9,20 +9,28 @@ export default function InstructionsOfGame({
   closeModal: () => void;
 }) {
   return (
-    <div className="relative min-h-screen h-fit w-full bg-center bg-no-repeat z-50">
+    <div
+      style={{
+        backgroundImage: `url(${IMAGEKIT_BG.SHARE})`,
+        backgroundSize: "cover",
+        backgroundRepeat: "no-repeat",
+        backgroundPosition: "center",
+      }}
+      className="relative h-screen w-full bg-center bg-no-repeat z-50"
+    >
       <Image
-        src={IMAGEKIT_BG.INSTRUCTIONS}
+        src={IMAGEKIT_BG.INSTRUCTION_BOARD_TRANSPARENT}
         alt="instructions"
         height={1440}
         width={1024}
-        className="w-full h-full"
+        className="w-full h-full object-contain "
       />
       <div
         className={cn(
-          "absolute top-[43.5vw] left-1/2 -translate-x-1/2 -translate-y-1/3 2xl:-translate-y-1/2",
-          "flex flex-col justify-center items-center gap-[18px]",
-          "max-w-[45%]",
-          "text-lightGold text-center uppercase",
+          "absolute top-1/2 left-1/2 -translate-x-1/2 translate-y-[-20%]",
+          "flex flex-col justify-center items-center gap-[10px]",
+          "max-w-[40%]",
+          "text-[14px] text-lightGold text-center uppercase",
         )}
       >
         <p>1. Select Start Game</p>
@@ -39,7 +47,7 @@ export default function InstructionsOfGame({
         <p>4. Confirm the details.</p>
         <p>5. Sit back and wait.</p>
         <p>6. Collect your loot!</p>
-        <Button className="mt-[10px] z-10" onClick={closeModal}>
+        <Button className="mt-[10px] z-10 scale-[0.75]" onClick={closeModal}>
           START GAME
         </Button>
       </div>
