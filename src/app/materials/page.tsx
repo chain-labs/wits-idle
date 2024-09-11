@@ -217,37 +217,64 @@ export default function Home() {
 
       <div className="flex justify-start items-start gap-[50px] mx-[32px] my-[50px] z-10">
         <div className="flex flex-col justify-start items-start gap-[24px] rounded-[8px] border-[1px] border-[#292929] bg-[#14141480] px-[48px] py-[64px] uppercase text-lightGold z-10 w-full">
-          <table className="mx-auto">
-            <thead>
-              <tr className="uppercase text-[#6A6A6A] text-[12px] grid grid-cols-[3fr_1fr_1fr_1fr] gap-[8px]">
-                <th>Rarity</th>
-                <th>Unused</th>
-                <th>Used</th>
-                <th>Chances</th>
-              </tr>
-            </thead>
-            <tbody className="flex flex-col gap-[16px]">
-              {rarityList.map((rarity, index) => (
-                <tr
-                  key={rarity.rarity}
-                  className="grid grid-cols-[3fr_1fr_1fr_1fr] gap-[16px]"
-                >
-                  <td>
-                    <DesignedCell>{rarity.rarity}</DesignedCell>
-                  </td>
-                  <td>
-                    <DesignedCell>{rarity.unused}</DesignedCell>
-                  </td>
-                  <td>
-                    <DesignedCell>{rarity.used}</DesignedCell>
-                  </td>
-                  <td>
-                    <DesignedCell>{rarity.chances}%</DesignedCell>
-                  </td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
+          <div className="flex justify-center items-center gap-[150px] w-full">
+            <div className="flex flex-col justify-center items-center gap-[25px]">
+              <h1>MATERIALS TABLE</h1>
+              <table>
+                <thead>
+                  <tr className="uppercase text-[#6A6A6A] text-[12px] grid grid-cols-[3fr_1fr_1fr] gap-[8px]">
+                    <th>Rarity</th>
+                    <th>Unused</th>
+                    <th>Used</th>
+                  </tr>
+                </thead>
+                <tbody className="flex flex-col gap-[16px]">
+                  {rarityList.map((rarity, index) => (
+                    <tr
+                      key={rarity.rarity}
+                      className="grid grid-cols-[3fr_1fr_1fr] gap-[16px]"
+                    >
+                      <td className="underline text-black">
+                        <DesignedCell>{rarity.rarity}</DesignedCell>
+                      </td>
+                      <td>
+                        <DesignedCell>{rarity.unused}</DesignedCell>
+                      </td>
+                      <td>
+                        <DesignedCell>{rarity.used}</DesignedCell>
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+            <div className="flex flex-col justify-center items-center gap-[25px]">
+              <h1>PRIZE TABLE</h1>
+              <table>
+                <thead>
+                  <tr className="uppercase text-[#6A6A6A] text-[12px] grid grid-cols-[3fr_1fr] gap-[8px]">
+                    <th>Rarity</th>
+                    <th>Chances</th>
+                  </tr>
+                </thead>
+                <tbody className="flex flex-col gap-[16px]">
+                  {rarityList.map((rarity, index) => (
+                    <tr
+                      key={rarity.rarity}
+                      className="grid grid-cols-[3fr_1fr] gap-[16px]"
+                    >
+                      <td className="underline text-black">
+                        <DesignedCell>{rarity.rarity}</DesignedCell>
+                      </td>
+                      <td>
+                        <DesignedCell>{rarity.chances}%</DesignedCell>
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+          </div>
           <p className="text-center my-[16px] max-w-[700px] mx-auto">
             This is where you can mix and match your collected items for
             different chances at Loot! This could be Free Packs of cards in
