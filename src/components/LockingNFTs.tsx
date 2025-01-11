@@ -4,7 +4,14 @@ import Image from "next/image";
 import GradientSideBorder from "./GradientSideBorder";
 import { IMAGEKIT_IMAGES } from "@/app/images";
 import { cn } from "@/utils";
-import { FormEventHandler, useEffect, useRef, useState } from "react";
+import {
+  Dispatch,
+  FormEventHandler,
+  SetStateAction,
+  useEffect,
+  useRef,
+  useState,
+} from "react";
 import { FaPlus } from "react-icons/fa6";
 import Link from "next/link";
 
@@ -46,13 +53,22 @@ function SingleNFTIcon({ id, icon }: { id: string; icon: string | undefined }) {
   );
 }
 
-export default function SelectYourNFT() {
+export default function SelectYourNFT({
+  selectedNFTs,
+  selectedTimeline,
+  setSelectedTimeline,
+}: {
+  selectedNFTs: Set<string>;
+  selectedTimeline: string | null;
+  setSelectedTimeline: Dispatch<SetStateAction<string | null>>;
+}) {
   const nfts = [
-    ...Array.from({ length: 4 }, () => ({
+    ...Array.from({ length: selectedNFTs.size }, () => ({
       icon: IMAGEKIT_IMAGES.NFT_ICON,
     })),
-    { icon: undefined },
-    { icon: undefined },
+    ...Array.from({ length: 6 - selectedNFTs.size }, () => ({
+      icon: undefined,
+    })),
   ];
 
   const lockingNFTTimePeriodTable: {
@@ -105,8 +121,6 @@ export default function SelectYourNFT() {
     },
   ];
 
-  const [selectedTimeline, setSelectedTimeline] = useState<string | null>(null);
-
   function handleTimelineSelect(e: React.FormEvent<HTMLFormElement>) {
     setSelectedTimeline((e.target as HTMLInputElement).id);
   }
@@ -137,7 +151,10 @@ export default function SelectYourNFT() {
           </div>
         </div>
 
-        <form onChange={handleTimelineSelect} className="z-10 w-full max-w-[1000px] mb-[50px]">
+        <form
+          onChange={handleTimelineSelect}
+          className="z-10 w-full max-w-[1000px] mb-[50px]"
+        >
           <table className="w-full flex flex-col gap-[10px]">
             <thead className="flex flex-col gap-[10px]">
               <tr className="bg-black uppercase text-[#8C8C73] text-center text-[12px] rounded-[4px] grid grid-cols-7 place-items-center gap-[10px] py-[10px]">

@@ -4,7 +4,14 @@ import Image from "next/image";
 import GradientSideBorder from "./GradientSideBorder";
 import { IMAGEKIT_IMAGES } from "@/app/images";
 import { cn } from "@/utils";
-import { FormEventHandler, useEffect, useRef, useState } from "react";
+import {
+  Dispatch,
+  FormEventHandler,
+  SetStateAction,
+  useEffect,
+  useRef,
+  useState,
+} from "react";
 
 function SingleNFTIcon({
   id,
@@ -24,7 +31,7 @@ function SingleNFTIcon({
     >
       <input
         id={id}
-        type="radio"
+        type="checkbox" // Changed from radio to checkbox
         name="select-nft"
         className="absolute inset-0 w-full h-full rounded-[inherit] cursor-pointer opacity-0"
       />
@@ -38,16 +45,32 @@ function SingleNFTIcon({
     </div>
   );
 }
-export default function LockingNFTs() {
+
+export default function LockingNFTs({
+  selectedNFTs,
+  setSelectedNFTs,
+}: {
+  selectedNFTs: Set<string>;
+  setSelectedNFTs: Dispatch<SetStateAction<Set<string>>>;
+}) {
   const nfts = Array.from({ length: 100 }, () => ({
     icon: IMAGEKIT_IMAGES.NFT_ICON,
   }));
 
-  const [selectedNFT, setSelectedNFT] = useState<string | null>(null);
-
   function handleNFTSelect(e: React.FormEvent<HTMLFormElement>) {
-    setSelectedNFT((e.target as HTMLInputElement).id);
+    const target = e.target as HTMLInputElement;
+    setSelectedNFTs((prev) => {
+      const newSet = new Set(prev);
+      if (target.checked) {
+        newSet.add(target.id);
+      } else {
+        newSet.delete(target.id);
+      }
+      return newSet;
+    });
   }
+
+  console.log("selectedNFTs", selectedNFTs);
 
   return (
     <div className="relative bg-[#020708BF] flex flex-col justify-center items-center gap-[24px] mx-[10vw] mt-[50px] px-[10vw] max-h-[65vh]">
@@ -71,7 +94,7 @@ export default function LockingNFTs() {
             key={`select-nft-${idx}`}
             id={`select-nft-${idx}`}
             icon={nft.icon}
-            active={selectedNFT === `select-nft-${idx}`}
+            active={selectedNFTs.has(`select-nft-${idx}`)}
           />
         ))}
         <div></div>

@@ -103,6 +103,10 @@ export default function Home() {
     },
   };
 
+  // data
+  const [selectedNFTs, setSelectedNFTs] = useState<Set<string>>(new Set());
+  const [selectedTimeline, setSelectedTimeline] = useState<string | null>(null);
+
   if (openInstructionModal) {
     return (
       <InstructionsOfGame closeModal={() => setOpenInstructionModal(false)} />
@@ -125,8 +129,19 @@ export default function Home() {
 
       {state &&
         {
-          selectNFT: <SelectYourNFT />,
-          sendingNFTsToAdventure: <LockingNFTs />,
+          selectNFT: (
+            <SelectYourNFT
+              selectedNFTs={selectedNFTs}
+              setSelectedNFTs={setSelectedNFTs}
+            />
+          ),
+          sendingNFTsToAdventure: (
+            <LockingNFTs
+              selectedNFTs={selectedNFTs}
+              selectedTimeline={selectedTimeline}
+              setSelectedTimeline={setSelectedTimeline}
+            />
+          ),
           adventureInProgress: <AdventureProgress />,
         }[state]}
 
