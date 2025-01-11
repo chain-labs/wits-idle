@@ -1,26 +1,11 @@
 "use client";
 
 import Button from "@/components/Button";
-import Unauthenticated from "@/components/Unauthenticated";
-import { useEffect, useState } from "react";
 import { IMAGEKIT_BG } from "./images";
 import Header from "@/components/Header";
 import Link from "next/link";
 
 export default function Home() {
-  const [isAuthenticated, setIsAuthenticated] = useState(false);
-
-  useEffect(() => {
-    const isAuthenticated = localStorage.getItem("isAuthenticated");
-    if (isAuthenticated) {
-      setIsAuthenticated(true);
-    }
-  }, []);
-
-  if (!isAuthenticated) {
-    return <Unauthenticated />;
-  }
-
   return (
     <div
       style={{

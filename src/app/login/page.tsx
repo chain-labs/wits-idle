@@ -10,6 +10,42 @@ import Image from "next/image";
 import Link from "next/link";
 import { cn } from "@/utils";
 import GradientSideBorder from "@/components/GradientSideBorder";
+import { useLoginWithAbstract } from "@abstract-foundation/agw-react";
+import { useAccount } from "wagmi";
+import { useEffect } from "react";
+import { useRouter } from "next/navigation";
+
+function SignIn() {
+  // login function to prompt the user to sign in with AGW.
+  const { login, logout } = useLoginWithAbstract();
+  const acc = useAccount();
+  const router = useRouter();
+
+  useEffect(() => {
+    if (acc?.address !== undefined) {
+      router.push("/");
+    }
+  }, [acc]);
+
+  console.log("connectors", acc);
+  return (
+    <Button
+      type="submit"
+      onClick={acc?.address !== undefined ? logout : login}
+      className="absolute bottom-0 left-1/2 translate-y-1/2 -translate-x-1/2 mx-auto whitespace-nowrap"
+    >
+      {acc?.address !== undefined ? (
+        <Link href="/">
+          <p className={cn("text-center w-full")}>
+            {acc?.address.slice(0, 6) + "..." + acc?.address.slice(-4)}
+          </p>
+        </Link>
+      ) : (
+        <span className="text-center w-full">Connect</span>
+      )}
+    </Button>
+  );
+}
 
 const LoginSchema = z.object({
   email: z.string().email(),
@@ -70,46 +106,13 @@ export default function Auth() {
                 </div>
               </div>
             </div>
-            <div>
-              <h1 className="uppercase text-lightGold text-[36px] font-bold">
-                LOGIN
-              </h1>
-              <h3 className="uppercase text-lightGold text-[14px]">
-                Don&apos;t have an account?{" "}
-                <Link href="/register" className="underline">
-                  Register
-                </Link>
-              </h3>
-            </div>
-            <Input
-              type="email"
-              placeholder="Email"
-              {...register("email")}
-              className="input"
-              errorMessage={errors.email?.message}
-            />
-            <Input
-              type="password"
-              placeholder="Password"
-              {...register("password")}
-              className="input"
-              errorMessage={errors.password?.message}
-            />
-            <button
-              type="button"
-              className="bg-black py-[16px] w-full h-fit border border-lightGold text-lightGold rounded-[4px] uppercase"
-            >
-              Connect Wallet
-            </button>
+            <h1 className="uppercase text-lightGold text-[36px] font-bold text-center w-full">
+              LOGIN / REGISTER
+            </h1>
             <small className="uppercase tracking-[0.08em] text-[#797979] text-[10px] text-center mx-auto">
-              ENSURE YOUR WALLET IS UNLOCKED AND READY TO BE USED
+              This platform is using abstract native wallet
             </small>
-            <Button
-              type="submit"
-              className=" absolute bottom-0 left-1/2 translate-y-1/2 -translate-x-1/2 mx-auto"
-            >
-              Login
-            </Button>
+            <SignIn />
           </form>
         </div>
       </div>
