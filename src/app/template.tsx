@@ -1,7 +1,12 @@
 "use client";
 
+import {
+  useGlobalWalletSignerAccount,
+  useGlobalWalletSignerClient,
+} from "@abstract-foundation/agw-react";
 import { AnimatePresence, motion } from "framer-motion";
 import { usePathname, useRouter } from "next/navigation";
+import { useEffect } from "react";
 import { useAccount } from "wagmi";
 
 export default function Template({
@@ -10,8 +15,16 @@ export default function Template({
   const account = useAccount();
   const router = useRouter();
   const pathname = usePathname();
+  const global = useGlobalWalletSignerAccount();
+  const { refetch } = useGlobalWalletSignerClient();
 
-  if (!account.address && !pathname.includes("/login")) {
+  console.log("status", global);
+
+  useEffect(() => {
+    refetch();
+  }, []);
+
+  if (account.isDisconnected && !pathname.includes("/login")) {
     return router.push("/login");
   }
   return (

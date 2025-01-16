@@ -31,8 +31,8 @@ export default function GradientSideBorder({
           id="paint0_linear_7296_1130"
           gradientUnits="userSpaceOnUse"
         >
-          <stop stop-color="#FFFED0" />
-          <stop offset="20%" stop-color="#FFF7BD" stop-opacity="0" />
+          <stop stopColor="#FFFED0" />
+          <stop offset="20%" stopColor="#FFF7BD" stopOpacity="0" />
         </linearGradient>
       </defs>
     </svg>

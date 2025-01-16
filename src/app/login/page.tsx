@@ -17,7 +17,7 @@ import { useRouter } from "next/navigation";
 
 function SignIn() {
   // login function to prompt the user to sign in with AGW.
-  const { login, logout } = useLoginWithAbstract();
+  const { login } = useLoginWithAbstract();
   const acc = useAccount();
   const router = useRouter();
 
@@ -27,11 +27,10 @@ function SignIn() {
     }
   }, [acc]);
 
-  console.log("connectors", acc);
   return (
     <Button
       type="submit"
-      onClick={acc?.address !== undefined ? logout : login}
+      onClick={login}
       className="absolute bottom-0 left-1/2 translate-y-1/2 -translate-x-1/2 mx-auto whitespace-nowrap"
     >
       {acc?.address !== undefined ? (
@@ -41,7 +40,7 @@ function SignIn() {
           </p>
         </Link>
       ) : (
-        <span className="text-center w-full">Connect</span>
+        <span className="text-center w-full">Signin</span>
       )}
     </Button>
   );

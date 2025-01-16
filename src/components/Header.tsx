@@ -1,10 +1,12 @@
 "use client";
 
 import { IMAGEKIT_LOGO } from "@/app/images";
+import { useLoginWithAbstract } from "@abstract-foundation/agw-react";
 import { useMotionValueEvent, useScroll, motion } from "framer-motion";
 import Image from "next/image";
 import Link from "next/link";
 import { useEffect, useRef, useState } from "react";
+import { useAccount } from "wagmi";
 
 export default function Header({
   active,
@@ -18,6 +20,8 @@ export default function Header({
   const prizesRef = useRef<HTMLAnchorElement>(null);
   const accountRef = useRef<HTMLAnchorElement>(null);
   const headerRef = useRef<HTMLHeadingElement>(null);
+  const account = useAccount();
+  const { logout } = useLoginWithAbstract();
 
   function centerPosition(activeElement: HTMLElement) {
     //get active element position with respect to the header in percentage
@@ -73,6 +77,7 @@ export default function Header({
             width={168}
             height={97}
             className="w-[100px] h-auto object-cover scale-[1.2]"
+            priority
           />
           <span ref={homeRef}>Crafting</span>
         </Link>
@@ -90,6 +95,7 @@ export default function Header({
           <Link ref={accountRef} href={"/account"}>
             ACCOUNT
           </Link>
+          <button onClick={logout}>LOGOUT</button>
         </div>
       </div>
 
