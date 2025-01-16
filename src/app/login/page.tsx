@@ -13,17 +13,18 @@ import GradientSideBorder from "@/components/GradientSideBorder";
 import { useLoginWithAbstract } from "@abstract-foundation/agw-react";
 import { useAccount } from "wagmi";
 import { useEffect } from "react";
-import { useRouter } from "next/navigation";
+import { usePathname, useRouter, useSearchParams } from "next/navigation";
 
 function SignIn() {
   // login function to prompt the user to sign in with AGW.
   const { login } = useLoginWithAbstract();
   const acc = useAccount();
   const router = useRouter();
+  const search = useSearchParams();
 
   useEffect(() => {
     if (acc?.address !== undefined) {
-      router.push("/");
+      router.push(search.get("redirect") || "/");
     }
   }, [acc]);
 

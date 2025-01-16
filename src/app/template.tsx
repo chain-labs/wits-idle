@@ -12,21 +12,20 @@ import { useAccount } from "wagmi";
 export default function Template({
   children,
 }: Readonly<{ children: React.ReactNode }>) {
-  const account = useAccount();
   const router = useRouter();
   const pathname = usePathname();
   const global = useGlobalWalletSignerAccount();
-  const { refetch } = useGlobalWalletSignerClient();
 
   console.log("status", global);
 
-  useEffect(() => {
-    refetch();
-  }, []);
-
-  if (account.isDisconnected && !pathname.includes("/login")) {
-    return router.push("/login");
+  if (global.isDisconnected && !pathname.includes("/login")) {
+    return router.push(
+      `
+      /login?redirect=${encodeURIComponent(pathname)}
+      `,
+    );
   }
+
   return (
     <AnimatePresence>
       <motion.div

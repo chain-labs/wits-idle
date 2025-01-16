@@ -33,6 +33,12 @@ export default function Home() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
+  
+
+  // data
+  const [selectedNFTs, setSelectedNFTs] = useState<Set<string>>(new Set());
+  const [selectedTimeline, setSelectedTimeline] = useState<string | null>(null);
+
   const footerProps: Record<stateOfGame, GameFooterProps> = {
     selectNFT: {
       backButton: {
@@ -41,6 +47,7 @@ export default function Home() {
       primaryButton: {
         text: "CONTINUE",
         visible: true,
+        disabled: selectedNFTs.size === 0,
         function: () => {
           setState("sendingNFTsToAdventure");
         },
@@ -102,10 +109,6 @@ export default function Home() {
       },
     },
   };
-
-  // data
-  const [selectedNFTs, setSelectedNFTs] = useState<Set<string>>(new Set());
-  const [selectedTimeline, setSelectedTimeline] = useState<string | null>(null);
 
   if (openInstructionModal) {
     return (
