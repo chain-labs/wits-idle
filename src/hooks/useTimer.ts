@@ -4,8 +4,12 @@ import { useEffect, useState } from "react";
 
 const newTimer = new Date().getTime() + 1000 * 10;
 
-export default function useTimer() {
-  const [time, setTime] = useState(Math.floor((newTimer - new Date().getTime()) / 1000));
+export default function useTimer(timeInSecs?: number) {
+  const [time, setTime] = useState(
+    timeInSecs
+      ? Math.floor(timeInSecs - new Date().getTime() / 1000)
+      : Math.floor(newTimer - new Date().getTime()) / 1000,
+  );
 
   useEffect(() => {
     const timer = setInterval(() => {

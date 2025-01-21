@@ -174,16 +174,18 @@ export default function Home() {
     if (userData) {
       console.log("account", account.address);
 
-      const user = userData.users.items[0];
-      const owned = user.ownedNfts.items.map((token) => ({
-        icon: IMAGEKIT_IMAGES.NFT_ICON,
-        tokenId: token.nftTokenId,
-      }));
-      const stakes = user.stakes.items.map((token) => ({
-        icon: IMAGEKIT_IMAGES.NFT_ICON,
-        endTime: token.endTime,
-        tokenId: token.nft.tokenId,
-      }));
+      const user = userData?.users?.items[0];
+      const owned =
+        user?.ownedNfts?.items?.map((token) => ({
+          icon: IMAGEKIT_IMAGES.NFT_ICON,
+          tokenId: token.nftTokenId,
+        })) ?? [];
+      const stakes =
+        user?.stakes?.items?.map((token) => ({
+          icon: IMAGEKIT_IMAGES.NFT_ICON,
+          endTime: token.endTime,
+          tokenId: token.nft.tokenId,
+        })) ?? [];
 
       console.log("userData", user);
       console.log("owned", owned);
@@ -297,11 +299,32 @@ export default function Home() {
     });
   }
 
+  function changeTheStateToAdventureInProgress() {
+    const selectedTimelineDetails = lockingNFTTimePeriodTable.find(
+      (row) => `select-time-${row.time}` === selectedTimeline,
+    );
+    setStakedNfts([
+      {
+        icon: IMAGEKIT_IMAGES.NFT_ICON,
+        endTime: String(
+          new Date().getTime() / 1000 + (selectedTimelineDetails?.secs ?? 0),
+        ),
+        tokenId: Array.from(selectedNFTs)[0],
+      },
+    ]);
+    setState("adventureInProgress");
+  }
+
+  if (stakedNfts.length && state !== "adventureInProgress") {
+    setState("adventureInProgress");
+  }
+
   if (openInstructionModal) {
     return (
       <InstructionsOfGame closeModal={() => setOpenInstructionModal(false)} />
     );
   }
+
   return (
     <div
       style={{
@@ -333,7 +356,9 @@ export default function Home() {
               lockingNFTTimePeriodTable={lockingNFTTimePeriodTable}
             />
           ),
-          adventureInProgress: <AdventureProgress />,
+          adventureInProgress: stakedNfts.length && (
+            <AdventureProgress timeInSecs={Number(stakedNfts[0].endTime)} />
+          ),
         }[state]}
 
       <GameFooter {...footerProps[state]} />

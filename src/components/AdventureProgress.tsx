@@ -17,8 +17,12 @@ function TimerWithLabel({ label, value }: { label: string; value: number }) {
   );
 }
 
-export default function AdventureProgress() {
-  const time = useTimer();
+export default function AdventureProgress({
+  timeInSecs,
+}: {
+  timeInSecs: number;
+}) {
+  const time = useTimer(timeInSecs);
 
   return (
     <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 flex flex-col justify-center items-center gap-[10px] z-10">
