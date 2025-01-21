@@ -227,15 +227,7 @@ export default function Home() {
         visible: true,
         disabled: selectedTimeline === null,
         function: async () => {
-          await stackingNFTs();
-          setOpenModal(
-            <ShareAdventure
-              closeModal={() => {
-                setOpenModal(null);
-                setState("adventureInProgress");
-              }}
-            />,
-          );
+          await stakingNFTs();
         },
       },
       exitButton: {
@@ -267,13 +259,28 @@ export default function Home() {
     },
   };
 
-  function stackingNFTs() {
+  useEffect(() => {
+    console.log({ StakingNFTSIsSuccess, StakingNFTSData });
+
+    if (StakingNFTSIsSuccess && StakingNFTSData) {
+      setOpenModal(
+        <ShareAdventure
+          closeModal={() => {
+            setOpenModal(null);
+            setState("adventureInProgress");
+          }}
+        />,
+      );
+    }
+  }, [StakingNFTSIsSuccess, StakingNFTSData]);
+
+  function stakingNFTs() {
     const selectedTimelineDetails = lockingNFTTimePeriodTable.find(
       (row) => `select-time-${row.time}` === selectedTimeline,
     );
 
     if (!selectedTimelineDetails) return;
-    const stakingTheNFTS = StakingNFTSWrite({
+    StakingNFTSWrite({
       abi: staking.abi as [],
       address: staking.address as `0x${string}`,
       functionName: "batchStakeNFTs",
@@ -288,11 +295,7 @@ export default function Home() {
         innerInput: "0x",
       }),
     });
-
-    // console.log("stakingTheNFTS", stakingTheNFTS);
   }
-
-  // console.log("selectedNFTs", StakingNFTSData);
 
   if (openInstructionModal) {
     return (
