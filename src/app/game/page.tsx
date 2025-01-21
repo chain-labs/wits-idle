@@ -4,7 +4,7 @@ import { IMAGEKIT_BG, IMAGEKIT_IMAGES } from "../images";
 import GameModeBanner from "@/components/GameModeBanner";
 import GameFooter, { GameFooterProps } from "@/components/GameFooter";
 import SelectYourNFT from "@/components/SelectYourNFT";
-import { use, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import Modal from "@/components/Modal";
 import ExitGame from "@/components/modals/ExitGame";
 import ShareAdventure from "@/components/modals/ShareAdventure";
@@ -28,6 +28,7 @@ import { useAccount, useReadContract } from "wagmi";
 import getSCAddress from "@/tools/getSCAddress";
 import { useGQLFetch } from "@/hooks/api/useGraphQLClient";
 import { gql } from "graphql-request";
+import { useRouter } from "next/navigation";
 
 type stateOfGame =
   | "selectNFT"
@@ -66,6 +67,7 @@ export default function Home() {
   const [selectedTimeline, setSelectedTimeline] = useState<string | null>(null);
   const staking = useStaking();
   const nftContract = useNFTs();
+  const router = useRouter();
   const lockingNFTTimePeriodTable: {
     time: string;
     common: number;
@@ -249,7 +251,7 @@ export default function Home() {
         visible: true,
         disabled: progressTimer.end === false,
         function: () => {
-          location.href = "/craft";
+          router.push("/craft");
         },
       },
       exitButton: {

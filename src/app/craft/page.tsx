@@ -11,12 +11,14 @@ import MaterialsWon from "@/components/MaterialsWon";
 import Crafting from "@/components/Crafting";
 import Reward from "@/components/Reward";
 import ModalRevealAnimation from "@/components/modals/ModalRevealAnimation";
+import { useRouter } from "next/navigation";
 
 type stateOfCraft = "materialsWon" | "crafting" | "reward";
 
 export default function Home() {
   const [openModal, setOpenModal] = useState<null | React.ReactNode>(null);
   const [state, setState] = useState<stateOfCraft>("materialsWon");
+  const router = useRouter();
 
   const footerProps: Record<stateOfCraft, GameFooterProps> = {
     materialsWon: {
@@ -65,7 +67,7 @@ export default function Home() {
         text: "COLLECT",
         visible: true,
         function: () => {
-          location.href = "/prizes";
+          router.push("/prizes");
         },
       },
       exitButton: {

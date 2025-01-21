@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import "./globals.css";
 import { cn } from "@/utils";
 import { beaufortPro, lato } from "../fonts";
-import AbstractProvider from "@/app/AbstractProvider";
+import AbstractProvider from "@/AbstractProvider";
 
 export const metadata: Metadata = {
   title: "WITS Idle Game",

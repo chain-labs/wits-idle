@@ -9,33 +9,29 @@ import GradientSideBorder from "@/components/GradientSideBorder";
 import { useLoginWithAbstract } from "@abstract-foundation/agw-react";
 import { useAccount } from "wagmi";
 import { useRouter, useSearchParams } from "next/navigation";
+import { Suspense, useEffect } from "react";
 
 function SignIn() {
-  // login function to prompt the user to sign in with AGW.
   const { login } = useLoginWithAbstract();
   const acc = useAccount();
   const router = useRouter();
   const search = useSearchParams();
 
-  function handleRedirect(e: any) {
-    e.preventDefault();
-    const redirect = search.get("redirect");
-    if (redirect) {
-      router.push("/");
+  useEffect(() => {
+    if (acc?.address !== undefined) {
+      router.push(search.get("redirect") || "/");
     }
-  }
+  }, [acc]);
 
   return (
     <Button
       type="submit"
-      onClick={acc?.address ? handleRedirect : login}
+      onClick={login}
       className="absolute bottom-0 left-1/2 translate-y-1/2 -translate-x-1/2 mx-auto whitespace-nowrap"
     >
       {acc?.address !== undefined ? (
         <Link href="/">
-          <p className={cn("text-center w-full")}>
-            Continue
-          </p>
+          <p className={cn("text-center w-full")}>Continue</p>
         </Link>
       ) : (
         <span className="text-center w-full">Signin</span>
@@ -44,8 +40,7 @@ function SignIn() {
   );
 }
 
-
-export default function Auth() {
+function AuthContent() {
   return (
     <div
       style={{
@@ -85,10 +80,20 @@ export default function Auth() {
             <small className="uppercase tracking-[0.08em] text-[#797979] text-[10px] text-center mx-auto">
               This platform is using abstract native wallet
             </small>
-            <SignIn />
+            <Suspense fallback={<div>Loading...</div>}>
+              <SignIn />
+            </Suspense>
           </div>
         </div>
       </div>
     </div>
+  );
+}
+
+export default function Auth() {
+  return (
+    <Suspense fallback={<div>Loading...</div>}>
+      <AuthContent />
+    </Suspense>
   );
 }
