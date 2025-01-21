@@ -4,16 +4,10 @@ import Image from "next/image";
 import GradientSideBorder from "./GradientSideBorder";
 import { IMAGEKIT_IMAGES } from "@/app/images";
 import { cn } from "@/utils";
-import {
-  Dispatch,
-  FormEventHandler,
-  SetStateAction,
-  useEffect,
-  useRef,
-  useState,
-} from "react";
+import { Dispatch, SetStateAction } from "react";
 import { FaPlus } from "react-icons/fa6";
 import Link from "next/link";
+import Button from "./Button";
 
 function SingleNFTIcon({ id, icon }: { id: string; icon: string | undefined }) {
   if (!icon) {
@@ -57,10 +51,20 @@ export default function SelectYourNFT({
   selectedNFTs,
   selectedTimeline,
   setSelectedTimeline,
+  lockingNFTTimePeriodTable,
 }: {
   selectedNFTs: Set<string>;
   selectedTimeline: string | null;
   setSelectedTimeline: Dispatch<SetStateAction<string | null>>;
+  lockingNFTTimePeriodTable: {
+    time: string;
+    common: number;
+    uncommon: number;
+    rare: number;
+    legendary: number;
+    mythic: number;
+    secs: number;
+  }[]
 }) {
   const nfts = [
     ...Array.from({ length: selectedNFTs.size }, () => ({
@@ -71,55 +75,7 @@ export default function SelectYourNFT({
     })),
   ];
 
-  const lockingNFTTimePeriodTable: {
-    time: string;
-    common: number;
-    uncommon: number;
-    rare: number;
-    legendary: number;
-    mythic: number;
-  }[] = [
-    {
-      time: "24 HOURS",
-      common: 0,
-      uncommon: 0,
-      rare: 0,
-      legendary: 0,
-      mythic: 0,
-    },
-    {
-      time: "48 HOURS",
-      common: 0,
-      uncommon: 0,
-      rare: 0,
-      legendary: 0,
-      mythic: 0,
-    },
-    {
-      time: "1 WEEK",
-      common: 0,
-      uncommon: 0,
-      rare: 0,
-      legendary: 0,
-      mythic: 0,
-    },
-    {
-      time: "2 WEEK",
-      common: 0,
-      uncommon: 0,
-      rare: 0,
-      legendary: 0,
-      mythic: 0,
-    },
-    {
-      time: "3 WEEK",
-      common: 0,
-      uncommon: 0,
-      rare: 0,
-      legendary: 0,
-      mythic: 0,
-    },
-  ];
+  
 
   function handleTimelineSelect(e: React.FormEvent<HTMLFormElement>) {
     setSelectedTimeline((e.target as HTMLInputElement).id);
@@ -173,7 +129,7 @@ export default function SelectYourNFT({
                   key={row.time}
                   className={cn(
                     "relative h-fit text-center z-0 w-full grid grid-cols-7 place-items-center gap-[10px] rounded-[4px] border-[1px] border-[#292929] bg-[#090909] py-[12px]",
-                    selectedTimeline === `select-time-${idx}` &&
+                    selectedTimeline === `select-time-${row.time}` &&
                       "border-lightGold",
                   )}
                 >
@@ -186,17 +142,17 @@ export default function SelectYourNFT({
                 ></div> */}
                   <td className="flex justify-center items-center mx-auto">
                     <label
-                      htmlFor={`select-time-${idx}`}
+                      htmlFor={`select-time-${row.time}`}
                       className={cn(
                         "w-[20px] h-[20px] flex justify-center items-center aspect-square rounded-[4px] border-[2px] border-[#8C8C73] cursor-pointer",
-                        selectedTimeline === `select-time-${idx}` &&
+                        selectedTimeline === `select-time-${row.time}` &&
                           "bg-gradient-to-b from-[#FFFED0] to-[#8C8C73]",
                       )}
                     >
                       <input
                         type="radio"
                         name="select-time"
-                        id={`select-time-${idx}`}
+                        id={`select-time-${row.time}`}
                         className="opacity-0"
                       />
                     </label>

@@ -13,7 +13,12 @@ import {
   useState,
 } from "react";
 import { useAbstractClient } from "@abstract-foundation/agw-react";
-import { usePublicClient } from "wagmi";
+import { useAccount, usePublicClient } from "wagmi";
+import { NFTS_CONTRACT } from "@/constants";
+import useStaking from "@/abi/Staking";
+import { useGQLFetch } from "@/hooks/api/useGraphQLClient";
+import nfabi from "@/abi/Nfts/abi.json";
+import useNFTs from "@/abi/Nfts";
 
 function SingleNFTIcon({
   id,
@@ -24,6 +29,7 @@ function SingleNFTIcon({
   icon: string;
   active: boolean;
 }) {
+  console.log("active", active, id);
   return (
     <div
       className={cn(
@@ -55,16 +61,86 @@ export default function LockingNFTs({
   selectedNFTs: Set<string>;
   setSelectedNFTs: Dispatch<SetStateAction<Set<string>>>;
 }) {
-  const nfts = Array.from({ length: 100 }, () => ({
-    icon: IMAGEKIT_IMAGES.NFT_ICON,
-  }));
+  // const nfts = Array.from({ length: 100 }, () => ({
+  //   icon: IMAGEKIT_IMAGES.NFT_ICON,
+  // }));
+  const [NFTS, setNFTS] = useState<
+    {
+      icon: string;
+      tokenId: string;
+    }[]
+  >([]);
   const { data: agwClient } = useAbstractClient();
-  const client = usePublicClient()
-  console.log('agwClient', agwClient?.createSession);
-console.log('client', client?.createEventFilter({
-  events: ['Transfer'],
-}));
+  const client = usePublicClient();
+  const staking = useStaking();
+  const nftContract = useNFTs();
+  const account = useAccount();
+
+  const nftsfromgql = useGQLFetch(
+    ["nfts"],
+    `
+      query Query($where: userFilter) {
+  users(where: $where) {
+    items {
+      address
+      id
+      ownedNfts {
+        items {
+          nftTokenId
+        }
+      }
+    }
+  }
+}
+    `,
+    {
+      where: {
+        address_contains: agwClient?.account.address,
+      },
+    },
+    {
+      enabled: !!agwClient?.account.address,
+    },
+  );
+
+  async function getNFTS() {
+    if (!agwClient?.account.address) return;
+    const nfts = await client?.getContractEvents({
+      address: nftContract.address as `0x${string}`,
+      abi: nfabi,
+      eventName: "Transfer",
+      args: {
+        to: agwClient?.account.address,
+      },
+      fromBlock: "earliest",
+      toBlock: "latest",
+    });
+
+    const tokenId = nfts?.map((nft: any) => {
+      return nft.args.tokenId;
+    }) as [];
+
+    setNFTS(
+      tokenId.map((id) => ({
+        icon: IMAGEKIT_IMAGES.NFT_ICON,
+        tokenId: id,
+      })),
+    );
+
+    console.log("nfts--------------", tokenId, nfts);
+    console.log("tokenId", tokenId);
+  }
+
+  useEffect(() => {
+    getNFTS();
+  }, [agwClient?.account.address]);
+
+  console.log("agwClient", account);
+
+  console.log("nfts", nftsfromgql);
+
   function handleNFTSelect(e: React.FormEvent<HTMLFormElement>) {
+    console.log("e", e.target);
     const target = e.target as HTMLInputElement;
     setSelectedNFTs((prev) => {
       const newSet = new Set(prev);
@@ -78,6 +154,7 @@ console.log('client', client?.createEventFilter({
   }
 
   console.log("selectedNFTs", selectedNFTs);
+  console.log("defew", selectedNFTs.has("843789"));
 
   return (
     <div className="relative bg-[#020708BF] flex flex-col justify-center items-center gap-[24px] mx-[10vw] mt-[50px] px-[10vw] max-h-[65vh]">
@@ -96,23 +173,17 @@ console.log('client', client?.createEventFilter({
         onChange={handleNFTSelect}
         className="grid grid-cols-7 mb-[20px] pr-[20px] gap-[10px] overflow-auto z-10"
       >
-        {nfts.map((nft, idx) => (
+        {NFTS.map((nft, idx) => (
           <SingleNFTIcon
-            key={`select-nft-${idx}`}
-            id={`select-nft-${idx}`}
+            key={nft.tokenId}
+            id={nft.tokenId}
             icon={nft.icon}
-            active={selectedNFTs.has(`select-nft-${idx}`)}
+            active={selectedNFTs.has(BigInt(nft.tokenId).toString())}
           />
         ))}
-        <div></div>
-        <div></div>
-        <div></div>
-        <div></div>
-        <div></div>
-        <div></div>
-        <div></div>
-        <div></div>
-        <div></div>
+        {Array.from({ length: 50 - NFTS.length }, (_, idx) => (
+          <div key={idx}></div>
+        ))}
       </form>
     </div>
   );
