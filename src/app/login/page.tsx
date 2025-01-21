@@ -17,8 +17,9 @@ function SignIn() {
   const router = useRouter();
 
   useEffect(() => {
+    console.log("acc", acc);
     if (acc?.address !== undefined) {
-      console.log('redicting to home page');
+      console.log("redirecting to home page");
       router.push("/");
     }
   }, [acc]);
@@ -30,9 +31,7 @@ function SignIn() {
       className="absolute bottom-0 left-1/2 translate-y-1/2 -translate-x-1/2 mx-auto whitespace-nowrap"
     >
       {acc?.address !== undefined ? (
-        <Link href="/">
-          <p className={cn("text-center w-full")}>Continue</p>
-        </Link>
+        <span className={cn("text-center w-full")}>Continue</span>
       ) : (
         <span className="text-center w-full">Signin</span>
       )}

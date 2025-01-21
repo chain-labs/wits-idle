@@ -33,7 +33,6 @@ export default function Header({
   const router = useRouter();
   const pathname = usePathname();
 
-  console.log("status", global);
   useEffect(() => {
     setLeft(`${activeRefLeftValue()}%`);
   }, [active, homeRef, adventuresRef, materialsRef, prizesRef, accountRef]);
@@ -73,15 +72,17 @@ export default function Header({
     }
   }
 
-  if (account.isDisconnected && !pathname.includes("/login")) {
-    console.log('redirecting to login page');
-    router.push(
-      `
+  useEffect(() => {
+    console.log("account", account);
+    if (account.isDisconnected && !pathname.includes("/login")) {
+      console.log("redirecting to login page");
+      router.push(
+        `
       /login?redirect=${encodeURIComponent(pathname)}
       `,
-    );
-    return <></>;
-  }
+      );
+    }
+  }, [account]);
 
   return (
     <header
