@@ -29,6 +29,7 @@ import getSCAddress from "@/tools/getSCAddress";
 import { useGQLFetch } from "@/hooks/api/useGraphQLClient";
 import { gql } from "graphql-request";
 import { useRouter } from "next/navigation";
+import useMintNft from "./useMintNft";
 
 type stateOfGame =
   | "selectNFT"
@@ -41,6 +42,8 @@ export default function Home() {
     useState<boolean>(false);
   const [state, setState] = useState<stateOfGame>("selectNFT");
   const progressTimer = useTimer();
+
+  useMintNft();
 
   useEffect(() => {
     if (openModal === null && state !== "adventureInProgress") {
