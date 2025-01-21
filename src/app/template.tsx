@@ -12,19 +12,6 @@ import { useAccount } from "wagmi";
 export default function Template({
   children,
 }: Readonly<{ children: React.ReactNode }>) {
-  const router = useRouter();
-  const pathname = usePathname();
-  const global = useGlobalWalletSignerAccount();
-
-  console.log("status", global);
-
-  if (global.isDisconnected && !pathname.includes("/login")) {
-    return router.push(
-      `
-      /login?redirect=${encodeURIComponent(pathname)}
-      `,
-    );
-  }
 
   return (
     <AnimatePresence>

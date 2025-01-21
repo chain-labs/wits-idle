@@ -1,10 +1,14 @@
 "use client";
 
 import { IMAGEKIT_LOGO } from "@/app/images";
-import { useLoginWithAbstract } from "@abstract-foundation/agw-react";
+import {
+  useGlobalWalletSignerAccount,
+  useLoginWithAbstract,
+} from "@abstract-foundation/agw-react";
 import { useMotionValueEvent, useScroll, motion } from "framer-motion";
 import Image from "next/image";
 import Link from "next/link";
+import { usePathname, useRouter } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
 import { useAccount } from "wagmi";
 
@@ -22,6 +26,22 @@ export default function Header({
   const headerRef = useRef<HTMLHeadingElement>(null);
   const account = useAccount();
   const { logout } = useLoginWithAbstract();
+  const router = useRouter();
+  const pathname = usePathname();
+  const global = useGlobalWalletSignerAccount();
+
+  console.log("status", global);
+  useEffect(() => {
+    setLeft(`${activeRefLeftValue()}%`);
+  }, [active, homeRef, adventuresRef, materialsRef, prizesRef, accountRef]);
+
+  if (global.isDisconnected && !pathname.includes("/login")) {
+    return router.push(
+      `
+      /login?redirect=${encodeURIComponent(pathname)}
+      `,
+    );
+  }
 
   function centerPosition(activeElement: HTMLElement) {
     //get active element position with respect to the header in percentage
@@ -57,9 +77,6 @@ export default function Header({
         return 0;
     }
   }
-  useEffect(() => {
-    setLeft(`${activeRefLeftValue()}%`);
-  }, [active, homeRef, adventuresRef, materialsRef, prizesRef, accountRef]);
 
   return (
     <header

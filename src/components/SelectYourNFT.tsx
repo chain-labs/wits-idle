@@ -12,6 +12,8 @@ import {
   useRef,
   useState,
 } from "react";
+import { useAbstractClient } from "@abstract-foundation/agw-react";
+import { usePublicClient } from "wagmi";
 
 function SingleNFTIcon({
   id,
@@ -56,7 +58,12 @@ export default function LockingNFTs({
   const nfts = Array.from({ length: 100 }, () => ({
     icon: IMAGEKIT_IMAGES.NFT_ICON,
   }));
-
+  const { data: agwClient } = useAbstractClient();
+  const client = usePublicClient()
+  console.log('agwClient', agwClient?.createSession);
+console.log('client', client?.createEventFilter({
+  events: ['Transfer'],
+}));
   function handleNFTSelect(e: React.FormEvent<HTMLFormElement>) {
     const target = e.target as HTMLInputElement;
     setSelectedNFTs((prev) => {
