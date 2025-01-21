@@ -12,18 +12,6 @@ import { useAccount } from "wagmi";
 export default function Template({
   children,
 }: Readonly<{ children: React.ReactNode }>) {
-  const account = useAccount();
-  const router = useRouter();
-  const pathname = usePathname();
-
-  if (account.isDisconnected && !pathname.includes("/login")) {
-    router.push(
-      `
-      /login?redirect=${encodeURIComponent(pathname)}
-      `,
-    );
-    return <></>;
-  }
 
   return (
     <AnimatePresence>

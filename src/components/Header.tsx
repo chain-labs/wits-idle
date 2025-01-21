@@ -29,12 +29,14 @@ export default function Header({
 
   const global = useGlobalWalletSignerAccount();
 
+  const account = useAccount();
+  const router = useRouter();
+  const pathname = usePathname();
+
   console.log("status", global);
   useEffect(() => {
     setLeft(`${activeRefLeftValue()}%`);
   }, [active, homeRef, adventuresRef, materialsRef, prizesRef, accountRef]);
-
-  
 
   function centerPosition(activeElement: HTMLElement) {
     //get active element position with respect to the header in percentage
@@ -69,6 +71,15 @@ export default function Header({
       default:
         return 0;
     }
+  }
+
+  if (account.isDisconnected && !pathname.includes("/login")) {
+    router.push(
+      `
+      /login?redirect=${encodeURIComponent(pathname)}
+      `,
+    );
+    return <></>;
   }
 
   return (
