@@ -6,18 +6,11 @@ import { IMAGEKIT_IMAGES } from "@/app/images";
 import { cn } from "@/utils";
 import {
   Dispatch,
-  FormEventHandler,
   SetStateAction,
   useEffect,
-  useRef,
   useState,
 } from "react";
-import { useAbstractClient } from "@abstract-foundation/agw-react";
 import { useAccount, usePublicClient } from "wagmi";
-import { NFTS_CONTRACT } from "@/constants";
-import useStaking from "@/abi/Staking";
-import { useGQLFetch } from "@/hooks/api/useGraphQLClient";
-import nfabi from "@/abi/Nfts/abi.json";
 import useNFTs from "@/abi/Nfts";
 
 function SingleNFTIcon({
@@ -70,47 +63,18 @@ export default function LockingNFTs({
       tokenId: string;
     }[]
   >([]);
-  const { data: agwClient } = useAbstractClient();
   const client = usePublicClient();
-  const staking = useStaking();
   const nftContract = useNFTs();
   const account = useAccount();
 
-  const nftsfromgql = useGQLFetch(
-    ["nfts"],
-    `
-      query Query($where: userFilter) {
-  users(where: $where) {
-    items {
-      address
-      id
-      ownedNfts {
-        items {
-          nftTokenId
-        }
-      }
-    }
-  }
-}
-    `,
-    {
-      where: {
-        address_contains: agwClient?.account.address,
-      },
-    },
-    {
-      enabled: !!agwClient?.account.address,
-    },
-  );
-
   async function getNFTS() {
-    if (!agwClient?.account.address) return;
+    if (!account.address) return;
     const nfts = await client?.getContractEvents({
       address: nftContract.address as `0x${string}`,
-      abi: nfabi,
+      abi: nftContract.abi as [],
       eventName: "Transfer",
       args: {
-        to: agwClient?.account.address,
+        to: account.address,
       },
       fromBlock: "earliest",
       toBlock: "latest",
@@ -126,18 +90,11 @@ export default function LockingNFTs({
         tokenId: id,
       })),
     );
-
-    console.log("nfts--------------", tokenId, nfts);
-    console.log("tokenId", tokenId);
   }
 
   useEffect(() => {
     getNFTS();
-  }, [agwClient?.account.address]);
-
-  console.log("agwClient", account);
-
-  console.log("nfts", nftsfromgql);
+  }, [account.address]);
 
   function handleNFTSelect(e: React.FormEvent<HTMLFormElement>) {
     console.log("e", e.target);
@@ -152,9 +109,6 @@ export default function LockingNFTs({
       return newSet;
     });
   }
-
-  console.log("selectedNFTs", selectedNFTs);
-  console.log("defew", selectedNFTs.has("843789"));
 
   return (
     <div className="relative bg-[#020708BF] flex flex-col justify-center items-center gap-[24px] mx-[10vw] mt-[50px] px-[10vw] max-h-[65vh]">

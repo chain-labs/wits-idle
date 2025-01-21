@@ -1,13 +1,70 @@
+"use client";
+
 import Image from "next/image";
 import Button from "../Button";
 import { IMAGEKIT_BG } from "@/app/images";
 import { cn } from "@/utils";
+import { useWriteContractSponsored } from "@abstract-foundation/agw-react";
+import useNFTs from "@/abi/Nfts";
+import { useAccount } from "wagmi";
+import useStaking from "@/abi/Staking";
+import usePayMaster from "@/abi/PayMaster";
+import { getGeneralPaymasterInput } from "viem/zksync";
+import { useEffect } from "react";
 
 export default function InstructionsOfGame({
   closeModal,
 }: {
   closeModal: () => void;
 }) {
+  const nftContract = useNFTs();
+  const account = useAccount();
+  const staking = useStaking();
+  const paymaster = usePayMaster();
+
+  const {
+    writeContractSponsored: ApprovingNFTSWrite,
+    data: ApprovingNFTSData,
+    error: ApprovingNFTSError,
+    isSuccess: ApprovingNFTSIsSuccess,
+    isPending: ApprovingNFTSIsPending,
+  } = useWriteContractSponsored();
+
+  useEffect(() => {
+    if (
+      !nftContract.address ||
+      !staking.address ||
+      !paymaster.address ||
+      !account.address
+    )
+      return;
+
+    const a = ApprovingNFTSWrite({
+      abi: nftContract.abi as [],
+      account: account.address as `0x${string}`,
+      address: nftContract.address as `0x${string}`,
+      functionName: "setApprovalForAll",
+      args: [staking.address as `0x${string}`, true],
+      paymaster: paymaster.address as `0x${string}`,
+      paymasterInput: getGeneralPaymasterInput({
+        innerInput: "0x",
+      }),
+    });
+
+    console.log("ewhduewhduewh", a);
+  }, [
+    nftContract.address,
+    staking.address,
+    paymaster.address,
+    account.address,
+  ]);
+
+  useEffect(() => {
+    if(ApprovingNFTSIsSuccess) {
+      console.log("ApprovingNFTS", ApprovingNFTSData);
+    }
+  }, [ApprovingNFTSIsSuccess, ApprovingNFTSData]);
+
   return (
     <div
       style={{

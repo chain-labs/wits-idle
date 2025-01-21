@@ -49,7 +49,6 @@ export default function Home() {
   // data
   const [selectedNFTs, setSelectedNFTs] = useState<Set<string>>(new Set());
   const [selectedTimeline, setSelectedTimeline] = useState<string | null>(null);
-  const { data: agwClient } = useAbstractClient();
   const staking = useStaking();
   const nftContract = useNFTs();
   const lockingNFTTimePeriodTable: {
@@ -109,14 +108,6 @@ export default function Home() {
   ];
 
   const {
-    writeContractSponsored: ApprovingNFTSWrite,
-    data: ApprovingNFTSData,
-    error: ApprovingNFTSError,
-    isSuccess: ApprovingNFTSIsSuccess,
-    isPending: ApprovingNFTSIsPending,
-  } = useWriteContractSponsored();
-
-  const {
     writeContractSponsored: StakingNFTSWrite,
     data: StakingNFTSData,
     error: StakingNFTSError,
@@ -126,9 +117,7 @@ export default function Home() {
 
   const account = useAccount();
 
-  console.log("account---", account);
-
-  const [SCAddress, setSCAddress] = useState<`0x${string}` | null>(null);
+  console.log('account', account);
 
   const { data: getIsApprovedForAllData } = useReadContract({
     abi: nftContract.abi as [],
@@ -138,16 +127,7 @@ export default function Home() {
     args: [account.address as `0x${string}`, staking.address as `0x${string}`],
   });
 
-  const globalwallet = useGlobalWalletSignerAccount();
-  console.log("globalwallet", globalwallet);
-
-  console.log("getIsApprovedForAllData", getIsApprovedForAllData);
-
   const paymaster = usePayMaster();
-
-  console.log("dehwbudfeubfer----", agwClient);
-
-  console.log('');
 
   const footerProps: Record<stateOfGame, GameFooterProps> = {
     selectNFT: {
@@ -182,7 +162,7 @@ export default function Home() {
         visible: true,
         disabled: selectedTimeline === null,
         function: async () => {
-          await handleSend();
+          await stackingNFTs();
           setOpenModal(
             <ShareAdventure
               closeModal={() => {
@@ -222,38 +202,6 @@ export default function Home() {
     },
   };
 
-  useEffect(() => {
-    if (!account.address) return;
-    (async () => {
-      const SCAddress = await getSCAddress(
-        globalwallet?.data?.account.address as `0x${string}`,
-      );
-      setSCAddress(SCAddress);
-    })();
-  }, [globalwallet.data]);
-
-  async function handleSend() {
-    console.log("send");
-
-    if (getIsApprovedForAllData) {
-      stackingNFTs();
-    } else {
-      const ApprovingNFTS = ApprovingNFTSWrite({
-        abi: nftContract.abi as [],
-        account: account.address as `0x${string}`,
-        address: nftContract.address as `0x${string}`,
-        functionName: "setApprovalForAll",
-        args: [staking.address as `0x${string}`, true],
-        paymaster: paymaster.address as `0x${string}`,
-        paymasterInput: getGeneralPaymasterInput({
-          innerInput: "0x",
-        }),
-      });
-
-      console.log("ApprovingNFTS", ApprovingNFTS);
-    }
-  }
-
   function stackingNFTs() {
     const selectedTimelineDetails = lockingNFTTimePeriodTable.find(
       (row) => `select-time-${row.time}` === selectedTimeline,
@@ -279,21 +227,7 @@ export default function Home() {
     console.log("stakingTheNFTS", stakingTheNFTS);
   }
 
-  useEffect(() => {
-    if (!ApprovingNFTSIsPending && ApprovingNFTSIsSuccess) {
-      stackingNFTs();
-    }
-  }, [
-    ApprovingNFTSIsPending,
-    ApprovingNFTSIsSuccess,
-    ApprovingNFTSError,
-    ApprovingNFTSData,
-    getIsApprovedForAllData,
-  ]);
-
   console.log("selectedNFTs", StakingNFTSData);
-
-  console.log("ApprovingNFTSData", ApprovingNFTSData);
 
   if (openInstructionModal) {
     return (
