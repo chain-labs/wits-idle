@@ -1,6 +1,6 @@
 "use client";
 
-import { IMAGEKIT_BG } from "../images";
+import { IMAGEKIT_BG, IMAGEKIT_IMAGES } from "../images";
 import GameModeBanner from "@/components/GameModeBanner";
 import GameFooter, { GameFooterProps } from "@/components/GameFooter";
 import SelectYourNFT from "@/components/SelectYourNFT";
@@ -26,6 +26,8 @@ import usePayMaster from "@/abi/PayMaster";
 import { getGeneralPaymasterInput } from "viem/zksync";
 import { useAccount, useReadContract } from "wagmi";
 import getSCAddress from "@/tools/getSCAddress";
+import { useGQLFetch } from "@/hooks/api/useGraphQLClient";
+import { gql } from "graphql-request";
 
 type stateOfGame =
   | "selectNFT"
@@ -47,6 +49,19 @@ export default function Home() {
   }, []);
 
   // data
+  const [ownedNfts, setOwnedNfts] = useState<
+    {
+      icon: string;
+      tokenId: string;
+    }[]
+  >([]);
+  const [stakedNfts, setStakedNfts] = useState<
+    {
+      icon: string;
+      endTime: string;
+      tokenId: string;
+    }[]
+  >([]);
   const [selectedNFTs, setSelectedNFTs] = useState<Set<string>>(new Set());
   const [selectedTimeline, setSelectedTimeline] = useState<string | null>(null);
   const staking = useStaking();
@@ -117,9 +132,67 @@ export default function Home() {
 
   const account = useAccount();
 
-  console.log("account", account);
-
   const paymaster = usePayMaster();
+
+  const { data: userData } = useGQLFetch<{
+    users: {
+      items: {
+        ownedNfts: { items: { nftTokenId: string }[] };
+        address: string;
+        stakes: { items: { endTime: string; nft: { tokenId: string } }[] };
+      }[];
+    };
+  }>(
+    ["userData"],
+    gql`
+      query MyQuery($address: String) {
+        users(where: { address_contains: $address }) {
+          items {
+            ownedNfts {
+              items {
+                nftTokenId
+              }
+            }
+            address
+            stakes {
+              items {
+                endTime
+                nft {
+                  tokenId
+                }
+              }
+            }
+          }
+        }
+      }
+    `,
+    { address: account.address?.toLowerCase() },
+    { enabled: !!account.address },
+  );
+
+  useEffect(() => {
+    if (userData) {
+      console.log("account", account.address);
+
+      const user = userData.users.items[0];
+      const owned = user.ownedNfts.items.map((token) => ({
+        icon: IMAGEKIT_IMAGES.NFT_ICON,
+        tokenId: token.nftTokenId,
+      }));
+      const stakes = user.stakes.items.map((token) => ({
+        icon: IMAGEKIT_IMAGES.NFT_ICON,
+        endTime: token.endTime,
+        tokenId: token.nft.tokenId,
+      }));
+
+      console.log("userData", user);
+      console.log("owned", owned);
+      console.log("stakes", stakes);
+
+      setOwnedNfts(owned);
+      setStakedNfts(stakes);
+    }
+  }, [userData]);
 
   const footerProps: Record<stateOfGame, GameFooterProps> = {
     selectNFT: {
@@ -216,10 +289,10 @@ export default function Home() {
       }),
     });
 
-    console.log("stakingTheNFTS", stakingTheNFTS);
+    // console.log("stakingTheNFTS", stakingTheNFTS);
   }
 
-  console.log("selectedNFTs", StakingNFTSData);
+  // console.log("selectedNFTs", StakingNFTSData);
 
   if (openInstructionModal) {
     return (
@@ -244,6 +317,7 @@ export default function Home() {
         {
           selectNFT: (
             <SelectYourNFT
+              ownedNfts={ownedNfts}
               selectedNFTs={selectedNFTs}
               setSelectedNFTs={setSelectedNFTs}
             />
