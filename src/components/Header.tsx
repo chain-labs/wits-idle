@@ -24,10 +24,9 @@ export default function Header({
   const prizesRef = useRef<HTMLAnchorElement>(null);
   const accountRef = useRef<HTMLAnchorElement>(null);
   const headerRef = useRef<HTMLHeadingElement>(null);
-  const account = useAccount();
+
   const { logout } = useLoginWithAbstract();
-  const router = useRouter();
-  const pathname = usePathname();
+
   const global = useGlobalWalletSignerAccount();
 
   console.log("status", global);
@@ -35,13 +34,7 @@ export default function Header({
     setLeft(`${activeRefLeftValue()}%`);
   }, [active, homeRef, adventuresRef, materialsRef, prizesRef, accountRef]);
 
-  if (global.isDisconnected && !pathname.includes("/login")) {
-    return router.push(
-      `
-      /login?redirect=${encodeURIComponent(pathname)}
-      `,
-    );
-  }
+  
 
   function centerPosition(activeElement: HTMLElement) {
     //get active element position with respect to the header in percentage

@@ -1,19 +1,14 @@
 "use client";
 
 import { IMAGEKIT_BG, IMAGEKIT_LOGO } from "../images";
-import { z } from "zod";
-import { useForm } from "react-hook-form";
-import { zodResolver } from "@hookform/resolvers/zod";
 import Button from "@/components/Button";
-import Input from "@/components/Input";
 import Image from "next/image";
 import Link from "next/link";
 import { cn } from "@/utils";
 import GradientSideBorder from "@/components/GradientSideBorder";
 import { useLoginWithAbstract } from "@abstract-foundation/agw-react";
 import { useAccount } from "wagmi";
-import { useEffect } from "react";
-import { usePathname, useRouter, useSearchParams } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 
 function SignIn() {
   // login function to prompt the user to sign in with AGW.
@@ -22,22 +17,24 @@ function SignIn() {
   const router = useRouter();
   const search = useSearchParams();
 
-  useEffect(() => {
-    if (acc?.address !== undefined) {
-      router.push(search.get("redirect") || "/");
+  function handleRedirect(e: any) {
+    e.preventDefault();
+    const redirect = search.get("redirect");
+    if (redirect) {
+      router.push("/");
     }
-  }, [acc]);
+  }
 
   return (
     <Button
       type="submit"
-      onClick={login}
+      onClick={acc?.address ? handleRedirect : login}
       className="absolute bottom-0 left-1/2 translate-y-1/2 -translate-x-1/2 mx-auto whitespace-nowrap"
     >
       {acc?.address !== undefined ? (
         <Link href="/">
           <p className={cn("text-center w-full")}>
-            {acc?.address.slice(0, 6) + "..." + acc?.address.slice(-4)}
+            Continue
           </p>
         </Link>
       ) : (
@@ -47,29 +44,8 @@ function SignIn() {
   );
 }
 
-const LoginSchema = z.object({
-  email: z.string().email(),
-  password: z.string().min(8, "minimum 8 characters"),
-});
 
 export default function Auth() {
-  const {
-    register,
-    handleSubmit,
-    formState: { errors },
-  } = useForm<{
-    email: string;
-    password: string;
-  }>({
-    resolver: zodResolver(LoginSchema),
-  });
-
-  function onSubmit(data: any) {
-    console.log(data);
-    localStorage.setItem("isAuthenticated", "true");
-    location.href = "/";
-  }
-
   return (
     <div
       style={{
@@ -86,10 +62,7 @@ export default function Auth() {
           <GradientSideBorder />
           <GradientSideBorder className="rotate-180" />
 
-          <form
-            onSubmit={handleSubmit(onSubmit)}
-            className="relative w-[30vw] max-w-[600px] px-[50px] py-[20%] rounded-[8px]  flex flex-col justify-start items-start gap-[24px] bg-blend-multiply"
-          >
+          <div className="relative w-[30vw] max-w-[600px] px-[50px] py-[20%] rounded-[8px]  flex flex-col justify-start items-start gap-[24px] bg-blend-multiply">
             <div className="absolute left-1/2 top-0 -translate-x-1/2 -translate-y-1/2">
               <div className="rotate-45 border-[2px] border-lightGold p-[4px] shadow-[0_0_10px_#EFC779AA]">
                 <div className="bg-black p-[14px] border-[1px] border-mediumGold">
@@ -113,7 +86,7 @@ export default function Auth() {
               This platform is using abstract native wallet
             </small>
             <SignIn />
-          </form>
+          </div>
         </div>
       </div>
     </div>
