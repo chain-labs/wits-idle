@@ -30,6 +30,8 @@ export default function Header({
   const global = useGlobalWalletSignerAccount();
 
   const account = useAccount();
+
+  console.log("account", account);
   const router = useRouter();
   const pathname = usePathname();
 
@@ -118,7 +120,11 @@ export default function Header({
           <Link ref={accountRef} href={"/account"}>
             ACCOUNT
           </Link>
-          <button onClick={logout}>LOGOUT</button>
+          {account.isDisconnected ? (
+            <Link href="/login">SIGNIN</Link>
+          ) : (
+            <button onClick={logout}>LOGOUT</button>
+          )}
         </div>
       </div>
 

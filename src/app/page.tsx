@@ -4,8 +4,10 @@ import Button from "@/components/Button";
 import { IMAGEKIT_BG } from "./images";
 import Header from "@/components/Header";
 import Link from "next/link";
+import { useAccount } from "wagmi";
 
 export default function Home() {
+  const account = useAccount();
   return (
     <div
       style={{
@@ -18,12 +20,21 @@ export default function Home() {
       <Header active="home" />
 
       <div className="absolute bottom-0 left-0 h-[40vh] w-full rounded-[100%]  bg-[radial-gradient(#FDD88840,#FDD88800,#FDD88800)]"></div>
-      <Link
-        href="/game"
-        className="absolute bottom-[10vh] left-1/2 -translate-x-1/2 -translate-y-full z-0"
-      >
-        <Button>START GAME</Button>
-      </Link>
+      {account.isDisconnected ? (
+        <Link
+          href="/login"
+          className="absolute bottom-[10vh] left-1/2 -translate-x-1/2 -translate-y-full z-0"
+        >
+          <Button>SIGNIN</Button>
+        </Link>
+      ) : (
+        <Link
+          href="/game"
+          className="absolute bottom-[10vh] left-1/2 -translate-x-1/2 -translate-y-full z-0"
+        >
+          <Button>START GAME</Button>
+        </Link>
+      )}
     </div>
   );
 }
