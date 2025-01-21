@@ -269,7 +269,7 @@ export default function Home() {
         <ShareAdventure
           closeModal={() => {
             setOpenModal(null);
-            setState("adventureInProgress");
+            changeTheStateToAdventureInProgress();
           }}
         />,
       );
