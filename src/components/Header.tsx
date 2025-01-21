@@ -72,17 +72,17 @@ export default function Header({
     }
   }
 
-  useEffect(() => {
-    console.log("account", account);
-    if (account.isDisconnected && !pathname.includes("/login")) {
-      console.log("redirecting to login page");
-      router.push(
-        `
-      /login?redirect=${encodeURIComponent(pathname)}
-      `,
-      );
-    }
-  }, [account]);
+  // useEffect(() => {
+  //   console.log("account", account);
+  //   if (account.isDisconnected && !pathname.includes("/login")) {
+  //     console.log("redirecting to login page");
+  //     router.push(
+  //       `
+  //     /login?redirect=${encodeURIComponent(pathname)}
+  //     `,
+  //     );
+  //   }
+  // }, [account]);
 
   return (
     <header
