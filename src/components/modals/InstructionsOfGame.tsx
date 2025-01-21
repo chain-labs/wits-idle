@@ -6,7 +6,7 @@ import { IMAGEKIT_BG } from "@/app/images";
 import { cn } from "@/utils";
 import { useWriteContractSponsored } from "@abstract-foundation/agw-react";
 import useNFTs from "@/abi/Nfts";
-import { useAccount } from "wagmi";
+import { useAccount, useReadContract } from "wagmi";
 import useStaking from "@/abi/Staking";
 import usePayMaster from "@/abi/PayMaster";
 import { getGeneralPaymasterInput } from "viem/zksync";
@@ -21,6 +21,13 @@ export default function InstructionsOfGame({
   const account = useAccount();
   const staking = useStaking();
   const paymaster = usePayMaster();
+  const { data: getIsApprovedForAllData } = useReadContract({
+    abi: nftContract.abi as [],
+    address: nftContract.address as `0x${string}`,
+    functionName: "isApprovedForAll",
+    account: account.address as `0x${string}`,
+    args: [account.address as `0x${string}`, staking.address as `0x${string}`],
+  });
 
   const {
     writeContractSponsored: ApprovingNFTSWrite,
@@ -35,7 +42,9 @@ export default function InstructionsOfGame({
       !nftContract.address ||
       !staking.address ||
       !paymaster.address ||
-      !account.address
+      !account.address ||
+      getIsApprovedForAllData ||
+      getIsApprovedForAllData === undefined
     )
       return;
 
@@ -57,10 +66,11 @@ export default function InstructionsOfGame({
     staking.address,
     paymaster.address,
     account.address,
+    getIsApprovedForAllData,
   ]);
 
   useEffect(() => {
-    if(ApprovingNFTSIsSuccess) {
+    if (ApprovingNFTSIsSuccess) {
       console.log("ApprovingNFTS", ApprovingNFTSData);
     }
   }, [ApprovingNFTSIsSuccess, ApprovingNFTSData]);

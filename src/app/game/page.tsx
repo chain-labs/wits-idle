@@ -117,15 +117,7 @@ export default function Home() {
 
   const account = useAccount();
 
-  console.log('account', account);
-
-  const { data: getIsApprovedForAllData } = useReadContract({
-    abi: nftContract.abi as [],
-    address: nftContract.address as `0x${string}`,
-    functionName: "isApprovedForAll",
-    account: account.address as `0x${string}`,
-    args: [account.address as `0x${string}`, staking.address as `0x${string}`],
-  });
+  console.log("account", account);
 
   const paymaster = usePayMaster();
 
