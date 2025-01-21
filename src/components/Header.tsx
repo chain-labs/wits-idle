@@ -74,6 +74,7 @@ export default function Header({
   }
 
   if (account.isDisconnected && !pathname.includes("/login")) {
+    console.log('redirecting to login page');
     router.push(
       `
       /login?redirect=${encodeURIComponent(pathname)}

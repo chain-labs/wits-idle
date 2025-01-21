@@ -15,11 +15,11 @@ function SignIn() {
   const { login } = useLoginWithAbstract();
   const acc = useAccount();
   const router = useRouter();
-  const search = useSearchParams();
 
   useEffect(() => {
     if (acc?.address !== undefined) {
-      router.push(search.get("redirect") || "/");
+      console.log('redicting to home page');
+      router.push("/");
     }
   }, [acc]);
 
