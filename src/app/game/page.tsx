@@ -14,18 +14,11 @@ import LockingNFTs from "@/components/LockingNFTs";
 import useTimer from "@/hooks/useTimer";
 import ModalRevealAnimation from "@/components/modals/ModalRevealAnimation";
 import { NFTS_CONTRACT } from "@/constants";
-import {
-  useAbstractClient,
-  useGlobalWalletSignerAccount,
-  useGlobalWalletSignerClient,
-} from "@abstract-foundation/agw-react";
 import useStaking from "@/abi/Staking";
-import useNFTs from "@/abi/Nfts";
 import { useWriteContractSponsored } from "@abstract-foundation/agw-react";
 import usePayMaster from "@/abi/PayMaster";
 import { getGeneralPaymasterInput } from "viem/zksync";
-import { useAccount, useReadContract } from "wagmi";
-import getSCAddress from "@/tools/getSCAddress";
+import { useAccount } from "wagmi";
 import { useGQLFetch } from "@/hooks/api/useGraphQLClient";
 import { gql } from "graphql-request";
 import { useRouter } from "next/navigation";
@@ -69,8 +62,8 @@ export default function Home() {
   const [selectedNFTs, setSelectedNFTs] = useState<Set<string>>(new Set());
   const [selectedTimeline, setSelectedTimeline] = useState<string | null>(null);
   const staking = useStaking();
-  const nftContract = useNFTs();
   const router = useRouter();
+  const [loading, setLoading] = useState(true);
   const lockingNFTTimePeriodTable: {
     time: string;
     common: number;
@@ -198,6 +191,7 @@ export default function Home() {
 
       setOwnedNfts(owned);
       setStakedNfts(stakes);
+      setLoading(false);
     }
   }, [userData]);
 
@@ -269,17 +263,27 @@ export default function Home() {
   useEffect(() => {
     console.log({ StakingNFTSIsSuccess, StakingNFTSData });
 
-    if (StakingNFTSIsSuccess && StakingNFTSData) {
-      setOpenModal(
-        <ShareAdventure
-          closeModal={() => {
-            setOpenModal(null);
-            changeTheStateToAdventureInProgress();
-          }}
-        />,
-      );
-    }
+    // if (StakingNFTSIsSuccess && StakingNFTSData) {
+    //   setOpenModal(
+    //     <ShareAdventure
+    //       closeModal={() => {
+    //         setOpenModal(null);
+    //         changeTheStateToAdventureInProgress();
+    //       }}
+    //     />,
+    //   );
+    // }
   }, [StakingNFTSIsSuccess, StakingNFTSData]);
+
+  useEffect(() => {
+    if (loading && !openInstructionModal) {
+      setOpenModal(
+        <div className="bg-black w-screen h-screen flex justify-center items-center">
+          Loading your data...
+        </div>,
+      );
+    } else setOpenModal(null);
+  }, [loading, openInstructionModal]);
 
   function stakingNFTs() {
     const selectedTimelineDetails = lockingNFTTimePeriodTable.find(

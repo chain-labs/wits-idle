@@ -17,7 +17,7 @@ function SignIn() {
   const router = useRouter();
 
   useEffect(() => {
-    console.log("acc", acc);
+    console.log("account", acc);
     if (acc?.address !== undefined) {
       console.log("redirecting to home page");
       router.push("/");

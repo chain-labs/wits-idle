@@ -16,7 +16,7 @@ export default function GameModeBanner() {
           <path
             d="M390 39.3684H0V0H1440V39H1050L981 95H459L390 39.3684Z"
             fill="#FFFED0"
-            fill-opacity="0.1"
+            fillOpacity="0.1"
           />
         </g>
         <path d="M0 39H390L459 95H981L1050 39H1440" stroke="#EFC779" />
@@ -32,9 +32,9 @@ export default function GameModeBanner() {
             width="1470"
             height="125"
             filterUnits="userSpaceOnUse"
-            color-interpolation-filters="sRGB"
+            colorInterpolationFilters="sRGB"
           >
-            <feFlood flood-opacity="0" result="BackgroundImageFix" />
+            <feFlood floodOpacity="0" result="BackgroundImageFix" />
             <feGaussianBlur in="BackgroundImageFix" stdDeviation="7.5" />
             <feComposite
               in2="SourceAlpha"

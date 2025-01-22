@@ -60,7 +60,6 @@ export default function InstructionsOfGame({
       }),
     });
 
-    console.log("ewhduewhduewh", a);
   }, [
     nftContract.address,
     staking.address,
