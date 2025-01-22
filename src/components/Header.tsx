@@ -27,11 +27,7 @@ export default function Header({
 
   const { logout } = useLoginWithAbstract();
 
-  const global = useGlobalWalletSignerAccount();
-
   const account = useAccount();
-
-  console.log("account", account);
   const router = useRouter();
   const pathname = usePathname();
 
@@ -85,6 +81,12 @@ export default function Header({
   //     );
   //   }
   // }, [account]);
+
+  useEffect(() => {
+    if (account.address) {
+      console.log("account", account);
+    }
+  }, [account]);
 
   return (
     <header

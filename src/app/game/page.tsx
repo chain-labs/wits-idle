@@ -263,16 +263,16 @@ export default function Home() {
   useEffect(() => {
     console.log({ StakingNFTSIsSuccess, StakingNFTSData });
 
-    // if (StakingNFTSIsSuccess && StakingNFTSData) {
-    //   setOpenModal(
-    //     <ShareAdventure
-    //       closeModal={() => {
-    //         setOpenModal(null);
-    //         changeTheStateToAdventureInProgress();
-    //       }}
-    //     />,
-    //   );
-    // }
+    if (StakingNFTSIsSuccess && StakingNFTSData) {
+      setOpenModal(
+        <ShareAdventure
+          closeModal={() => {
+            setOpenModal(null);
+            changeTheStateToAdventureInProgress();
+          }}
+        />,
+      );
+    }
   }, [StakingNFTSIsSuccess, StakingNFTSData]);
 
   useEffect(() => {

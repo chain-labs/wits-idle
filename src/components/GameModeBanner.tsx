@@ -55,10 +55,10 @@ export default function GameModeBanner() {
         href="/"
         className="absolute top-0 left-1/2 -translate-x-1/2 h-full flex justify-center items-center"
       >
-        <GlowingH1>Game Mode</GlowingH1>
+        <GlowingH1 className="text-[18px] xl:text-[36px]">Game Mode</GlowingH1>
       </Link>
 
-      <div className="absolute bottom-0 left-1/2 -translate-y-1/2 w-[40px] h-[fitpx]">
+      <div className="absolute bottom-0 left-1/2 -translate-y-1/2 w-[40px] scale-50 md:scale-[0.9] xl:scale-100 h-[fitpx]">
         <div className="absolute left-1/2 top-0 -translate-x-1/2 -translate-y-1/2">
           <div className="bg-black rotate-45 border-[1px] border-darkGold p-[3px] shadow-[0_0_10px_#EFC779AA]">
             <div className=" p-[8px] border-[1px] border-mediumGold"></div>
