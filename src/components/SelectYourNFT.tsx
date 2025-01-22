@@ -54,7 +54,6 @@ export default function LockingNFTs({
   }[];
 }) {
   function handleNFTSelect(e: React.FormEvent<HTMLFormElement>) {
-    console.log("e", e.target);
     const target = e.target as HTMLInputElement;
     setSelectedNFTs((prev) => {
       const newSet = new Set(prev);
@@ -82,7 +81,8 @@ export default function LockingNFTs({
       </div>
       <form
         onChange={handleNFTSelect}
-        className="grid grid-cols-7 mb-[20px] pr-[20px] gap-[10px] overflow-auto z-10"
+        className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-7 
+        gap-4 mb-[20px] p-4 overflow-auto h-[50vh] z-10"
       >
         {ownedNfts.map((nft, idx) => (
           <SingleNFTIcon
@@ -91,9 +91,6 @@ export default function LockingNFTs({
             icon={nft.icon}
             active={selectedNFTs.has(BigInt(nft.tokenId).toString())}
           />
-        ))}
-        {Array.from({ length: 50 - ownedNfts.length }, (_, idx) => (
-          <div key={idx}></div>
         ))}
       </form>
     </div>
