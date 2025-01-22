@@ -32,9 +32,7 @@ export default function InstructionsOfGame({
   const {
     writeContractSponsored: ApprovingNFTSWrite,
     data: ApprovingNFTSData,
-    error: ApprovingNFTSError,
     isSuccess: ApprovingNFTSIsSuccess,
-    isPending: ApprovingNFTSIsPending,
   } = useWriteContractSponsored();
 
   useEffect(() => {
@@ -48,7 +46,7 @@ export default function InstructionsOfGame({
     )
       return;
 
-    const a = ApprovingNFTSWrite({
+    ApprovingNFTSWrite({
       abi: nftContract.abi as [],
       account: account.address as `0x${string}`,
       address: nftContract.address as `0x${string}`,
@@ -59,13 +57,14 @@ export default function InstructionsOfGame({
         innerInput: "0x",
       }),
     });
-
   }, [
     nftContract.address,
     staking.address,
     paymaster.address,
     account.address,
     getIsApprovedForAllData,
+    ApprovingNFTSWrite,
+    nftContract.abi,
   ]);
 
   useEffect(() => {
@@ -89,13 +88,13 @@ export default function InstructionsOfGame({
         alt="instructions"
         height={1440}
         width={1024}
-        className="w-full h-full object-contain "
+        className="w-[130vw] h-[100vh] object-cover md:w-full md:h-full md:object-contain"
       />
       <div
         className={cn(
           "absolute top-1/2 left-1/2 -translate-x-1/2 translate-y-[-20%]",
           "flex flex-col justify-center items-center gap-[10px]",
-          "max-w-[40%]",
+          "w-[90%] md:w-[55%] xl:max-w-[50%] 2xl:max-w-[40%]",
           "text-[14px] text-lightGold text-center uppercase",
         )}
       >
