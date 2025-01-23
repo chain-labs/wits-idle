@@ -34,9 +34,6 @@ export default function Home() {
   const [openInstructionModal, setOpenInstructionModal] =
     useState<boolean>(false);
   const [state, setState] = useState<stateOfGame>("selectNFT");
-  const progressTimer = useTimer();
-
-  useMintNft();
 
   useEffect(() => {
     if (openModal === null && state !== "adventureInProgress") {
@@ -57,6 +54,7 @@ export default function Home() {
       icon: string;
       endTime: string;
       tokenId: string;
+      stakeId: bigint;
     }[]
   >([]);
   const [selectedNFTs, setSelectedNFTs] = useState<Set<string>>(new Set());
@@ -64,6 +62,7 @@ export default function Home() {
   const staking = useStaking();
   const router = useRouter();
   const [loading, setLoading] = useState(true);
+  const progressTimer = useTimer(Number(stakedNfts[0]?.endTime));
   const lockingNFTTimePeriodTable: {
     time: string;
     common: number;
@@ -128,16 +127,31 @@ export default function Home() {
     isPending: StakingNFTSIsPending,
   } = useWriteContractSponsored();
 
+  const {
+    writeContractSponsored: UnstakeNFTSWrite,
+    data: UnstakeNFTSData,
+    error: UnstakeNFTSError,
+    isSuccess: UnstakeNFTSIsSuccess,
+    isPending: UnstakeNFTSIsPending,
+  } = useWriteContractSponsored();
+
   const account = useAccount();
 
   const paymaster = usePayMaster();
 
-  const { data: userData } = useGQLFetch<{
+  const { data: userData, isFetched: userDataFetched } = useGQLFetch<{
     users: {
       items: {
         ownedNfts: { items: { nftTokenId: string }[] };
         address: string;
-        stakes: { items: { endTime: string; nft: { tokenId: string } }[] };
+        stakes: {
+          items: {
+            endTime: string;
+            nft: { tokenId: string };
+            contractStakeId: string;
+            unstakeTxId: string;
+          }[];
+        };
       }[];
     };
   }>(
@@ -158,6 +172,8 @@ export default function Home() {
                 nft {
                   tokenId
                 }
+                contractStakeId
+                unstakeTxId
               }
             }
           }
@@ -179,11 +195,14 @@ export default function Home() {
           tokenId: token.nftTokenId,
         })) ?? [];
       const stakes =
-        user?.stakes?.items?.map((token) => ({
-          icon: IMAGEKIT_IMAGES.NFT_ICON,
-          endTime: token.endTime,
-          tokenId: token.nft.tokenId,
-        })) ?? [];
+        user?.stakes?.items
+          ?.filter((token) => !token.unstakeTxId)
+          .map((token) => ({
+            stakeId: BigInt(token.contractStakeId),
+            icon: IMAGEKIT_IMAGES.NFT_ICON,
+            endTime: token.endTime,
+            tokenId: token.nft.tokenId,
+          })) ?? [];
 
       console.log("userData", user);
       console.log("owned", owned);
@@ -194,6 +213,8 @@ export default function Home() {
       setLoading(false);
     }
   }, [userData]);
+
+  useMintNft({ ownedNfts, userDataFetched });
 
   const footerProps: Record<stateOfGame, GameFooterProps> = {
     selectNFT: {
@@ -248,7 +269,8 @@ export default function Home() {
         visible: true,
         disabled: progressTimer.end === false,
         function: () => {
-          router.push("/craft");
+          console.log("redeeming ");
+          unstakeNfts();
         },
       },
       exitButton: {
@@ -308,6 +330,30 @@ export default function Home() {
     });
   }
 
+  function unstakeNfts() {
+    const stakeIds = stakedNfts.map((nft) => nft.stakeId);
+
+    UnstakeNFTSWrite({
+      abi: staking.abi as [],
+      address: staking.address as `0x${string}`,
+      functionName: "batchUnstakeNFTs",
+      account: account.address as `0x${string}`,
+      args: [stakeIds],
+      paymaster: paymaster.address as `0x${string}`,
+      paymasterInput: getGeneralPaymasterInput({
+        innerInput: "0x",
+      }),
+    });
+  }
+
+  useEffect(() => {
+    console.log({ StakingNFTSIsSuccess, StakingNFTSData });
+
+    if (UnstakeNFTSIsSuccess && UnstakeNFTSData) {
+      router.push("/craft");
+    }
+  }, [UnstakeNFTSIsSuccess, UnstakeNFTSData]);
+
   function changeTheStateToAdventureInProgress() {
     const selectedTimelineDetails = lockingNFTTimePeriodTable.find(
       (row) => `select-time-${row.time}` === selectedTimeline,
@@ -319,6 +365,7 @@ export default function Home() {
           new Date().getTime() / 1000 + (selectedTimelineDetails?.secs ?? 0),
         ),
         tokenId: Array.from(selectedNFTs)[0],
+        stakeId: BigInt(Array.from(selectedNFTs)[0]),
       },
     ]);
     setState("adventureInProgress");
@@ -366,7 +413,7 @@ export default function Home() {
             />
           ),
           adventureInProgress: stakedNfts.length && (
-            <AdventureProgress timeInSecs={Number(stakedNfts[0].endTime)} />
+            <AdventureProgress time={progressTimer} />
           ),
         }[state]}
 
