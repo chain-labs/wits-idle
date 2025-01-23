@@ -53,7 +53,7 @@ const useMintNft = (enabled: boolean) => {
         abi: nftContract.abi as any,
         address: nftContract.address as `0x${string}`,
         functionName: "mint",
-        args: [BigInt("3")],
+        args: [BigInt(tokenId)],
         paymaster: paymaster.address as `0x${string}`,
         paymasterInput: getGeneralPaymasterInput({
           innerInput: "0x",
