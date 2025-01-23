@@ -6,10 +6,12 @@ import Header from "@/components/Header";
 import Link from "next/link";
 import { useAccount } from "wagmi";
 import { useEffect, useState } from "react";
+import { useLoginWithAbstract } from "@abstract-foundation/agw-react";
 
 export default function Home() {
   const [mounted, setMounted] = useState(false);
   const account = useAccount();
+  const { login } = useLoginWithAbstract();
 
   // Handle hydration mismatch
   useEffect(() => {
@@ -18,7 +20,7 @@ export default function Home() {
 
   if (!mounted) return null;
 
-  console.log('account', account);
+  console.log("account", account);
   return (
     <div
       style={{
@@ -36,7 +38,7 @@ export default function Home() {
           href="/login"
           className="absolute bottom-[10vh] left-1/2 -translate-x-1/2 -translate-y-full z-0"
         >
-          <Button>SIGNIN</Button>
+          <Button onClick={login}>SIGNIN</Button>
         </Link>
       ) : (
         <Link
