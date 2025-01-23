@@ -6,12 +6,13 @@ import { ReactNode } from "react";
 interface ButtonProps {
   className?: string;
   children: ReactNode;
+  isLoading?: boolean; // Add loading prop
 }
 
-export default function 
-Button({
+export default function Button({
   className,
   children,
+  isLoading = false, // Default to false
   ...buttonProps
 }: ButtonProps & JSX.IntrinsicElements["button"]) {
   return (
@@ -20,6 +21,7 @@ Button({
         "relative w-fit h-fit font-bold uppercase text-black text-[22px] disabled:text-[#00000040] disabled:opacity-25 group",
         className,
       )}
+      disabled={isLoading || buttonProps.disabled} // Disable button when loading
       {...buttonProps}
     >
       <svg
@@ -54,7 +56,11 @@ Button({
       </svg>
 
       <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 h-fit">
-        {children}
+        {isLoading ? (
+          <div className="animate-spin h-5 w-5 border-2 border-[#00000040] border-t-black rounded-full" />
+        ) : (
+          children
+        )}
       </div>
     </button>
   );

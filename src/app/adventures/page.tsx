@@ -7,12 +7,46 @@ import Header from "@/components/Header";
 import { IMAGEKIT_BG, IMAGEKIT_IMAGES } from "../images";
 import { cn } from "@/utils";
 import Image from "next/image";
+import { useGQLFetch } from "@/hooks/api/useGraphQLClient";
+import { useAccount } from "wagmi";
 
 export default function Home() {
-  const [isAuthenticated, setIsAuthenticated] = useState(true);
-  if (!isAuthenticated) {
-    return <Unauthenticated />;
-  }
+  const account = useAccount();
+
+  const { data: adventures } = useGQLFetch<{
+    users: {
+      items: Array<{
+        stakes: {
+          items: {
+            startTime: string;
+            duration: { duration: string };
+            unstakeTxId: string;
+          }[];
+        };
+      }>;
+    };
+  }>(
+    ["adventures"],
+    `query Query($where: userFilter) {
+      users(where: $where) {
+        items {
+          stakes {
+            items {
+              startTime
+              duration {
+                duration
+              }
+                unstakeTxId
+            }
+          }
+        }
+      }
+    }`,
+    { where: { address_contains: account.address?.toLocaleLowerCase() } },
+    { enabled: !!account.address },
+  );
+
+  console.log("adventures", adventures);
 
   const detail = {
     nfticon: IMAGEKIT_IMAGES.NFT_ICON,
@@ -43,7 +77,16 @@ export default function Home() {
     status: "Used" as "Used" | "Unused" | "Progress",
   };
 
-  const details = [detail, detail, detail, detail];
+  const details =
+    adventures?.users?.items?.[0]?.stakes?.items?.map((stake) => ({
+      ...detail,
+      date: stake.startTime,
+      duration: stake.duration,
+    })) ?? [];
+
+  // if (!account.address) {
+  //   return <Unauthenticated />;
+  // }
 
   return (
     <div className="relative min-h-screen w-full bg-cover bg-center overflow-x-hidden bg-blend-multiply bg-opacity-10 z-0">
@@ -132,83 +175,91 @@ export default function Home() {
             <tr className=" uppercase text-[#6A6A6A] text-center text-[12px] rounded-[4px] grid grid-cols-[1fr_1fr_1fr_1fr_3fr_1fr] place-items-center gap-[10px] py-[10px]">
               <th>NFT</th>
               <th>DATE</th>
-              <th>TIME</th>
+              <th>DURATION</th>
               <th>RING SCORE</th>
               <th>MATERIAL OBTAINED</th>
               <th>STATUS</th>
             </tr>
           </thead>
           <tbody className="flex flex-col gap-[10px] w-full font-lato text-mediumGold uppercase">
-            {details.map((row, idx) => (
-              <tr
-                key={row.dateTime}
-                className={cn(
-                  "relative h-fit text-center z-0 w-full grid grid-cols-[1fr_1fr_1fr_1fr_3fr_1fr] place-items-center gap-[10px] rounded-[4px] border-[1px] border-[#292929] bg-[#181818] py-[12px]",
-                )}
-              >
-                <td className="relative bg-black rounded-[4px] aspect-square w-[70px] h-[70px] p-[8px]">
-                  <Image
-                    src={row.nfticon}
-                    alt="nft icon"
-                    height={70}
-                    width={70}
-                    className="w-full h-full rounded-full"
-                  />
-                </td>
-                <td>
-                  {new Date(row.dateTime).getMonth() + 1}.
-                  {new Date(row.dateTime).getDate()}.
-                  {new Date(row.dateTime).getFullYear()}
-                </td>
-                <td>{`${new Date(row.dateTime).getHours()}:${new Date(
-                  row.dateTime,
-                ).getMinutes()}`}</td>
+            {adventures?.users?.items?.[0]?.stakes?.items
+              ?.map((stake) => ({
+                ...detail,
+                date: Number(stake.startTime) * 1000,
+                duration: stake.duration.duration,
+                unstakeTxId: stake.unstakeTxId,
+                status: stake.unstakeTxId === null ? "Unused" : "Used",
+              }))
+              .map((row) => (
+                <tr
+                  key={row.unstakeTxId}
+                  className={cn(
+                    "relative h-fit text-center z-0 w-full grid grid-cols-[1fr_1fr_1fr_1fr_3fr_1fr] place-items-center gap-[10px] rounded-[4px] border-[1px] border-[#292929] bg-[#181818] py-[12px]",
+                  )}
+                >
+                  <td className="relative bg-black rounded-[4px] aspect-square w-[70px] h-[70px] p-[8px]">
+                    <Image
+                      src={row.nfticon}
+                      alt="nft icon"
+                      height={70}
+                      width={70}
+                      className="w-full h-full rounded-full"
+                    />
+                  </td>
+                  <td>
+                    {new Date(row.date).getMonth() + 1}.
+                    {new Date(row.date).getDate()}.
+                    {new Date(row.date).getFullYear()}
+                  </td>
+                  <td>{`${Math.floor(Number(row.duration) / 3600)}:${Math.floor(
+                    (Number(row.duration) % 3600) / 60,
+                  )}`}</td>
 
-                <td>{String(row.ringScore).padStart(7, "0")}</td>
+                  <td>{String(row.ringScore).padStart(7, "0")}</td>
 
-                <td className="flex justify-center items-center gap-[16px] w-fit ">
-                  {row.materials.map((material, index) => (
-                    <div
-                      key={row.nfticon + material + index}
-                      className="relative w-[50px] h-[50px] rounded-[4px] border-[#292929] border-[1px]"
-                    >
-                      <Image
-                        src={material.icon}
-                        width={50}
-                        height={50}
-                        alt={material.icon}
-                        className="w-[50px] h-[50px]"
-                      />
-
+                  <td className="flex justify-center items-center gap-[16px] w-fit ">
+                    {row.materials.map((material, index) => (
                       <div
-                        className={cn(
-                          "absolute top-0 right-0 translate-x-1/2 -translate-y-1/2",
-                          "border-[#474747] border-[1px] rounded-full",
-                          "bg-[#292929]",
-                          "text-lightGold font-lato text-center",
-                          "w-[1.5em] h-[1.5em] aspect-square",
-                          "flex justify-center items-center",
-                        )}
+                        key={row.nfticon + material + index}
+                        className="relative w-[50px] h-[50px] rounded-[4px] border-[#292929] border-[1px]"
                       >
-                        {material.amount}
-                      </div>
-                    </div>
-                  ))}
-                </td>
+                        <Image
+                          src={material.icon}
+                          width={50}
+                          height={50}
+                          alt={material.icon}
+                          className="w-[50px] h-[50px]"
+                        />
 
-                <td>
-                  <button className="bg-[#141414] rounded-[4px] px-[24px] py-[10px] uppercase w-full">
-                    {
+                        <div
+                          className={cn(
+                            "absolute top-0 right-0 translate-x-1/2 -translate-y-1/2",
+                            "border-[#474747] border-[1px] rounded-full",
+                            "bg-[#292929]",
+                            "text-lightGold font-lato text-center",
+                            "w-[1.5em] h-[1.5em] aspect-square",
+                            "flex justify-center items-center",
+                          )}
+                        >
+                          {material.amount}
+                        </div>
+                      </div>
+                    ))}
+                  </td>
+
+                  <td>
+                    <button className="bg-[#141414] rounded-[4px] px-[24px] py-[10px] uppercase w-full">
                       {
-                        Used: "Used",
-                        Unused: "Unused",
-                        Progress: "Progress",
-                      }[row.status]
-                    }
-                  </button>
-                </td>
-              </tr>
-            ))}
+                        {
+                          Used: "Used",
+                          Unused: "Unused",
+                          Progress: "Progress",
+                        }[row.status]
+                      }
+                    </button>
+                  </td>
+                </tr>
+              ))}
           </tbody>
         </table>
         <button className="w-fit mx-auto bg-black rounded-[4px] px-[24px] py-[10px] uppercase border-[1px] border-lightGold mt-[24px]">
