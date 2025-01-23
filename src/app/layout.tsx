@@ -3,6 +3,7 @@ import "./globals.css";
 import { cn } from "@/utils";
 import { beaufortPro, lato } from "../fonts";
 import AbstractProvider from "@/AbstractProvider";
+import AppWrapper from "./AppWrapper";
 
 export const metadata: Metadata = {
   title: "WITS Idle Game",
@@ -17,10 +18,12 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={beaufortPro.className}>
-        <AbstractProvider>
-          <div id="modal" className="fixed z-50"></div>
-          {children}
-        </AbstractProvider>
+        <AppWrapper>
+          <AbstractProvider>
+            <div id="modal" className="fixed z-50"></div>
+            {children}
+          </AbstractProvider>
+        </AppWrapper>
       </body>
     </html>
   );

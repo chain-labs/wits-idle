@@ -13,6 +13,7 @@ export interface GameFooterProps {
     visible: boolean;
     disabled?: boolean;
     text: string;
+    loading?: boolean;
   };
   exitButton: {
     function?: () => void;
@@ -50,7 +51,7 @@ export default function GameFooter(
       )}
 
       {props.primaryButton.visible ? (
-        <Button disabled={props.primaryButton.disabled} onClick={props.primaryButton.function}>
+        <Button disabled={props.primaryButton.disabled} onClick={props.primaryButton.function} isLoading={props.primaryButton.loading}>
           {props.primaryButton.text}
         </Button>
       ) : (

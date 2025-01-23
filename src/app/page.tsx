@@ -18,6 +18,7 @@ export default function Home() {
 
   if (!mounted) return null;
 
+  console.log('account', account);
   return (
     <div
       style={{

@@ -83,48 +83,39 @@ export default function Home() {
     },
     {
       time: "24 HOURS",
-      common: 0,
-      uncommon: 0,
-      rare: 0,
-      legendary: 0,
-      mythic: 0,
+      common: 70,
+      uncommon: 20,
+      rare: 7,
+      legendary: 2.5,
+      mythic: 0.5,
       secs: 86400,
     },
     {
       time: "48 HOURS",
-      common: 0,
-      uncommon: 0,
-      rare: 0,
-      legendary: 0,
-      mythic: 0,
+      common: 60,
+      uncommon: 25,
+      rare: 10,
+      legendary: 4,
+      mythic: 1,
       secs: 172800,
     },
     {
+      time: "72 HOURS",
+      common: 50,
+      uncommon: 30,
+      rare: 13,
+      legendary: 5.5,
+      mythic: 1.5,
+      secs: 259200,
+    },
+    {
       time: "1 WEEK",
-      common: 0,
-      uncommon: 0,
-      rare: 0,
-      legendary: 0,
-      mythic: 0,
+      common: 40,
+      uncommon: 35,
+      rare: 15,
+      legendary: 7,
+      mythic: 3,
       secs: 604800,
-    },
-    {
-      time: "2 WEEK",
-      common: 0,
-      uncommon: 0,
-      rare: 0,
-      legendary: 0,
-      mythic: 0,
-      secs: 1209600,
-    },
-    {
-      time: "3 WEEK",
-      common: 0,
-      uncommon: 0,
-      rare: 0,
-      legendary: 0,
-      mythic: 0,
-      secs: 1814400,
     },
   ];
 
@@ -147,6 +138,8 @@ export default function Home() {
   const account = useAccount();
 
   const paymaster = usePayMaster();
+
+  const [buttonLoading, setButtonLoading] = useState(false);
 
   const { data: userData } = useGQLFetch<{
     users: {
@@ -223,7 +216,7 @@ export default function Home() {
     }
   }, [userData]);
 
-  useMintNft(!loading && !ownedNfts[0]?.tokenId);
+  useMintNft(openInstructionModal);
 
   const footerProps: Record<stateOfGame, GameFooterProps> = {
     selectNFT: {
@@ -257,9 +250,11 @@ export default function Home() {
         text: "SEND",
         visible: true,
         disabled: selectedTimeline === null,
-        function: async () => {
-          await stakingNFTs();
+        function: () => {
+          setButtonLoading(true);
+          stakingNFTs();
         },
+        loading: buttonLoading,
       },
       exitButton: {
         visible: true,
@@ -279,8 +274,10 @@ export default function Home() {
         disabled: progressTimer.end === false,
         function: () => {
           console.log("redeeming ");
+          setButtonLoading(true);
           unstakeNfts();
         },
+        loading: buttonLoading,
       },
       exitButton: {
         visible: true,
@@ -295,6 +292,7 @@ export default function Home() {
     console.log({ StakingNFTSIsSuccess, StakingNFTSData });
 
     if (StakingNFTSIsSuccess && StakingNFTSData) {
+      setButtonLoading(false);
       setOpenModal(
         <ShareAdventure
           closeModal={() => {
@@ -308,6 +306,7 @@ export default function Home() {
 
   useEffect(() => {
     if (loading && !openInstructionModal) {
+      setButtonLoading(false);
       setOpenModal(
         <div className="bg-black w-screen h-screen flex justify-center items-center">
           Loading your data...
@@ -359,6 +358,7 @@ export default function Home() {
     console.log({ StakingNFTSIsSuccess, StakingNFTSData });
 
     if (UnstakeNFTSIsSuccess && UnstakeNFTSData) {
+      setButtonLoading(false);
       router.push("/craft");
     }
   }, [UnstakeNFTSIsSuccess, UnstakeNFTSData]);
