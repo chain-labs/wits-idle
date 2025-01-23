@@ -73,6 +73,15 @@ export default function Home() {
     secs: number;
   }[] = [
     {
+      time: "1 HOUR",
+      common: 0,
+      uncommon: 0,
+      rare: 0,
+      legendary: 0,
+      mythic: 0,
+      secs: 3600,
+    },
+    {
       time: "24 HOURS",
       common: 0,
       uncommon: 0,
@@ -139,7 +148,7 @@ export default function Home() {
 
   const paymaster = usePayMaster();
 
-  const { data: userData, isFetched: userDataFetched } = useGQLFetch<{
+  const { data: userData } = useGQLFetch<{
     users: {
       items: {
         ownedNfts: { items: { nftTokenId: string }[] };
@@ -214,7 +223,7 @@ export default function Home() {
     }
   }, [userData]);
 
-  useMintNft({ ownedNfts, userDataFetched });
+  useMintNft(!loading && !ownedNfts[0]?.tokenId);
 
   const footerProps: Record<stateOfGame, GameFooterProps> = {
     selectNFT: {
