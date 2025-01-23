@@ -122,7 +122,7 @@ export default function Header({
           <Link ref={accountRef} href={"/account"}>
             ACCOUNT
           </Link>
-          {account.isDisconnected ? (
+          {!account.address ? (
             <Link href="/login">SIGNIN</Link>
           ) : (
             <button onClick={logout}>LOGOUT</button>
