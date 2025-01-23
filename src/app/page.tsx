@@ -5,9 +5,19 @@ import { IMAGEKIT_BG } from "./images";
 import Header from "@/components/Header";
 import Link from "next/link";
 import { useAccount } from "wagmi";
+import { useEffect, useState } from "react";
 
 export default function Home() {
+  const [mounted, setMounted] = useState(false);
   const account = useAccount();
+
+  // Handle hydration mismatch
+  useEffect(() => {
+    setMounted(true);
+  }, []);
+
+  if (!mounted) return null;
+
   return (
     <div
       style={{
