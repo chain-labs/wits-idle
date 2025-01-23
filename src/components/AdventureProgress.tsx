@@ -18,12 +18,16 @@ function TimerWithLabel({ label, value }: { label: string; value: number }) {
 }
 
 export default function AdventureProgress({
-  timeInSecs,
+  time,
 }: {
-  timeInSecs: number;
+  time: {
+    days: number;
+    hours: number;
+    minutes: number;
+    seconds: number;
+    end: boolean;
+  };
 }) {
-  const time = useTimer(timeInSecs);
-
   return (
     <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 flex flex-col justify-center items-center gap-[10px] z-10">
       <h3 className="uppercase text-[16px] z-10 text-lightGold">

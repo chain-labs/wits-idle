@@ -11,7 +11,7 @@ import { useCallback, useEffect } from "react";
 import { getGeneralPaymasterInput } from "viem/zksync";
 import { useAccount } from "wagmi";
 
-const useMintNft = () => {
+const useMintNft = (enabled: boolean) => {
   const { writeContractSponsored: mintNFTWrite, error } =
     useWriteContractSponsored();
   const nftContract = useNFTs();
@@ -64,16 +64,18 @@ const useMintNft = () => {
   );
 
   useEffect(() => {
-    if (isFetched && account.address) {
-      if (
-        window.confirm(
-          "DEMO: We are minting a mock NFT to your account. Please approve the next transaction to continue the demo.",
-        )
-      ) {
-        mintNFT(Number(nft?.nftOwnerships.items[0].nftTokenId) + 1);
+    console.log({ enabled });
+    if (enabled)
+      if (isFetched && account.address) {
+        if (
+          window.confirm(
+            "DEMO: We are minting a mock NFT to your account. Please approve the next transaction to continue the demo.",
+          )
+        ) {
+          mintNFT(Number(nft?.nftOwnerships.items[0].nftTokenId) + 1);
+        }
       }
-    }
-  }, [isFetched, nft, account, mintNFT]);
+  }, [isFetched, nft, account, mintNFT, enabled]);
 };
 
 export default useMintNft;
