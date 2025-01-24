@@ -15,7 +15,10 @@ import useTimer from "@/hooks/useTimer";
 import ModalRevealAnimation from "@/components/modals/ModalRevealAnimation";
 import { NFTS_CONTRACT } from "@/constants";
 import useStaking from "@/abi/Staking";
-import { useWriteContractSponsored } from "@abstract-foundation/agw-react";
+import {
+  useAbstractClient,
+  useWriteContractSponsored,
+} from "@abstract-foundation/agw-react";
 import usePayMaster from "@/abi/PayMaster";
 import { getGeneralPaymasterInput } from "viem/zksync";
 import { useAccount } from "wagmi";
@@ -35,11 +38,12 @@ export default function Home() {
     useState<boolean>(false);
   const [state, setState] = useState<stateOfGame>("selectNFT");
 
+  const { data: client } = useAbstractClient();
+
   useEffect(() => {
     if (openModal === null && state !== "adventureInProgress") {
       setOpenInstructionModal(true);
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   // data
@@ -182,8 +186,8 @@ export default function Home() {
         }
       }
     `,
-    { address: account.address?.toLowerCase() },
-    { enabled: !!account.address },
+    { address: client?.account.address?.toLowerCase() ?? "" },
+    { enabled: !!client?.account.address },
   );
 
   useEffect(() => {
