@@ -76,20 +76,21 @@ export default function LockingNFTs({
           period and unable to be traded or sent.
         </p>
       </div>
-      <form
-        onChange={handleNFTSelect}
-        className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-7 
-        gap-4 mb-[20px] p-4 overflow-auto h-[50vh] z-10"
-      >
-        {ownedNfts.map((nft, idx) => (
-          <SingleNFTIcon
-            key={nft.tokenId}
-            id={nft.tokenId}
-            icon={nft.icon}
-            active={selectedNFTs.has(BigInt(nft.tokenId).toString())}
-          />
-        ))}
-      </form>
+      <div className="h-[50vh] overflow-y-auto">
+        <form
+          onChange={handleNFTSelect}
+          className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-7 gap-4 mb-[20px] p-4 overflow-auto z-10"
+        >
+          {ownedNfts.map((nft, idx) => (
+            <SingleNFTIcon
+              key={nft.tokenId}
+              id={nft.tokenId}
+              icon={nft.icon}
+              active={selectedNFTs.has(BigInt(nft.tokenId).toString())}
+            />
+          ))}
+        </form>
+      </div>
     </div>
   );
 }
