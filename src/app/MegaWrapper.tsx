@@ -20,13 +20,13 @@ export default function MegaWrapper({
   children: React.ReactNode;
 }) {
   return (
-    <AppWrapper>
-      <AbstractProvider>
+    <AbstractProvider>
+      <AppWrapper>
         <AccountWrapper>
           <div id="modal" className="fixed z-50"></div>
           {children}
         </AccountWrapper>
-      </AbstractProvider>
-    </AppWrapper>
+      </AppWrapper>
+    </AbstractProvider>
   );
 }
