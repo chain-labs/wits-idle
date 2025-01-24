@@ -36,7 +36,7 @@ const useMintNft = (enabled: boolean) => {
     ["nft"],
     gql`
       query MyQuery {
-        nftOwnerships(orderBy: "nftTokenId", orderDirection: "desc", limit: 1) {
+        nftOwnerships(orderBy: "nftTokenId", orderDirection: "desc", limit: 4) {
           items {
             id
             nftTokenId
@@ -72,7 +72,7 @@ const useMintNft = (enabled: boolean) => {
             "DEMO: We are minting a mock NFT to your account. Please approve the next transaction to continue the demo.",
           )
         ) {
-          mintNFT(Number(nft?.nftOwnerships.items[0].nftTokenId) + 1);
+          mintNFT(Number(nft?.nftOwnerships.items[3].nftTokenId) + 1);
         }
       }
   }, [isFetched, nft, account, mintNFT, enabled]);
