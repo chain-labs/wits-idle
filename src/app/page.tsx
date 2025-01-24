@@ -5,7 +5,7 @@ import { IMAGEKIT_BG } from "./images";
 import Header from "@/components/Header";
 import Link from "next/link";
 import { useAccount, useConfig } from "wagmi";
-import { useEffect, useState } from "react";
+import { Suspense, useEffect, useState } from "react";
 import { useLoginWithAbstract } from "@abstract-foundation/agw-react";
 import { Config, getAccount, GetAccountReturnType } from "@wagmi/core";
 import { Chain } from "viem";
@@ -23,13 +23,6 @@ export default function Home() {
     setMounted(true);
   }, []);
 
-  useEffect(() => {
-    console.log("pathname", searchParams.get("reload") === "true");
-    if (searchParams.get("reload") === "true") {
-      window.location.href = "/";
-    }
-  }, [router, searchParams]);
-
   if (!mounted) return null;
 
   console.log("account", account);
@@ -40,6 +33,9 @@ export default function Home() {
       }}
       className="relative h-screen w-full bg-cover bg-center overflow-hidden"
     >
+      <Suspense>
+        <EmptyReloader />
+      </Suspense>
       <div className="absolute inset-0 w-full h-full bg-gradient-to-b from-black via-[#0000] to-black z-0"></div>
 
       <Header active="home" />
@@ -63,3 +59,15 @@ export default function Home() {
     </div>
   );
 }
+
+const EmptyReloader = () => {
+  const searchParams = useSearchParams();
+  useEffect(() => {
+    console.log("pathname", searchParams.get("reload") === "true");
+    if (searchParams.get("reload") === "true") {
+      window.location.href = "/";
+    }
+  }, [searchParams]);
+
+  return <div></div>;
+};
