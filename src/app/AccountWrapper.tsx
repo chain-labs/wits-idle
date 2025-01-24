@@ -33,7 +33,7 @@ export default function AccountWrapper({
   const [isLoading, setIsLoading] = React.useState(true);
   const { login: abstractLogin, logout: abstractLogout } =
     useLoginWithAbstract();
-  const [lockingKey, setLockingKey] = React.useState<boolean>(false);
+  const [lockingKey, setLockingKey] = React.useState<boolean>(true);
 
   useEffect(() => {
     if (client?.address) {
