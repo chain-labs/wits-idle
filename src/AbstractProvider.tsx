@@ -1,9 +1,10 @@
 "use client";
 
 import { AbstractWalletProvider } from "@abstract-foundation/agw-react";
+import { abstractTestnet } from "viem/chains";
 
 const config = {
-  testnet: true, // Required
+  chain: abstractTestnet,
   // Optionally, provide your own RPC URL (learn more: https://viem.sh/docs/clients/transports/http.html)
   // transport: http("https://your.abstract.node.example.com/rpc") // Optional
 };

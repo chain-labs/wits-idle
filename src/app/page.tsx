@@ -61,13 +61,12 @@ export default function Home() {
 }
 
 const EmptyReloader = () => {
-  const searchParams = useSearchParams();
   useEffect(() => {
-    console.log("pathname", searchParams.get("reload") === "true");
-    if (searchParams.get("reload") === "true") {
+    const reloadParams = window.location.href.split("?")[1].split("=");
+
+    if (reloadParams[0] === "reload" && reloadParams[1] === "true")
       window.location.href = "/";
-    }
-  }, [searchParams]);
+  }, []);
 
   return <div></div>;
 };
