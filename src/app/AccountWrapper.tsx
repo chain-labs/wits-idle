@@ -1,14 +1,19 @@
 "use client";
 
-import { useLoginWithAbstract } from "@abstract-foundation/agw-react";
+import {
+  useAbstractClient,
+  useLoginWithAbstract,
+  useWriteContractSponsored,
+} from "@abstract-foundation/agw-react";
 import React, { useEffect } from "react";
-import { useAccount } from "wagmi";
+import { Config, useAccount } from "wagmi";
 
 export interface AccountContextType {
   address: string | undefined;
   isLoading: boolean;
   login: () => void;
   logout: () => void;
+  writeContractSponsoredAsync: any;
 }
 
 const AccountContext = React.createContext<AccountContextType | undefined>(
@@ -40,18 +45,11 @@ export default function AccountWrapper({
   const { login: abstractLogin, logout: abstractLogout } =
     useLoginWithAbstract();
   const [lockingKey, setLockingKey] = React.useState<boolean>(true);
+  const { writeContractSponsoredAsync } = useWriteContractSponsored();
 
-  useEffect(() => {
-    if (client?.address) {
-      if (!address && lockingKey) {
-        setAddress(client.address);
-        // Save to localStorage
-        localStorage.setItem("userAddress", client.address);
-        setIsLoading(false);
-        setLockingKey(false);
-      }
-    }
-  }, [client.address, address, lockingKey]);
+  const agwCLient = useAbstractClient();
+
+  console.log("agwCLient", agwCLient, agwCLient.isLoading);
 
   const login = async () => {
     setIsLoading(true);
@@ -74,6 +72,24 @@ export default function AccountWrapper({
     }
   };
 
+  useEffect(() => {
+    if (client?.address) {
+      if (!address && lockingKey) {
+        setAddress(client.address);
+        // Save to localStorage
+        localStorage.setItem("userAddress", client.address);
+        setIsLoading(false);
+        setLockingKey(false);
+      }
+    }
+  }, [client.address, address, lockingKey]);
+
+  // useEffect(() => {
+  //   if (address && client?.address !== address) {
+
+  //   }
+  // }, [address, client?.address, login]);
+
   console.log("address", client, address, isLoading);
 
   const value = {
@@ -81,6 +97,7 @@ export default function AccountWrapper({
     isLoading,
     login,
     logout,
+    writeContractSponsoredAsync,
   };
 
   return (

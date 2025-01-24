@@ -17,7 +17,7 @@ const useMintNft = (enabled: boolean) => {
   const nftContract = useNFTs();
   const staking = useStaking();
   const paymaster = usePayMaster();
-  const { address: account } = useAccountWrapper();
+  const { address: account, writeContractSponsoredAsync } = useAccountWrapper();
 
   useEffect(() => {
     if (error) {
@@ -49,7 +49,7 @@ const useMintNft = (enabled: boolean) => {
 
   const mintNFT = useCallback(
     (tokenId: number) => {
-      mintNFTWrite({
+      writeContractSponsoredAsync({
         abi: nftContract.abi as any,
         address: nftContract.address as `0x${string}`,
         functionName: "mint",

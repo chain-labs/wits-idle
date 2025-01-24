@@ -16,9 +16,9 @@ function SignIn() {
 
   useEffect(() => {
     console.log("account", account);
+    router.replace("/");
     if (account !== undefined) {
       console.log("redirecting to home page");
-      router.replace("/");
     }
   }, [account]);
 

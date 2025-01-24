@@ -4,6 +4,7 @@ import Image from "next/image";
 import GradientSideBorder from "./GradientSideBorder";
 import { cn } from "@/utils";
 import { Dispatch, SetStateAction, useEffect, useState } from "react";
+import { useAccount } from "wagmi";
 
 function SingleNFTIcon({
   id,
@@ -62,6 +63,10 @@ export default function LockingNFTs({
       return newSet;
     });
   }
+
+  const acc = useAccount();
+
+  console.log('acc-------', acc.address);
 
   return (
     <div className="relative bg-[#020708BF] flex flex-col justify-center items-center gap-[24px] mx-[10vw] mt-[50px] px-[10vw] max-h-[65vh]">

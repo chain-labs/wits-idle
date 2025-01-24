@@ -15,7 +15,6 @@ import useTimer from "@/hooks/useTimer";
 import ModalRevealAnimation from "@/components/modals/ModalRevealAnimation";
 import { NFTS_CONTRACT } from "@/constants";
 import useStaking from "@/abi/Staking";
-import { useWriteContractSponsored } from "@abstract-foundation/agw-react";
 import usePayMaster from "@/abi/PayMaster";
 import { getGeneralPaymasterInput } from "viem/zksync";
 import { useGQLFetch } from "@/hooks/api/useGraphQLClient";
@@ -119,23 +118,7 @@ export default function Home() {
   const [loading, setLoading] = useState(true);
   const progressTimer = useTimer(Number(stakedNfts[0]?.endTime));
 
-  const {
-    writeContractSponsored: StakingNFTSWrite,
-    data: StakingNFTSData,
-    error: StakingNFTSError,
-    isSuccess: StakingNFTSIsSuccess,
-    isPending: StakingNFTSIsPending,
-  } = useWriteContractSponsored();
-
-  const {
-    writeContractSponsored: UnstakeNFTSWrite,
-    data: UnstakeNFTSData,
-    error: UnstakeNFTSError,
-    isSuccess: UnstakeNFTSIsSuccess,
-    isPending: UnstakeNFTSIsPending,
-  } = useWriteContractSponsored();
-
-  const { address: account } = useAccountWrapper();
+  const { address: account, writeContractSponsoredAsync } = useAccountWrapper();
 
   const paymaster = usePayMaster();
 
@@ -289,22 +272,6 @@ export default function Home() {
   };
 
   useEffect(() => {
-    console.log({ StakingNFTSIsSuccess, StakingNFTSData });
-
-    if (StakingNFTSIsSuccess && StakingNFTSData) {
-      setButtonLoading(false);
-      setOpenModal(
-        <ShareAdventure
-          closeModal={() => {
-            setOpenModal(null);
-            changeTheStateToAdventureInProgress();
-          }}
-        />,
-      );
-    }
-  }, [StakingNFTSIsSuccess, StakingNFTSData]);
-
-  useEffect(() => {
     if (loading && !openInstructionModal) {
       setButtonLoading(false);
       setOpenModal(
@@ -315,53 +282,65 @@ export default function Home() {
     } else setOpenModal(null);
   }, [loading, openInstructionModal]);
 
-  function stakingNFTs() {
+  async function stakingNFTs() {
     const selectedTimelineDetails = lockingNFTTimePeriodTable.find(
       (row) => `select-time-${row.time}` === selectedTimeline,
     );
 
     if (!selectedTimelineDetails) return;
-    StakingNFTSWrite({
-      abi: staking.abi as [],
-      address: staking.address as `0x${string}`,
-      functionName: "batchStakeNFTs",
-      account: account as `0x${string}`,
-      args: [
-        NFTS_CONTRACT,
-        Array.from(selectedNFTs).map((nft) => BigInt(nft)),
-        BigInt(selectedTimelineDetails.secs),
-      ],
-      paymaster: paymaster.address as `0x${string}`,
-      paymasterInput: getGeneralPaymasterInput({
-        innerInput: "0x",
-      }),
-    });
+    try {
+      await writeContractSponsoredAsync({
+        abi: staking.abi as [],
+        address: staking.address as `0x${string}`,
+        functionName: "batchStakeNFTs",
+        account: account as `0x${string}`,
+        args: [
+          NFTS_CONTRACT,
+          Array.from(selectedNFTs).map((nft) => BigInt(nft)),
+          BigInt(selectedTimelineDetails.secs),
+        ],
+        paymaster: paymaster.address as `0x${string}`,
+        paymasterInput: getGeneralPaymasterInput({
+          innerInput: "0x",
+        }),
+      });
+      setOpenModal(
+        <ShareAdventure
+          closeModal={() => {
+            setOpenModal(null);
+            changeTheStateToAdventureInProgress();
+          }}
+        />,
+      );
+    } catch (e) {
+      console.log(e);
+    } finally {
+      setButtonLoading(false);
+    }
   }
 
-  function unstakeNfts() {
+  async function unstakeNfts() {
     const stakeIds = stakedNfts.map((nft) => nft.stakeId);
 
-    UnstakeNFTSWrite({
-      abi: staking.abi as [],
-      address: staking.address as `0x${string}`,
-      functionName: "batchUnstakeNFTs",
-      account: account as `0x${string}`,
-      args: [stakeIds],
-      paymaster: paymaster.address as `0x${string}`,
-      paymasterInput: getGeneralPaymasterInput({
-        innerInput: "0x",
-      }),
-    });
-  }
-
-  useEffect(() => {
-    console.log({ StakingNFTSIsSuccess, StakingNFTSData });
-
-    if (UnstakeNFTSIsSuccess && UnstakeNFTSData) {
-      setButtonLoading(false);
+    try {
+      await writeContractSponsoredAsync({
+        abi: staking.abi as [],
+        address: staking.address as `0x${string}`,
+        functionName: "batchUnstakeNFTs",
+        account: account as `0x${string}`,
+        args: [stakeIds],
+        paymaster: paymaster.address as `0x${string}`,
+        paymasterInput: getGeneralPaymasterInput({
+          innerInput: "0x",
+        }),
+      });
       router.push("/craft");
+    } catch (e) {
+      console.log(e);
+    } finally {
+      setButtonLoading(false);
     }
-  }, [UnstakeNFTSIsSuccess, UnstakeNFTSData]);
+  }
 
   function changeTheStateToAdventureInProgress() {
     const selectedTimelineDetails = lockingNFTTimePeriodTable.find(
