@@ -15,9 +15,9 @@ function SignIn() {
   const router = useRouter();
 
   useEffect(() => {
-    console.log("account", account);
-    router.replace("/");
     if (account !== undefined) {
+      console.log("account", account);
+      router.push("/");
       console.log("redirecting to home page");
     }
   }, [account]);
