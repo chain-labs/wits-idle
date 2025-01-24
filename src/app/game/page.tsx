@@ -15,13 +15,9 @@ import useTimer from "@/hooks/useTimer";
 import ModalRevealAnimation from "@/components/modals/ModalRevealAnimation";
 import { NFTS_CONTRACT } from "@/constants";
 import useStaking from "@/abi/Staking";
-import {
-  useAbstractClient,
-  useWriteContractSponsored,
-} from "@abstract-foundation/agw-react";
+import { useWriteContractSponsored } from "@abstract-foundation/agw-react";
 import usePayMaster from "@/abi/PayMaster";
 import { getGeneralPaymasterInput } from "viem/zksync";
-import { useAccount } from "wagmi";
 import { useGQLFetch } from "@/hooks/api/useGraphQLClient";
 import { gql } from "graphql-request";
 import { useRouter } from "next/navigation";
@@ -94,8 +90,6 @@ export default function Home() {
   const [openInstructionModal, setOpenInstructionModal] =
     useState<boolean>(false);
   const [state, setState] = useState<stateOfGame>("selectNFT");
-
-  const { data: client } = useAbstractClient();
 
   useEffect(() => {
     if (openModal === null && state !== "adventureInProgress") {
@@ -188,8 +182,8 @@ export default function Home() {
         }
       }
     `,
-    { address: client?.account.address?.toLowerCase() ?? "" },
-    { enabled: !!client?.account.address },
+    { address: account?.toLowerCase() ?? "" },
+    { enabled: !!account },
   );
 
   useEffect(() => {

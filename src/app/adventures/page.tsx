@@ -172,11 +172,10 @@ export default function Home() {
       <div className="bg-[#14141480] backdrop-blur-lg rounded-[8px] border-[1px] border-[#292929] flex flex-col justify-center items-center p-[32px] mx-[32px] my-[50px]">
         <table className="w-full flex flex-col gap-[24px] max-w-[1200px] mx-auto">
           <thead className="flex flex-col gap-[10px]">
-            <tr className=" uppercase text-[#6A6A6A] text-center text-[12px] rounded-[4px] grid grid-cols-[1fr_1fr_1fr_1fr_3fr_1fr] place-items-center gap-[10px] py-[10px]">
+            <tr className=" uppercase text-[#6A6A6A] text-center text-[12px] rounded-[4px] grid grid-cols-[1fr_1fr_1fr_3fr_1fr] place-items-center gap-[10px] py-[10px]">
               <th>NFT</th>
               <th>DATE</th>
               <th>DURATION</th>
-              <th>RING SCORE</th>
               <th>MATERIAL OBTAINED</th>
               <th>STATUS</th>
             </tr>
@@ -194,7 +193,7 @@ export default function Home() {
                 <tr
                   key={row.unstakeTxId}
                   className={cn(
-                    "relative h-fit text-center z-0 w-full grid grid-cols-[1fr_1fr_1fr_1fr_3fr_1fr] place-items-center gap-[10px] rounded-[4px] border-[1px] border-[#292929] bg-[#181818] py-[12px]",
+                    "relative h-fit text-center z-0 w-full grid grid-cols-[1fr_1fr_1fr_3fr_1fr] place-items-center gap-[10px] rounded-[4px] border-[1px] border-[#292929] bg-[#181818] py-[12px]",
                   )}
                 >
                   <td className="relative bg-black rounded-[4px] aspect-square w-[70px] h-[70px] p-[8px]">
@@ -214,8 +213,6 @@ export default function Home() {
                   <td>{`${Math.floor(Number(row.duration) / 3600)}:${Math.floor(
                     (Number(row.duration) % 3600) / 60,
                   )}`}</td>
-
-                  <td>{String(row.ringScore).padStart(7, "0")}</td>
 
                   <td className="flex justify-center items-center gap-[16px] w-fit ">
                     {row.materials.map((material, index) => (

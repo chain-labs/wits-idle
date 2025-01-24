@@ -29,7 +29,13 @@ export default function AccountWrapper({
   children: React.ReactNode;
 }) {
   const client = useAccount();
-  const [address, setAddress] = React.useState<string | undefined>(undefined);
+  const [address, setAddress] = React.useState<string | undefined>(() => {
+    // Initialize from localStorage if available
+    if (typeof window !== "undefined") {
+      return localStorage.getItem("userAddress") || undefined;
+    }
+    return undefined;
+  });
   const [isLoading, setIsLoading] = React.useState(true);
   const { login: abstractLogin, logout: abstractLogout } =
     useLoginWithAbstract();
@@ -39,19 +45,18 @@ export default function AccountWrapper({
     if (client?.address) {
       if (!address && lockingKey) {
         setAddress(client.address);
+        // Save to localStorage
+        localStorage.setItem("userAddress", client.address);
         setIsLoading(false);
         setLockingKey(false);
-      } else {
-        // client.refetch();
       }
     }
-  }, [client, address, lockingKey]);
+  }, [client.address, address, lockingKey]);
 
   const login = async () => {
     setIsLoading(true);
     setLockingKey(true);
     abstractLogin();
-    // client.refetch();
   };
 
   const logout = async () => {
@@ -62,6 +67,8 @@ export default function AccountWrapper({
       abstractLogout();
       console.log("logout abstract");
       setAddress(undefined);
+      // Remove from localStorage
+      localStorage.removeItem("userAddress");
     } finally {
       setIsLoading(false);
     }

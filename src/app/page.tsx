@@ -10,7 +10,7 @@ import { useAccountWrapper } from "./AccountWrapper";
 
 export default function Home() {
   const [mounted, setMounted] = useState(false);
-  const { address: account, login } = useAccountWrapper();
+  const { address: account } = useAccountWrapper();
 
   // Handle hydration mismatch
   useEffect(() => {
@@ -40,7 +40,7 @@ export default function Home() {
           href="/login"
           className="absolute bottom-[10vh] left-1/2 -translate-x-1/2 -translate-y-full z-0"
         >
-          <Button onClick={login}>SIGNIN</Button>
+          <Button>SIGNIN</Button>
         </Link>
       ) : (
         <Link
