@@ -220,7 +220,7 @@ export default function Home() {
     }
   }, [userData]);
 
-  useMintNft(openInstructionModal);
+  useMintNft(!ownedNfts.length && !loading && openInstructionModal);
 
   const footerProps: Record<stateOfGame, GameFooterProps> = {
     selectNFT: {
