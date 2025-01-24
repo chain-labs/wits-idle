@@ -9,22 +9,26 @@ import { useEffect, useState } from "react";
 import { useLoginWithAbstract } from "@abstract-foundation/agw-react";
 import { Config, getAccount, GetAccountReturnType } from "@wagmi/core";
 import { Chain } from "viem";
+import { useRouter, useSearchParams } from "next/navigation";
 
 export default function Home() {
   const [mounted, setMounted] = useState(false);
-  // const account = use();
-  const [account, setAccount] = useState<GetAccountReturnType<Config, Chain>>();
+  const account = useAccount();
+  const router = useRouter();
+  const searchParams = useSearchParams();
   const { login } = useLoginWithAbstract();
-  const config = useConfig();
 
   // Handle hydration mismatch
   useEffect(() => {
-    const account = getAccount(config);
-    console.log({ account });
-    setAccount(account);
-
     setMounted(true);
   }, []);
+
+  useEffect(() => {
+    console.log("pathname", searchParams.get("reload") === "true");
+    if (searchParams.get("reload") === "true") {
+      window.location.href = "/";
+    }
+  }, [router, searchParams]);
 
   if (!mounted) return null;
 

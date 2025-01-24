@@ -20,7 +20,7 @@ function SignIn() {
     console.log("account", acc);
     if (acc?.address !== undefined) {
       console.log("redirecting to home page");
-      router.replace("/");
+      router.replace("/?reload=true");
     }
   }, [acc]);
 
