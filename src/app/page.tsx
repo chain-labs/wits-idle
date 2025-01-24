@@ -4,18 +4,15 @@ import Button from "@/components/Button";
 import { IMAGEKIT_BG } from "./images";
 import Header from "@/components/Header";
 import Link from "next/link";
-import { useAccount, useConfig } from "wagmi";
+import { useAccount } from "wagmi";
 import { Suspense, useEffect, useState } from "react";
 import { useLoginWithAbstract } from "@abstract-foundation/agw-react";
-import { Config, getAccount, GetAccountReturnType } from "@wagmi/core";
-import { Chain } from "viem";
-import { useRouter, useSearchParams } from "next/navigation";
+import { useRouter } from "next/navigation";
 
 export default function Home() {
   const [mounted, setMounted] = useState(false);
   const account = useAccount();
   const router = useRouter();
-  const searchParams = useSearchParams();
   const { login } = useLoginWithAbstract();
 
   // Handle hydration mismatch

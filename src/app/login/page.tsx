@@ -8,7 +8,7 @@ import { cn } from "@/utils";
 import GradientSideBorder from "@/components/GradientSideBorder";
 import { useLoginWithAbstract } from "@abstract-foundation/agw-react";
 import { useAccount } from "wagmi";
-import { useRouter, useSearchParams } from "next/navigation";
+import { useRouter } from "next/navigation";
 import { Suspense, useEffect } from "react";
 
 function SignIn() {
