@@ -4,7 +4,10 @@ import Image from "next/image";
 import Button from "../Button";
 import { IMAGEKIT_BG } from "@/app/images";
 import { cn } from "@/utils";
-import { useWriteContractSponsored } from "@abstract-foundation/agw-react";
+import {
+  useLoginWithAbstract,
+  useWriteContractSponsored,
+} from "@abstract-foundation/agw-react";
 import useNFTs from "@/abi/Nfts";
 import { useAccount, useReadContract } from "wagmi";
 import useStaking from "@/abi/Staking";
@@ -21,6 +24,7 @@ export default function InstructionsOfGame({
   const account = useAccount();
   const staking = useStaking();
   const paymaster = usePayMaster();
+  const { login } = useLoginWithAbstract();
   const { data: getIsApprovedForAllData } = useReadContract({
     abi: nftContract.abi as [],
     address: nftContract.address as `0x${string}`,
@@ -112,9 +116,15 @@ export default function InstructionsOfGame({
         <p>4. Confirm the details.</p>
         <p>5. Sit back and wait.</p>
         <p>6. Collect your loot!</p>
-        <Button className="mt-[10px] z-10 scale-[0.75]" onClick={closeModal}>
-          START GAME
-        </Button>
+        {account.address ? (
+          <Button className="mt-[10px] z-10 scale-[0.75]" onClick={closeModal}>
+            START GAME
+          </Button>
+        ) : (
+          <Button className="mt-[10px] z-10 scale-[0.75]" onClick={login}>
+            SIGN IN
+          </Button>
+        )}
       </div>
     </div>
   );
