@@ -62,7 +62,7 @@ export default function Home() {
 
 const EmptyReloader = () => {
   useEffect(() => {
-    const reloadParams = window.location.href.split("?")[1].split("=");
+    const reloadParams = window.location.href.split("?")[1]?.split("=") ?? [];
 
     if (reloadParams[0] === "reload" && reloadParams[1] === "true")
       window.location.href = "/";
