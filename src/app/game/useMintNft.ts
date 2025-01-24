@@ -9,7 +9,7 @@ import { useWriteContractSponsored } from "@abstract-foundation/agw-react";
 import { gql } from "graphql-request";
 import { useCallback, useEffect } from "react";
 import { getGeneralPaymasterInput } from "viem/zksync";
-import { useAccount } from "wagmi";
+import { useAccountWrapper } from "../AccountWrapper";
 
 const useMintNft = (enabled: boolean) => {
   const { writeContractSponsored: mintNFTWrite, error } =
@@ -17,7 +17,7 @@ const useMintNft = (enabled: boolean) => {
   const nftContract = useNFTs();
   const staking = useStaking();
   const paymaster = usePayMaster();
-  const account = useAccount();
+  const { address: account } = useAccountWrapper();
 
   useEffect(() => {
     if (error) {
@@ -66,7 +66,7 @@ const useMintNft = (enabled: boolean) => {
   useEffect(() => {
     console.log({ enabled });
     if (enabled)
-      if (isFetched && account.address) {
+      if (isFetched && account) {
         if (
           window.confirm(
             "DEMO: We are minting a mock NFT to your account. Please approve the next transaction to continue the demo.",

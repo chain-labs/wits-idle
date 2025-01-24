@@ -8,10 +8,10 @@ import { IMAGEKIT_BG, IMAGEKIT_IMAGES } from "../images";
 import { cn } from "@/utils";
 import Image from "next/image";
 import { useGQLFetch } from "@/hooks/api/useGraphQLClient";
-import { useAccount } from "wagmi";
+import { useAccountWrapper } from "../AccountWrapper";
 
 export default function Home() {
-  const account = useAccount();
+  const { address: account } = useAccountWrapper();
 
   const { data: adventures } = useGQLFetch<{
     users: {
@@ -42,8 +42,8 @@ export default function Home() {
         }
       }
     }`,
-    { where: { address_contains: account.address?.toLocaleLowerCase() } },
-    { enabled: !!account.address },
+    { where: { address_contains: account?.toLocaleLowerCase() } },
+    { enabled: !!account },
   );
 
   console.log("adventures", adventures);

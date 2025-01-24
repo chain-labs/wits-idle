@@ -6,23 +6,21 @@ import Image from "next/image";
 import Link from "next/link";
 import { cn } from "@/utils";
 import GradientSideBorder from "@/components/GradientSideBorder";
-import { useLoginWithAbstract } from "@abstract-foundation/agw-react";
-import { useAccount } from "wagmi";
 import { useRouter } from "next/navigation";
 import { Suspense, useEffect } from "react";
+import { useAccountWrapper } from "../AccountWrapper";
 
 function SignIn() {
-  const { login } = useLoginWithAbstract();
-  const acc = useAccount();
+  const { address: account, login } = useAccountWrapper();
   const router = useRouter();
 
   useEffect(() => {
-    console.log("account", acc);
-    if (acc?.address !== undefined) {
+    console.log("account", account);
+    if (account !== undefined) {
       console.log("redirecting to home page");
-      router.replace("/?reload=true");
+      router.replace("/");
     }
-  }, [acc]);
+  }, [account]);
 
   return (
     <Button
@@ -30,7 +28,7 @@ function SignIn() {
       onClick={login}
       className="absolute bottom-0 left-1/2 translate-y-1/2 -translate-x-1/2 mx-auto whitespace-nowrap"
     >
-      {acc?.address !== undefined ? (
+      {account !== undefined ? (
         <span className={cn("text-center w-full")}>Continue</span>
       ) : (
         <span className="text-center w-full">Signin</span>

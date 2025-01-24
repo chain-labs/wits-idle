@@ -1,5 +1,6 @@
 "use client";
 
+import { useAccountWrapper } from "@/app/AccountWrapper";
 import { IMAGEKIT_LOGO } from "@/app/images";
 import {
   useGlobalWalletSignerAccount,
@@ -10,7 +11,6 @@ import Image from "next/image";
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
-import { useAccount } from "wagmi";
 
 export default function Header({
   active,
@@ -25,9 +25,7 @@ export default function Header({
   const accountRef = useRef<HTMLAnchorElement>(null);
   const headerRef = useRef<HTMLHeadingElement>(null);
 
-  const { logout } = useLoginWithAbstract();
-
-  const account = useAccount();
+  const { address: account, logout } = useAccountWrapper();
   const router = useRouter();
   const pathname = usePathname();
 
@@ -83,7 +81,7 @@ export default function Header({
   // }, [account]);
 
   useEffect(() => {
-    if (account.address) {
+    if (account) {
       console.log("account", account);
     }
   }, [account]);
@@ -122,7 +120,7 @@ export default function Header({
           <Link ref={accountRef} href={"/account"}>
             ACCOUNT
           </Link>
-          {!account.address ? (
+          {!account ? (
             <Link href="/login">SIGNIN</Link>
           ) : (
             <button onClick={logout}>LOGOUT</button>

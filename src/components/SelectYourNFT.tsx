@@ -2,11 +2,8 @@
 
 import Image from "next/image";
 import GradientSideBorder from "./GradientSideBorder";
-import { IMAGEKIT_IMAGES } from "@/app/images";
 import { cn } from "@/utils";
 import { Dispatch, SetStateAction, useEffect, useState } from "react";
-import { useAccount, usePublicClient } from "wagmi";
-import useNFTs from "@/abi/Nfts";
 
 function SingleNFTIcon({
   id,
