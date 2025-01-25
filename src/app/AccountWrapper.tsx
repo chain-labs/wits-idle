@@ -1,10 +1,12 @@
 "use client";
 
+import { usePrivy } from "@privy-io/react-auth";
 import {
   useAbstractClient,
   useLoginWithAbstract,
   useWriteContractSponsored,
 } from "@abstract-foundation/agw-react";
+import { useAbstractPrivyLogin } from "@abstract-foundation/agw-react/privy";
 import React, { useEffect } from "react";
 import { Config, useAccount } from "wagmi";
 
@@ -42,19 +44,20 @@ export default function AccountWrapper({
     return undefined;
   });
   const [isLoading, setIsLoading] = React.useState(true);
-  const { login: abstractLogin, logout: abstractLogout } =
-    useLoginWithAbstract();
+  const { login: privyLogin, logout: privyLogout, user } = usePrivy();
   const [lockingKey, setLockingKey] = React.useState<boolean>(true);
   const { writeContractSponsoredAsync } = useWriteContractSponsored();
 
   const agwCLient = useAbstractClient();
+
+  console.log({ user });
 
   console.log("agwCLient", agwCLient, agwCLient.isLoading);
 
   const login = async () => {
     setIsLoading(true);
     setLockingKey(true);
-    abstractLogin();
+    privyLogin();
   };
 
   const logout = async () => {
@@ -62,7 +65,7 @@ export default function AccountWrapper({
     setIsLoading(true);
     try {
       console.log("logout try block");
-      abstractLogout();
+      privyLogout();
       console.log("logout abstract");
       setAddress(undefined);
       // Remove from localStorage

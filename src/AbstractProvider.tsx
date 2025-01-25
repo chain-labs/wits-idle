@@ -1,6 +1,7 @@
 "use client";
 
 import { AbstractWalletProvider } from "@abstract-foundation/agw-react";
+import { AbstractPrivyProvider } from "@abstract-foundation/agw-react/privy";
 import { abstractTestnet } from "viem/chains";
 
 const config = {
@@ -12,7 +13,9 @@ const config = {
 
 const AbstractProvider = ({ children }: { children: React.ReactNode }) => {
   return (
-    <AbstractWalletProvider config={config}>{children}</AbstractWalletProvider>
+    <AbstractPrivyProvider appId="cm6bylcx701ktwqbvibk558km">
+      {children}
+    </AbstractPrivyProvider>
   );
 };
 
