@@ -139,6 +139,7 @@ params :-
     "province": string,
     "postalCode": string,
     "optional": string,
+    "rewardId": string,
 }
 ```
 
