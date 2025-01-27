@@ -44,11 +44,27 @@ response :-
     {
         "status": "success",
         "materials": {
-            "common": number,
-            "uncommon": number,
-            "rare": number,
-            "legendary": number
-            "mythic": number
+            used: {
+                "common": number,
+                "uncommon": number,
+                "rare": number,
+                "legendary": number
+                "mythic": number
+            },
+            unused: {
+                "common": number,
+                "uncommon": number,
+                "rare": number,
+                "legendary": number
+                "mythic": number
+            }
+            progress:{ 
+                "common": number,
+                "uncommon": number,
+                "rare": number,
+                "legendary": number
+                "mythic": number
+            }
         }
     }
 ```
